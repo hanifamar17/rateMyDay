@@ -18,6 +18,23 @@
 <body class="flex justify-center items-center min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 p-4">
     <div class="bg-white shadow-lg rounded-xl p-6 w-full max-w-4xl transition-all duration-300 hover:shadow-xl">
         <div class="space-y-6">
+            <div class="flex items-center gap-4">
+                <label for="filter" class="text-gray-700 font-medium">Tampilkan Data:</label>
+                <div class="relative">
+                    <select id="filter"
+                        class="block w-48 p-2 bg-white border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition">
+                        <option value="1w">1 Minggu Terakhir</option>
+                        <option value="2w">2 Minggu Terakhir</option>
+                        <option value="1m">1 Bulan Terakhir</option>
+                        <option value="monthly">Pilih Bulan</option>
+                    </select>
+                </div>
+            
+                <!-- Input untuk memilih bulan, muncul hanya jika 'Pilih Bulan' dipilih -->
+                <input type="month" id="monthPicker"
+                    class="hidden w-48 p-2 bg-white border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition" />
+            </div>
+
             <div class="space-y-2">
                 <h1 class="text-2xl font-semibold text-gray-800 text-center">Grafik Rating Harian</h1>
                 <p class="text-gray-500 text-sm text-center">Visualisasi data rating harian dalam bentuk bar dan line
@@ -139,6 +156,26 @@
             }
         });
     </script>
+
+<script>
+    document.getElementById("filter").addEventListener("change", function () {
+        let selectedRange = this.value;
+        let monthPicker = document.getElementById("monthPicker");
+    
+        if (selectedRange === "monthly") {
+            monthPicker.style.display = "inline";
+        } else {
+            monthPicker.style.display = "none";
+            window.location.href = "/graph?range=" + selectedRange;
+        }
+    });
+    
+    document.getElementById("monthPicker").addEventListener("change", function () {
+        let selectedMonth = this.value;
+        window.location.href = "/graph?range=monthly&month=" + selectedMonth;
+    });
+    </script>
+
 </body>
 
 </html>

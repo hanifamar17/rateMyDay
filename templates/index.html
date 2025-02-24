@@ -16,12 +16,11 @@
     </style>
 </head>
 
-<body class="bg-gray-100 min-h-screen p-0 md:p-0">
-    <nav class="border-gray-200 bg-white shadow">
+<body class="bg-white min-h-screen p-0 md:p-0">
+    <nav class="border-gray-200 bg-yellow-50 shadow">
         <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
             <a href="/" class="flex items-center space-x-3 rtl:space-x-reverse">
-                <span class="self-center text-2xl whitespace-nowrap">Rate<span
-                        class="font-bold">MyDay</span></span>
+                <span class="self-center text-2xl whitespace-nowrap">Rate<span class="font-bold">MyDay</span></span>
             </a>
 
             <nav class="flex" aria-label="Breadcrumb">
@@ -46,67 +45,92 @@
     </nav>
 
     <!--Konten utama-->
-    <div class="flex items-center justify-center py-8">
-        <div
-            class="bg-white shadow-lg rounded p-6 w-full max-w-4xl backdrop-blur-sm bg-opacity-90 transition-all duration-300 hover:shadow-2xl">
-            <!--Grafik rating-->
-            <div class="space-y-6">
-                <div class="space-y-2">
-                    <h1 class="text-xl font-semibold text-gray-800 text-center">Track Your Day with Charts! </h1>
-                    <p class="text-gray-500 text-sm text-center">View your daily ratings in bar and line charts.</p>
-                </div>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 py-8 p-8 w-full">
+        <div class="md:col-span-2">
+            <div class="p-4 rounded">
+                <!--Grafik rating-->
+                <div class="space-y-6">
+                    <div class="text-center md:text-left space-y-2">
+                        <h1 class="text-xl font-semibold text-gray-800">Track Your Day with Charts! </h1>
+                        <p class="text-gray-500 text-sm">View your daily ratings in bar and line charts.</p>
+                    </div>
 
-                <div class="relative w-full h-[400px]">
-                    <canvas id="ratingChart"></canvas>
+                    <!--Filter Chart-->
+                    <div class="flex items-center gap-4">
+                        <label for="filter" class="text-gray-700 font-medium text-sm">Show chart for:</label>
+                        <div class="relative">
+                            <select id="filter"
+                                class="block w-32 p-1 text-sm bg-white border border-gray-300 rounded shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition">
+                                <option value="">Range Date</option>
+                                <option value="1w">1 Week</option>
+                                <option value="2w">2 Weeks</option>
+                                <option value="1m">1 Month</option>
+                                <option value="monthly">Pick a Month</option>
+                            </select>
+                        </div>
+
+                        <!-- Input untuk memilih bulan, muncul hanya jika 'Pilih Bulan' dipilih -->
+                        <input type="month" id="monthPicker"
+                            class="hidden w-32 p-1 text-sm bg-white border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition" />
+                    </div>
+
+                    <div class="relative w-full h-[400px]">
+                        <canvas id="ratingChart"></canvas>
+                    </div>
                 </div>
             </div>
+        </div>
 
-            <!--Form rating-->
-            <div class="space-y-6 pt-14">
-                <div class="text-center space-y-2">
-                    <h1 class="text-xl font-semibold text-gray-800">How's Your Day?</h1>
-                    <p class="text-gray-500 text-sm">Take a moment to reflect on your day</p>
-                </div>
-
-                <form id="ratingForm" class="space-y-6">
-                    <div class="space-y-2">
-                        <div class="mb-1">
-                            <label class="block text-sm font-bold text-gray-700">Date</label>
-                            <label class="block text-sm text-gray-700 mt-2">Pick a date, or I'll default to today!</label>
-                        </div>
-                        <input type="date" name="date" id="date"
-                            class="w-full p-3 border border-gray-200 rounded bg-gray-50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 transition-all duration-300"
-                            required>
+        <div class="md:col-span-1 space-y-6">
+            <div class="p-4 rounded">
+                <!--Form rating-->
+                <div class="space-y-6">
+                    <div class="text-center md:text-left space-y-2">
+                        <h1 class="text-xl font-semibold text-gray-800">How's Your Day?</h1>
+                        <p class="text-gray-500 text-sm">Take a moment to reflect on your day</p>
                     </div>
 
-                    <div class="space-y-2">
-                        <div class="mb-1">
-                            <label class="block text-sm font-bold text-gray-700">Rating</label>
-                            <label class="block text-sm text-gray-700 mt-2">Rate how you're feeling today!</label>
+                    <form id="ratingForm" class="space-y-6">
+                        <div class="space-y-2">
+                            <div class="mb-1">
+                                <label class="block text-sm font-bold text-gray-700">Date</label>
+                                <label class="block text-sm text-gray-700 mt-2">Pick a date, or I'll default to
+                                    today!</label>
+                            </div>
+                            <input type="date" name="date" id="date"
+                                class="w-full p-3 text-sm border border-gray-200 rounded bg-gray-50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 transition-all duration-300"
+                                required>
                         </div>
-                        <select name="rating"
-                            class="w-full p-3 border border-gray-200 rounded bg-gray-50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 transition-all duration-300"
-                            required>
-                            <option value="">Pick a rating</option>
-                            <option value="1">😞 Terrible</option>
-                            <option value="2">☹️ Not Good</option>
-                            <option value="3">😐 Okay</option>
-                            <option value="4">🙂 Good</option>
-                            <option value="5">😊 Excellent</option>
-                        </select>
-                    </div>
 
-                    <button type="submit" class="w-full bg-gradient-to-r from-blue-500 to-indigo-500 text-white py-3 px-6 rounded-xl font-medium
+                        <div class="space-y-2">
+                            <div class="mb-1">
+                                <label class="block text-sm font-bold text-gray-700">Rating</label>
+                                <label class="block text-sm text-gray-700 mt-2">Rate how you're feeling today!</label>
+                            </div>
+                            <select name="rating"
+                                class="w-full p-3 border text-sm border-gray-200 rounded bg-gray-50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 transition-all duration-300"
+                                required>
+                                <option value="">Pick a rating</option>
+                                <option value="1">😞 Terrible</option>
+                                <option value="2">☹️ Not Good</option>
+                                <option value="3">😐 Okay</option>
+                                <option value="4">🙂 Good</option>
+                                <option value="5">😊 Excellent</option>
+                            </select>
+                        </div>
+
+                        <button type="submit" class="w-full bg-gradient-to-r from-blue-500 to-indigo-500 text-white py-3 px-6 rounded-md font-medium
                            hover:from-blue-600 hover:to-indigo-600 transition-all duration-300 hover:shadow-lg
                            focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50">
-                        Submit Rating
-                    </button>
-                </form>
+                            Submit Rating
+                        </button>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
 
-    <!--Form rating-->
+    <!--Form-->
     <script>
         // Set today's date as default
         document.getElementById('date').valueAsDate = new Date();
@@ -114,6 +138,9 @@
         // Handle form submission
         document.getElementById('ratingForm').addEventListener('submit', function (event) {
             event.preventDefault();
+
+            const formData = new FormData(this);
+            const date = formData.get("date");
 
             // Show loading state
             const button = this.querySelector('button');
@@ -123,20 +150,50 @@
 
             fetch("/", {
                 method: "POST",
-                body: new FormData(this)
+                body: formData
             })
                 .then(response => response.json())
                 .then(data => {
-                    Swal.fire({
-                        title: "Thank you!",
-                        text: "Your rating has been submitted successfully",
-                        icon: "success",
-                        confirmButtonText: "Continue",
-                        confirmButtonColor: '#4F46E5',
-                        background: '#fff'
-                    }).then(() => {
-                        location.reload();
-                    });
+                    if (data.duplicate) {
+                        // Jika tanggal sudah ada, tampilkan konfirmasi untuk update
+                        Swal.fire({
+                            title: "Data Sudah Ada",
+                            text: data.message,
+                            icon: "warning",
+                            showCancelButton: true,
+                            confirmButtonText: "Perbarui",
+                            cancelButtonText: "Batal"
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                // Kirim permintaan update
+                                fetch("/update", {
+                                    method: "POST",
+                                    body: formData
+                                })
+                                    .then(response => response.json())
+                                    .then(updateData => {
+                                        Swal.fire({
+                                            title: "Berhasil!",
+                                            text: updateData.message,
+                                            icon: "success",
+                                            confirmButtonText: "OK"
+                                        }).then(() => location.reload());
+                                    });
+                            }
+                        });
+                    } else {
+                        // Jika tidak ada duplikat, simpan data baru
+                        Swal.fire({
+                            title: "Thank you!",
+                            text: data.message,
+                            icon: "success",
+                            confirmButtonText: "Continue",
+                            confirmButtonColor: '#4F46E5',
+                            background: '#fff'
+                        }).then(() => {
+                            location.reload();
+                        });
+                    }
                 })
                 .catch(error => {
                     Swal.fire({
@@ -153,6 +210,7 @@
                 });
         });
     </script>
+
 
     <!--Grafik rating-->
     <script>
@@ -176,7 +234,7 @@
                 labels: data.dates,
                 datasets: [
                     {
-                        label: "Rating Harian",
+                        label: "Daily Rating",
                         data: data.ratings,
                         backgroundColor: "rgba(99, 102, 241, 0.5)", // Indigo color
                         borderColor: "rgb(99, 102, 241)",
@@ -262,6 +320,26 @@
                     }
                 }
             }
+        });
+    </script>
+
+    <!--Filter data grafik-->
+    <script>
+        document.getElementById("filter").addEventListener("change", function () {
+            let selectedRange = this.value;
+            let monthPicker = document.getElementById("monthPicker");
+
+            if (selectedRange === "monthly") {
+                monthPicker.style.display = "inline";
+            } else {
+                monthPicker.style.display = "none";
+                window.location.href = "/?range=" + selectedRange;
+            }
+        });
+
+        document.getElementById("monthPicker").addEventListener("change", function () {
+            let selectedMonth = this.value;
+            window.location.href = "/?range=monthly&month=" + selectedMonth;
         });
     </script>
 </body>

@@ -1,10 +1,10 @@
 from flask import Flask, render_template, request, jsonify
 import requests
 import json
-from datetime import datetime  # ✅ Pastikan impor yang benar
+from datetime import datetime, timedelta
 import plotly.express as px
 import plotly.io as pio
-import config  # Import konfigurasi GitHub Gist
+import config
 
 app = Flask(__name__)
 
@@ -37,12 +37,24 @@ def index():
         rating = int(request.form["rating"])
         
         data = load_data()
+        # Cek apakah tanggal sudah ada
+        existing_entry = next((d for d in data if d["date"] == date), None)
+
+        if existing_entry:
+            return jsonify({
+                "duplicate": True,
+                "message": f"Data untuk tanggal {date} sudah ada. Apakah ingin memperbarui?",
+                "existing_data": existing_entry
+            })
+        
         data.append({"date": date, "rating": rating})
         save_data(data)
 
         return jsonify({"success": True, "message": "Rating berhasil disimpan!"})
     
     data = load_data()
+    range_filter = request.args.get("range", "1w")  # Default ke 1 minggu terakhir
+    today = datetime.today()
 
     if not data:
         chart_data = {"dates": [], "ratings": []}
@@ -50,17 +62,44 @@ def index():
         # Urutkan data berdasarkan tanggal
         sorted_data = sorted(data, key=lambda d: datetime.strptime(d["date"], "%Y-%m-%d"))
 
-        # Ambil 7 data terakhir setelah diurutkan
-        last_7_data = sorted_data[-7:]
+        # Filter berdasarkan rentang yang dipilih
+        if range_filter == "1w":
+            start_date = today - timedelta(days=7)
+            filtered_data = [d for d in sorted_data if datetime.strptime(d["date"], "%Y-%m-%d") >= start_date]
+        elif range_filter == "2w":
+            start_date = today - timedelta(days=14)
+            filtered_data = [d for d in sorted_data if datetime.strptime(d["date"], "%Y-%m-%d") >= start_date]
+        elif range_filter == "1m":
+            start_date = today - timedelta(days=30)
+            filtered_data = [d for d in sorted_data if datetime.strptime(d["date"], "%Y-%m-%d") >= start_date]
+        elif range_filter == "monthly":
+            selected_month = request.args.get("month", today.strftime("%Y-%m"))  # Format: "YYYY-MM"
+            filtered_data = [d for d in sorted_data if d["date"].startswith(selected_month)]
+        else:
+            filtered_data = sorted_data[-7:]  # Default ke 7 data terakhir
 
         # Format ulang tanggal & konversi rating ke integer
-        dates = [format_date(d["date"]) for d in last_7_data]
-        ratings = [int(float(d["rating"])) for d in last_7_data]  # Konversi float → int
+        dates = [format_date(d["date"]) for d in filtered_data]
+        ratings = [int(float(d["rating"])) for d in filtered_data]
 
-        # Siapkan data untuk template
         chart_data = {"dates": dates, "ratings": ratings}
 
     return render_template("index.html", chart_data=chart_data)
+
+@app.route("/update", methods=["POST"])
+def update_rating():
+    date = request.form["date"]
+    rating = int(request.form["rating"])
+
+    data = load_data()
+
+    for entry in data:
+        if entry["date"] == date:
+            entry["rating"] = rating  # Perbarui rating
+            break
+
+    save_data(data)
+    return jsonify({"success": True, "message": "Rating berhasil diperbarui!"})
 
 def format_date(date_str):
     bulan_mapping = {
@@ -80,6 +119,8 @@ def format_date(date_str):
 @app.route("/graph")
 def graph():
     data = load_data()
+    range_filter = request.args.get("range", "1w")  # Default ke 1 minggu terakhir
+    today = datetime.today()
 
     if not data:
         chart_data = {"dates": [], "ratings": []}
@@ -87,14 +128,26 @@ def graph():
         # Urutkan data berdasarkan tanggal
         sorted_data = sorted(data, key=lambda d: datetime.strptime(d["date"], "%Y-%m-%d"))
 
-        # Ambil 7 data terakhir setelah diurutkan
-        last_7_data = sorted_data[-7:]
+        # Filter berdasarkan rentang yang dipilih
+        if range_filter == "1w":
+            start_date = today - timedelta(days=7)
+            filtered_data = [d for d in sorted_data if datetime.strptime(d["date"], "%Y-%m-%d") >= start_date]
+        elif range_filter == "2w":
+            start_date = today - timedelta(days=14)
+            filtered_data = [d for d in sorted_data if datetime.strptime(d["date"], "%Y-%m-%d") >= start_date]
+        elif range_filter == "1m":
+            start_date = today - timedelta(days=30)
+            filtered_data = [d for d in sorted_data if datetime.strptime(d["date"], "%Y-%m-%d") >= start_date]
+        elif range_filter == "monthly":
+            selected_month = request.args.get("month", today.strftime("%Y-%m"))  # Format: "YYYY-MM"
+            filtered_data = [d for d in sorted_data if d["date"].startswith(selected_month)]
+        else:
+            filtered_data = sorted_data[-7:]  # Default ke 7 data terakhir
 
         # Format ulang tanggal & konversi rating ke integer
-        dates = [format_date(d["date"]) for d in last_7_data]
-        ratings = [int(float(d["rating"])) for d in last_7_data]  # Konversi float → int
+        dates = [format_date(d["date"]) for d in filtered_data]
+        ratings = [int(float(d["rating"])) for d in filtered_data]
 
-        # Siapkan data untuk template
         chart_data = {"dates": dates, "ratings": ratings}
 
     return render_template("graph.html", chart_data=chart_data)
