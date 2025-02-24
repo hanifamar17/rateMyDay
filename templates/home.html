@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block content %}
+    <h1>Selamat Datang di Flask Auth</h1>
+    {% if user %}
+        <p>Halo, {{ user.email }}!</p>
+    {% else %}
+        <p>Silakan login atau daftar.</p>
+    {% endif %}
+{% endblock %}

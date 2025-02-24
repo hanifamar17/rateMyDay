@@ -17,6 +17,16 @@
 </head>
 
 <body class="bg-white min-h-screen p-0 md:p-0">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+    {% for category, message in messages %}
+    <div class="alert alert-{{ category }}">
+        <strong>{{ message }}</strong>
+    </div>
+    {% endfor %}
+    {% endif %}
+    {% endwith %}
+
     <nav class="border-gray-200 bg-yellow-50 shadow">
         <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
             <a href="/" class="flex items-center space-x-3 rtl:space-x-reverse">
@@ -37,6 +47,12 @@
                                 class="ms-1 text-sm font-medium text-gray-700 hover:text-blue-600 md:ms-2">Histori
                                 Graph</a>
                         </div>
+                    </li>
+                    <li class="inline-flex items-center">
+                        <a
+                            class="inline-flex items-center text-sm font-medium text-gray-700 hover:text-blue-600">
+                            Halo, <strong>{{ name }}!</strong>
+                        </a>
                     </li>
                 </ol>
             </nav>
@@ -158,14 +174,14 @@
                         // Jika tanggal sudah ada, tampilkan konfirmasi untuk update
                         Swal.fire({
                             title: "Data Sudah Ada",
-                            text: data.message,
+                            html: data.message,
                             icon: "warning",
                             showCancelButton: true,
                             confirmButtonText: "Perbarui",
                             cancelButtonText: "Batal"
                         }).then((result) => {
                             if (result.isConfirmed) {
-                                // Kirim permintaan update
+                                // Kirim permintaan update ke endpoint /update
                                 fetch("/update", {
                                     method: "POST",
                                     body: formData
@@ -174,7 +190,7 @@
                                     .then(updateData => {
                                         Swal.fire({
                                             title: "Berhasil!",
-                                            text: updateData.message,
+                                            html: updateData.message,
                                             icon: "success",
                                             confirmButtonText: "OK"
                                         }).then(() => location.reload());

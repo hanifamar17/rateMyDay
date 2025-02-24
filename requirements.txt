@@ -1,2 +1,5 @@
 requests
-plotly
+mysql-connector-python
+flask-dance
+firebase-admin
+flask-login
