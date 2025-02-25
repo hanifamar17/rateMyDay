@@ -58,23 +58,34 @@ def home():
 @app.route("/register", methods=["GET", "POST"])
 def register():
     if request.method == "POST":
+        given_name = request.form.get("first_name", "").strip()
+        family_name = request.form.get("last_name", "").strip()
         email = request.form["email"]
         password = generate_password_hash(request.form["password"])
-        
+
+        # Gabungkan given_name dan family_name, hilangkan spasi jika family_name kosong
+        name = f"{given_name} {family_name}".strip()
+
         conn = get_db_connection()
         cursor = conn.cursor()
         try:
-            cursor.execute("INSERT INTO users (email, password_hash) VALUES (%s, %s)", (email, password))
+            cursor.execute("INSERT INTO users (name, given_name, family_name, email, password_hash) VALUES (%s, %s, %s, %s, %s)", (name, given_name, family_name, email, password))
             conn.commit()
-            flash("Registrasi berhasil, silakan login.", "success")
-            return redirect(url_for("login"))
+
+            # 🔹 Auto-login setelah registrasi
+            user_id = cursor.lastrowid
+            login_user(User(user_id, email, name, given_name))
+            
+            flash("Awesome! You're in. Welcome!", "success")
+            return redirect(url_for("index"))
         except mysql.connector.IntegrityError:
-            flash("Email sudah terdaftar!", "danger")
+            flash("Oops! This email is already in use", "danger")
+            return redirect(url_for("register"))
         finally:
             cursor.close()
             conn.close()
 
-    return render_template("register.html")
+    return render_template("auth/sign-up.html")
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
@@ -88,14 +99,14 @@ def login():
         user = cursor.fetchone()
         conn.close()
 
-        if user and check_password_hash(user["password_hash"], password):
-            login_user(User(user["id"], user["email"]))
-            flash("Login berhasil!", "success")
-            return redirect(url_for("index"))
-        else:
-            flash("Email atau password salah!", "danger")
+        if user and user["password_hash"]:  # Pastikan password_hash ada
+            if check_password_hash(user["password_hash"], password):
+                login_user(User(user["id"], user["email"], user.get("name", "User"), user.get("given_name", "User")))
+                flash("You're in! Welcome back!", "success")
+                return redirect(url_for("index"))
+        flash("Oops! Wrong email or password", "danger")        
 
-    return render_template("auth/login.html")
+    return redirect(url_for("home"))
 
 
 # 🔹 Login dengan Google
@@ -106,7 +117,7 @@ def google_login():
 
     resp = google.get("/oauth2/v2/userinfo")
     if resp.status_code != 200:
-        return "Gagal mengambil data dari Google", 400
+        return "Oops! Failed to fetch data from Google", 400
 
     user_info = resp.json()
     email = user_info.get("email")
@@ -117,7 +128,7 @@ def google_login():
     picture = user_info.get("picture")
 
     if not email:
-        return "Email tidak tersedia dalam data Google", 400
+        return "This email isn’t available in Google’s data", 400
 
     conn = get_db_connection()
     cursor = conn.cursor(dictionary=True)
@@ -138,7 +149,7 @@ def google_login():
     user = User(user_id, email, name, given_name)
     login_user(user)  # Simpan ke Flask-Login
 
-    flash(f"Login berhasil! Selamat datang, {name}", "success")
+    flash(f"You're in! Welcome back!", "success")
     return redirect(url_for("index"))
 
 # 🔹 Logout
@@ -272,9 +283,8 @@ def index():
 
         chart_data = {"dates": dates, "ratings": ratings}
     
-    given_name = current_user.given_name  # 🔹 Pakai Flask-Login
-    name = current_user.name  # 🔹 Pakai Flask-Login
-    return render_template("index.html", chart_data=chart_data, name=name, user=given_name)
+    given_name = current_user.given_name or current_user.name
+    return render_template("index.html", chart_data=chart_data, given_name=given_name, user=current_user)
 
 def format_date(date_str):
     bulan_mapping = {
