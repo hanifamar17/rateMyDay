@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rate My Day</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+    </style>
+</head>
+
+<body class="bg-white min-h-screen p-0 md:p-0">
+    <nav class="border-gray-200 bg-yellow-50 shadow">
+        <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
+            <a href="/" class="flex items-center space-x-3 rtl:space-x-reverse">
+                <span class="self-center text-2xl whitespace-nowrap">Rate<span class="font-bold">MyDay</span></span>
+            </a>
+
+            <nav class="flex relative" aria-label="User navigation">
+                <div class="relative">
+                    <!-- Dropdown Trigger Button -->
+                    <button id="userDropdownButton"
+                        class="flex items-center text-sm font-medium text-gray-700 hover:text-blue-600 focus:outline-none"
+                        type="button">
+                        Halo,<strong class="ml-1">{{ user }}!</strong>
+                        <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7">
+                            </path>
+                        </svg>
+                    </button>
+
+                    <!-- Dropdown Menu (Hidden by default) -->
+                    <div id="userDropdownMenu"
+                        class="hidden absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-50">
+                        <div class="px-4 py-3">
+                            <span class="block text-sm text-gray-900">{{ name }}</span>
+                        </div>
+                        <a href="/account" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                            Account Settings
+                        </a>
+                        <a href="/dashboard" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                            Dashboard
+                        </a>
+                        <div class="border-t border-gray-200 my-1"></div>
+                        <a href="/logout" class="block px-4 py-2 text-sm text-red-600 hover:bg-gray-100">
+                            Log out
+                        </a>
+                    </div>
+                </div>
+            </nav>
+
+        </div>
+    </nav>
+
+    <!--Konten utama-->
+    {% block content %} <!--Konten di sini--> {% endblock %}
+
+    <!-- JavaScript untuk toggle dropdown -->
+    <script>
+        // Ambil referensi ke elemen tombol dan dropdown
+        const dropdownButton = document.getElementById('userDropdownButton');
+        const dropdownMenu = document.getElementById('userDropdownMenu');
+
+        // Toggle dropdown saat tombol diklik
+        dropdownButton.addEventListener('click', function () {
+            dropdownMenu.classList.toggle('hidden');
+        });
+
+        // Tutup dropdown saat mengklik di luar dropdown
+        window.addEventListener('click', function (event) {
+            if (!dropdownButton.contains(event.target) && !dropdownMenu.contains(event.target)) {
+                dropdownMenu.classList.add('hidden');
+            }
+        });
+    </script>
+</body>
+
+</html>

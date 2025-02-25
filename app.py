@@ -29,12 +29,14 @@ app.register_blueprint(google_bp, url_prefix="/login")
 
 # 🔹 Setup Flask-Login
 login_manager = LoginManager(app)
-login_manager.login_view = "google_login"
+login_manager.login_view = "login"
 
 class User(UserMixin):
-    def __init__(self, id, email):
+    def __init__(self, id, email, name, given_name):
         self.id = id
         self.email = email
+        self.name = name
+        self.given_name = given_name
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -44,10 +46,10 @@ def load_user(user_id):
     user = cursor.fetchone()
     conn.close()
     if user:
-        return User(user["id"], user["email"])
+        return User(user["id"], user["email"], user.get("name", "User"), user.get("given_name", "User"))
     return None
 
-# Home Page
+# Landing Page
 @app.route("/")
 def home():
     return render_template("home.html", user=current_user if current_user.is_authenticated else None)
@@ -89,11 +91,11 @@ def login():
         if user and check_password_hash(user["password_hash"], password):
             login_user(User(user["id"], user["email"]))
             flash("Login berhasil!", "success")
-            return redirect(url_for("home"))
+            return redirect(url_for("index"))
         else:
             flash("Email atau password salah!", "danger")
 
-    return render_template("login.html")
+    return render_template("auth/login.html")
 
 
 # 🔹 Login dengan Google
@@ -103,56 +105,51 @@ def google_login():
         return redirect(url_for("google.login"))
 
     resp = google.get("/oauth2/v2/userinfo")
-    
     if resp.status_code != 200:
         return "Gagal mengambil data dari Google", 400
 
     user_info = resp.json()
-    print(user_info)  # Debugging untuk melihat data dari Google
-
-    # **🔹 Cek apakah email tersedia dalam respons**
     email = user_info.get("email")
     name = user_info.get("name", "No Name")
-    google_id = user_info.get("id")  # Ambil Google ID
+    google_id = user_info.get("id")
+    given_name = user_info.get("given_name")
+    family_name = user_info.get("family_name")
+    picture = user_info.get("picture")
 
     if not email:
         return "Email tidak tersedia dalam data Google", 400
 
-    # 🔹 Cek apakah email sudah ada di database
     conn = get_db_connection()
     cursor = conn.cursor(dictionary=True)
     cursor.execute("SELECT * FROM users WHERE email = %s", (email,))
     user = cursor.fetchone()
 
     if not user:
-        # **Tambahkan Google ID ke database**
-        cursor.execute("INSERT INTO users (email, name, google_id) VALUES (%s, %s, %s)", 
-                       (email, name, google_id))
+        cursor.execute("INSERT INTO users (email, name, google_id, given_name, family_name, picture) VALUES (%s, %s, %s, %s, %s, %s)", 
+                       (email, name, google_id, given_name, family_name, picture))
         conn.commit()
-
-    # Jika user sudah ada, pastikan `google_id` tersimpan
+        user_id = cursor.lastrowid
     else:
-        cursor.execute("UPDATE users SET google_id = %s WHERE email = %s", 
-                       (google_id, email))
-        conn.commit()
+        user_id = user["id"]
 
     conn.close()
 
-    # 🔹 Simpan ke session
-    session["user"] = {"email": email, "name": name, "google_id": google_id}
+    # 🔹 Gunakan Flask-Login
+    user = User(user_id, email, name, given_name)
+    login_user(user)  # Simpan ke Flask-Login
 
-    # 🔹 Redirect ke index dengan pesan sukses
     flash(f"Login berhasil! Selamat datang, {name}", "success")
     return redirect(url_for("index"))
-
 
 # 🔹 Logout
 @app.route("/logout")
 @login_required
 def logout():
-    logout_user()
-    session.pop("email", None)
+    logout_user()  # Logout dari Flask-Login
+    session.clear()  # Hapus semua session Flask
+    #print("User setelah logout:", current_user.is_authenticated)  # Debugging
     return redirect(url_for("home"))
+
 
 # 🔹 Reset Password
 @app.route("/reset-password/<email>")
@@ -173,26 +170,26 @@ def get_db_connection():
     )
 
 # Fungsi untuk mengambil data dari MySQL
-def load_data():
+def load_data(user_id):
     conn = get_db_connection()
     cursor = conn.cursor(dictionary=True)
-    cursor.execute("SELECT date, rating FROM ratings ORDER BY date ASC")
+    cursor.execute("SELECT date, rating FROM ratings WHERE user_id = %s ORDER BY date ASC", (user_id,))
     data = cursor.fetchall()
     conn.close()
     return data
 
 # Fungsi untuk menyimpan atau memperbarui data
-def save_data(date, rating):
+def save_data(user_id, date, rating):
     with get_db_connection() as conn:
         with conn.cursor(dictionary=True) as cursor:
             # Cek apakah data dengan tanggal yang sama sudah ada
-            cursor.execute("SELECT id FROM ratings WHERE date = %s", (date,))
+            cursor.execute("SELECT id FROM ratings WHERE date = %s AND user_id = %s", (date, user_id))
             existing = cursor.fetchone()
 
             if existing:
-                cursor.execute("UPDATE ratings SET rating = %s WHERE date = %s", (rating, date))
+                cursor.execute("UPDATE ratings SET rating = %s WHERE date = %s AND user_id = %s", (rating, date, user_id))
             else:
-                cursor.execute("INSERT INTO ratings (date, rating) VALUES (%s, %s)", (date, rating))
+                cursor.execute("INSERT INTO ratings (user_id, date, rating) VALUES (%s, %s, %s)", (user_id, date, rating))
 
             conn.commit()  # Simpan perubahan
 
@@ -200,26 +197,32 @@ def save_data(date, rating):
 def update_rating():
     date = request.form["date"]
     rating = int(request.form["rating"])
+    user_id = current_user.id  # 🔹 Gunakan Flask-Login, bukan session
 
-    save_data(date, rating)  # Langsung panggil fungsi save_data()
+    save_data(user_id, date, rating)  # Langsung panggil fungsi save_data()
 
     return jsonify({"success": True, "message": f"Rating untuk hari <strong>{format_date(date)}</strong> berhasil diperbarui!"})
 
 
-@app.route("/", methods=["GET", "POST"])
+@app.route("/homepage", methods=["GET", "POST"])
+@login_required
 def index():
+    user_id = current_user.id  # 🔹 Gunakan Flask-Login, bukan session manual
+
+    #print("User ID setelah login:", user_id)  # Debugging
 
     if request.method == "POST":
         date = request.form["date"]
         rating = int(request.form["rating"])
 
         conn = get_db_connection()
-        cursor = conn.cursor()
-        
-        data = load_data()
+        cursor = conn.cursor(dictionary=True)
+
+        # 🔹 Perbaiki pemanggilan load_data() dengan user_id
+        data = load_data(user_id)
         
         # Cek apakah data dengan tanggal yang sama sudah ada
-        cursor.execute("SELECT rating FROM ratings WHERE date = %s", (date,))
+        cursor.execute("SELECT rating FROM ratings WHERE date = %s AND user_id = %s", (date, user_id))
         existing = cursor.fetchone()
 
         if existing:
@@ -231,13 +234,13 @@ def index():
             })
         
         # Jika tidak ada data, simpan sebagai entri baru
-        cursor.execute("INSERT INTO ratings (date, rating) VALUES (%s, %s)", (date, rating))
+        cursor.execute("INSERT INTO ratings (user_id, date, rating) VALUES (%s, %s, %s)", (user_id, date, rating))
         conn.commit()
         conn.close()
 
         return jsonify({"success": True, "message": "Rating berhasil disimpan!"})
     
-    data = load_data()
+    data = load_data(user_id)
     range_filter = request.args.get("range", "1w")  # Default ke 1 minggu terakhir
     today = datetime.today()
 
@@ -269,8 +272,9 @@ def index():
 
         chart_data = {"dates": dates, "ratings": ratings}
     
-    name = session.get("user", {}).get("name", "User")
-    return render_template("index.html", chart_data=chart_data, name=name)
+    given_name = current_user.given_name  # 🔹 Pakai Flask-Login
+    name = current_user.name  # 🔹 Pakai Flask-Login
+    return render_template("index.html", chart_data=chart_data, name=name, user=given_name)
 
 def format_date(date_str):
     bulan_mapping = {

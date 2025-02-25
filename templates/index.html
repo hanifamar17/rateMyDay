@@ -1,363 +1,301 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends "template/base-login.html" %}
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rate My Day</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-    <style>
-        body {
-            font-family: 'Inter', sans-serif;
-        }
-    </style>
-</head>
+{% block content %}
+<!--Konten utama-->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6 py-8 p-8 w-full">
+    <div class="md:col-span-2">
+        <div class="p-4 rounded">
+            <!--Grafik rating-->
+            <div class="space-y-6">
+                <div class="text-center md:text-left space-y-2">
+                    <h1 class="text-xl font-semibold text-gray-800">Track Your Day with Charts! </h1>
+                    <p class="text-gray-500 text-sm">View your daily ratings in bar and line charts.</p>
+                </div>
 
-<body class="bg-white min-h-screen p-0 md:p-0">
-    {% with messages = get_flashed_messages(with_categories=true) %}
-    {% if messages %}
-    {% for category, message in messages %}
-    <div class="alert alert-{{ category }}">
-        <strong>{{ message }}</strong>
-    </div>
-    {% endfor %}
-    {% endif %}
-    {% endwith %}
-
-    <nav class="border-gray-200 bg-yellow-50 shadow">
-        <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
-            <a href="/" class="flex items-center space-x-3 rtl:space-x-reverse">
-                <span class="self-center text-2xl whitespace-nowrap">Rate<span class="font-bold">MyDay</span></span>
-            </a>
-
-            <nav class="flex" aria-label="Breadcrumb">
-                <ol class="inline-flex items-center space-x-1 md:space-x-2 rtl:space-x-reverse">
-                    <li class="inline-flex items-center">
-                        <a href="#home" id="homeLink"
-                            class="inline-flex items-center text-sm font-medium text-gray-700 hover:text-blue-600">
-                            Home
-                        </a>
-                    </li>
-                    <li>
-                        <div class="flex items-center">
-                            <a href="#graph" id="graphLink"
-                                class="ms-1 text-sm font-medium text-gray-700 hover:text-blue-600 md:ms-2">Histori
-                                Graph</a>
-                        </div>
-                    </li>
-                    <li class="inline-flex items-center">
-                        <a
-                            class="inline-flex items-center text-sm font-medium text-gray-700 hover:text-blue-600">
-                            Halo, <strong>{{ name }}!</strong>
-                        </a>
-                    </li>
-                </ol>
-            </nav>
-
-        </div>
-    </nav>
-
-    <!--Konten utama-->
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 py-8 p-8 w-full">
-        <div class="md:col-span-2">
-            <div class="p-4 rounded">
-                <!--Grafik rating-->
-                <div class="space-y-6">
-                    <div class="text-center md:text-left space-y-2">
-                        <h1 class="text-xl font-semibold text-gray-800">Track Your Day with Charts! </h1>
-                        <p class="text-gray-500 text-sm">View your daily ratings in bar and line charts.</p>
+                <!--Filter Chart-->
+                <div class="flex items-center gap-4">
+                    <label for="filter" class="text-gray-700 font-medium text-sm">Show chart for:</label>
+                    <div class="relative">
+                        <select id="filter"
+                            class="block w-32 p-1 text-sm bg-white border border-gray-300 rounded shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition">
+                            <option value="">Range Date</option>
+                            <option value="1w">1 Week</option>
+                            <option value="2w">2 Weeks</option>
+                            <option value="1m">1 Month</option>
+                            <option value="monthly">Pick a Month</option>
+                        </select>
                     </div>
 
-                    <!--Filter Chart-->
-                    <div class="flex items-center gap-4">
-                        <label for="filter" class="text-gray-700 font-medium text-sm">Show chart for:</label>
-                        <div class="relative">
-                            <select id="filter"
-                                class="block w-32 p-1 text-sm bg-white border border-gray-300 rounded shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition">
-                                <option value="">Range Date</option>
-                                <option value="1w">1 Week</option>
-                                <option value="2w">2 Weeks</option>
-                                <option value="1m">1 Month</option>
-                                <option value="monthly">Pick a Month</option>
-                            </select>
-                        </div>
+                    <!-- Input untuk memilih bulan, muncul hanya jika 'Pilih Bulan' dipilih -->
+                    <input type="month" id="monthPicker"
+                        class="hidden w-32 p-1 text-sm bg-white border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition" />
+                </div>
 
-                        <!-- Input untuk memilih bulan, muncul hanya jika 'Pilih Bulan' dipilih -->
-                        <input type="month" id="monthPicker"
-                            class="hidden w-32 p-1 text-sm bg-white border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition" />
-                    </div>
-
-                    <div class="relative w-full h-[400px]">
-                        <canvas id="ratingChart"></canvas>
-                    </div>
+                <div class="relative w-full h-[400px]">
+                    <canvas id="ratingChart"></canvas>
                 </div>
             </div>
         </div>
+    </div>
 
-        <div class="md:col-span-1 space-y-6">
-            <div class="p-4 rounded">
-                <!--Form rating-->
-                <div class="space-y-6">
-                    <div class="text-center md:text-left space-y-2">
-                        <h1 class="text-xl font-semibold text-gray-800">How's Your Day?</h1>
-                        <p class="text-gray-500 text-sm">Take a moment to reflect on your day</p>
+    <div class="md:col-span-1 space-y-6">
+        <div class="p-4 rounded">
+            <!--Form rating-->
+            <div class="space-y-6">
+                <div class="text-center md:text-left space-y-2">
+                    <h1 class="text-xl font-semibold text-gray-800">How's Your Day?</h1>
+                    <p class="text-gray-500 text-sm">Take a moment to reflect on your day</p>
+                </div>
+
+                <form id="ratingForm" class="space-y-6">
+                    <div class="space-y-2">
+                        <div class="mb-1">
+                            <label class="block text-sm font-bold text-gray-700">Date</label>
+                            <label class="block text-sm text-gray-700 mt-2">Pick a date, or I'll default to
+                                today!</label>
+                        </div>
+                        <input type="date" name="date" id="date"
+                            class="w-full p-3 text-sm border border-gray-200 rounded bg-gray-50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 transition-all duration-300"
+                            required>
                     </div>
 
-                    <form id="ratingForm" class="space-y-6">
-                        <div class="space-y-2">
-                            <div class="mb-1">
-                                <label class="block text-sm font-bold text-gray-700">Date</label>
-                                <label class="block text-sm text-gray-700 mt-2">Pick a date, or I'll default to
-                                    today!</label>
-                            </div>
-                            <input type="date" name="date" id="date"
-                                class="w-full p-3 text-sm border border-gray-200 rounded bg-gray-50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 transition-all duration-300"
-                                required>
+                    <div class="space-y-2">
+                        <div class="mb-1">
+                            <label class="block text-sm font-bold text-gray-700">Rating</label>
+                            <label class="block text-sm text-gray-700 mt-2">Rate how you're feeling today!</label>
                         </div>
+                        <select name="rating"
+                            class="w-full p-3 border text-sm border-gray-200 rounded bg-gray-50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 transition-all duration-300"
+                            required>
+                            <option value="">Pick a rating</option>
+                            <option value="1">😞 Terrible</option>
+                            <option value="2">☹️ Not Good</option>
+                            <option value="3">😐 Okay</option>
+                            <option value="4">🙂 Good</option>
+                            <option value="5">😊 Excellent</option>
+                        </select>
+                    </div>
 
-                        <div class="space-y-2">
-                            <div class="mb-1">
-                                <label class="block text-sm font-bold text-gray-700">Rating</label>
-                                <label class="block text-sm text-gray-700 mt-2">Rate how you're feeling today!</label>
-                            </div>
-                            <select name="rating"
-                                class="w-full p-3 border text-sm border-gray-200 rounded bg-gray-50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 transition-all duration-300"
-                                required>
-                                <option value="">Pick a rating</option>
-                                <option value="1">😞 Terrible</option>
-                                <option value="2">☹️ Not Good</option>
-                                <option value="3">😐 Okay</option>
-                                <option value="4">🙂 Good</option>
-                                <option value="5">😊 Excellent</option>
-                            </select>
-                        </div>
-
-                        <button type="submit" class="w-full bg-gradient-to-r from-blue-500 to-indigo-500 text-white py-3 px-6 rounded-md font-medium
+                    <button type="submit" class="w-full bg-gradient-to-r from-blue-500 to-indigo-500 text-white py-3 px-6 rounded-md font-medium
                            hover:from-blue-600 hover:to-indigo-600 transition-all duration-300 hover:shadow-lg
                            focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50">
-                            Submit Rating
-                        </button>
-                    </form>
-                </div>
+                        Submit Rating
+                    </button>
+                </form>
             </div>
         </div>
     </div>
+</div>
 
-    <!--Form-->
-    <script>
-        // Set today's date as default
-        document.getElementById('date').valueAsDate = new Date();
+<!--Form-->
+<script>
+    document.getElementById('date').valueAsDate = new Date();
 
-        // Handle form submission
-        document.getElementById('ratingForm').addEventListener('submit', function (event) {
-            event.preventDefault();
+    document.getElementById('ratingForm').addEventListener('submit', function (event) {
+        event.preventDefault();
 
-            const formData = new FormData(this);
-            const date = formData.get("date");
+        const formData = new FormData(this);
+        const date = formData.get("date");
 
-            // Show loading state
-            const button = this.querySelector('button');
-            const originalText = button.innerHTML;
-            button.innerHTML = 'Submitting...';
-            button.disabled = true;
+        // 🔹 Ambil `user_id` dari data yang dikirim Flask ke template
+        const user_id = "{{ user.id if user.id else '' }}";
 
-            fetch("/", {
-                method: "POST",
-                body: formData
-            })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.duplicate) {
-                        // Jika tanggal sudah ada, tampilkan konfirmasi untuk update
-                        Swal.fire({
-                            title: "Data Sudah Ada",
-                            html: data.message,
-                            icon: "warning",
-                            showCancelButton: true,
-                            confirmButtonText: "Perbarui",
-                            cancelButtonText: "Batal"
-                        }).then((result) => {
-                            if (result.isConfirmed) {
-                                // Kirim permintaan update ke endpoint /update
-                                fetch("/update", {
-                                    method: "POST",
-                                    body: formData
-                                })
-                                    .then(response => response.json())
-                                    .then(updateData => {
-                                        Swal.fire({
-                                            title: "Berhasil!",
-                                            html: updateData.message,
-                                            icon: "success",
-                                            confirmButtonText: "OK"
-                                        }).then(() => location.reload());
-                                    });
-                            }
-                        });
-                    } else {
-                        // Jika tidak ada duplikat, simpan data baru
-                        Swal.fire({
-                            title: "Thank you!",
-                            text: data.message,
-                            icon: "success",
-                            confirmButtonText: "Continue",
-                            confirmButtonColor: '#4F46E5',
-                            background: '#fff'
-                        }).then(() => {
-                            location.reload();
+        // 🔹 Tambahkan ke FormData
+        formData.append("user_id", user_id);
+
+        const button = this.querySelector('button');
+        const originalText = button.innerHTML;
+        button.innerHTML = 'Submitting...';
+        button.disabled = true;
+
+        fetch("/homepage", {
+            method: "POST",
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.duplicate) {
+                Swal.fire({
+                    title: "Data Sudah Ada",
+                    html: data.message,
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonText: "Perbarui",
+                    cancelButtonText: "Batal"
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        fetch("/update", {
+                            method: "POST",
+                            body: formData
+                        })
+                        .then(response => response.json())
+                        .then(updateData => {
+                            Swal.fire({
+                                title: "Berhasil!",
+                                html: updateData.message,
+                                icon: "success",
+                                confirmButtonText: "OK"
+                            }).then(() => location.reload());
                         });
                     }
-                })
-                .catch(error => {
-                    Swal.fire({
-                        title: "Oops!",
-                        text: "Something went wrong. Please try again.",
-                        icon: "error",
-                        confirmButtonColor: '#4F46E5',
-                        confirmButtonText: "Okay"
-                    });
-                })
-                .finally(() => {
-                    button.innerHTML = originalText;
-                    button.disabled = false;
                 });
+            } else {
+                Swal.fire({
+                    title: "Thank you!",
+                    text: data.message,
+                    icon: "success",
+                    confirmButtonText: "Continue",
+                    confirmButtonColor: '#4F46E5',
+                    background: '#fff'
+                }).then(() => {
+                    location.reload();
+                });
+            }
+        })
+        .catch(error => {
+            Swal.fire({
+                title: "Oops!",
+                text: "Something went wrong. Please try again.",
+                icon: "error",
+                confirmButtonColor: '#4F46E5',
+                confirmButtonText: "Okay"
+            });
+        })
+        .finally(() => {
+            button.innerHTML = originalText;
+            button.disabled = false;
         });
-    </script>
+    });
+</script>
 
+<!--Grafik rating-->
+<script>
+    var data = JSON.parse('{{ chart_data | tojson | safe }}');
+    data.ratings = data.ratings.map(Number);
 
-    <!--Grafik rating-->
-    <script>
-        var data = JSON.parse('{{ chart_data | tojson | safe }}');
-        data.ratings = data.ratings.map(Number);
+    // Konversi rating angka ke label teks
+    var ratingLabels = {
+        1: "😞",
+        2: "☹️",
+        3: "😐",
+        4: "🙂",
+        5: "😊"
+    };
 
-        // Konversi rating angka ke label teks
-        var ratingLabels = {
-            1: "😞",
-            2: "☹️",
-            3: "😐",
-            4: "🙂",
-            5: "😊"
-        };
+    var ctx = document.getElementById("ratingChart").getContext("2d");
 
-        var ctx = document.getElementById("ratingChart").getContext("2d");
-
-        window.ratingChart = new Chart(ctx, {
-            type: "bar",
-            data: {
-                labels: data.dates,
-                datasets: [
-                    {
-                        label: "Daily Rating",
-                        data: data.ratings,
-                        backgroundColor: "rgba(99, 102, 241, 0.5)", // Indigo color
-                        borderColor: "rgb(99, 102, 241)",
-                        borderWidth: 1,
-                        borderRadius: 4,
-                        type: "bar"
-                    },
-                    {
-                        label: "Tren Rating",
-                        data: data.ratings,
-                        borderColor: "rgb(244, 63, 94)", // Rose color
-                        backgroundColor: "rgba(244, 63, 94, 0.1)",
-                        borderWidth: 2,
-                        fill: true,
-                        type: "line",
-                        tension: 0.4,
-                        pointBackgroundColor: "rgb(244, 63, 94)",
-                        pointBorderColor: "#fff",
-                        pointBorderWidth: 2,
-                        pointRadius: 4,
-                        pointHoverRadius: 6
-                    }
-                ]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    legend: {
-                        position: "top",
-                        labels: {
-                            padding: 20,
-                            font: {
-                                family: "Inter, sans-serif",
-                                weight: 500,
-                                size: 14
-                            }
-                        }
-                    },
-                    tooltip: {
-                        bodyFont: {
-                            size: 16
-                        },
-                        callbacks: {
-                            label: function (tooltipItem) {
-                                let ratingValue = tooltipItem.raw;
-                                return ratingLabels[ratingValue] || ratingValue;
-                            }
+    window.ratingChart = new Chart(ctx, {
+        type: "bar",
+        data: {
+            labels: data.dates,
+            datasets: [
+                {
+                    label: "Daily Rating",
+                    data: data.ratings,
+                    backgroundColor: "rgba(99, 102, 241, 0.5)", // Indigo color
+                    borderColor: "rgb(99, 102, 241)",
+                    borderWidth: 1,
+                    borderRadius: 4,
+                    type: "bar"
+                },
+                {
+                    label: "Tren Rating",
+                    data: data.ratings,
+                    borderColor: "rgb(244, 63, 94)", // Rose color
+                    backgroundColor: "rgba(244, 63, 94, 0.1)",
+                    borderWidth: 2,
+                    fill: true,
+                    type: "line",
+                    tension: 0.4,
+                    pointBackgroundColor: "rgb(244, 63, 94)",
+                    pointBorderColor: "#fff",
+                    pointBorderWidth: 2,
+                    pointRadius: 4,
+                    pointHoverRadius: 6
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    position: "top",
+                    labels: {
+                        padding: 20,
+                        font: {
+                            family: "Inter, sans-serif",
+                            weight: 500,
+                            size: 14
                         }
                     }
                 },
-                scales: {
-                    y: {
-                        min: 1,  // Menambah jarak di bawah
-                        max: 5,  // Menambah jarak di atas
-                        ticks: {
-                            stepSize: 1,
-                            callback: function (value) {
-                                // Membulatkan nilai untuk mencocokkan dengan indeks ratingLabels
-                                const roundedValue = Math.round(value);
-                                // Return emoji jika nilai ada dalam ratingLabels
-                                return ratingLabels[roundedValue] || '';
-                            },
-                            font: {
-                                family: "Inter, sans-serif",
-                                size: 30
-                            }
-                        },
-                        grid: {
-                            color: "rgba(0, 0, 0, 0.05)"
-                        }
+                tooltip: {
+                    bodyFont: {
+                        size: 16
                     },
-                    x: {
-                        ticks: {
-                            font: {
-                                family: "Inter, sans-serif",
-                                size: 14
-                            }
-                        },
-                        grid: {
-                            display: false
+                    callbacks: {
+                        label: function (tooltipItem) {
+                            let ratingValue = tooltipItem.raw;
+                            return ratingLabels[ratingValue] || ratingValue;
                         }
                     }
                 }
+            },
+            scales: {
+                y: {
+                    min: 1,  // Menambah jarak di bawah
+                    max: 5,  // Menambah jarak di atas
+                    ticks: {
+                        stepSize: 1,
+                        callback: function (value) {
+                            // Membulatkan nilai untuk mencocokkan dengan indeks ratingLabels
+                            const roundedValue = Math.round(value);
+                            // Return emoji jika nilai ada dalam ratingLabels
+                            return ratingLabels[roundedValue] || '';
+                        },
+                        font: {
+                            family: "Inter, sans-serif",
+                            size: 30
+                        }
+                    },
+                    grid: {
+                        color: "rgba(0, 0, 0, 0.05)"
+                    }
+                },
+                x: {
+                    ticks: {
+                        font: {
+                            family: "Inter, sans-serif",
+                            size: 14
+                        }
+                    },
+                    grid: {
+                        display: false
+                    }
+                }
             }
-        });
-    </script>
+        }
+    });
+</script>
 
-    <!--Filter data grafik-->
-    <script>
-        document.getElementById("filter").addEventListener("change", function () {
-            let selectedRange = this.value;
-            let monthPicker = document.getElementById("monthPicker");
+<!--Filter data grafik-->
+<script>
+    document.getElementById("filter").addEventListener("change", function () {
+        let selectedRange = this.value;
+        let monthPicker = document.getElementById("monthPicker");
 
-            if (selectedRange === "monthly") {
-                monthPicker.style.display = "inline";
-            } else {
-                monthPicker.style.display = "none";
-                window.location.href = "/?range=" + selectedRange;
-            }
-        });
+        if (selectedRange === "monthly") {
+            monthPicker.style.display = "inline";
+        } else {
+            monthPicker.style.display = "none";
+            window.location.href = "/homepage?range=" + selectedRange;
+        }
+    });
 
-        document.getElementById("monthPicker").addEventListener("change", function () {
-            let selectedMonth = this.value;
-            window.location.href = "/?range=monthly&month=" + selectedMonth;
-        });
-    </script>
-</body>
-
-</html>
+    document.getElementById("monthPicker").addEventListener("change", function () {
+        let selectedMonth = this.value;
+        window.location.href = "/homepage?range=monthly&month=" + selectedMonth;
+    });
+</script>
+{% endblock %}
