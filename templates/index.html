@@ -14,7 +14,7 @@
                 {% for category, message in messages %}
                 {% if category == 'success' %}
                 <div class="text-blue-800 text-sm bg-blue-50 border border-blue-500 px-4 py-3 rounded relative mb-2" role="alert">
-                    <li>{{ message }}</li>
+                    <span>{{ message }}</span>
                     <span class="absolute top-0 bottom-0 right-0 px-4 py-3" onclick="this.parentElement.style.display='none';">
                         <svg class="fill-current h-6 w-6 text-blue-500" role="button" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
                             <title>Close</title>
