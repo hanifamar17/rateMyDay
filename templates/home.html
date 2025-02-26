@@ -1,123 +1,280 @@
 {% extends "template/base.html" %}
 
 {% block content %}
-<div class="flex flex-col flex-grow lg:flex-row lg:items-center lg:justify-between gap-8 lg:gap-32">
-    <!-- Informasi - Visible on all screens -->
-    <div class="flex-1 flex flex-col self-center z-10 text-gray-50 text-center lg:text-left max-w-xl mx-auto lg:mx-0">
-        <p class="font-medium text-2xl md:text-2xl">Track Your Daily Mood!</p>
-        <h1 class="mb-3 font-semibold text-3xl md:text-4xl">Discover Your Happiness Patterns!</h1>
-        <p class="text-sm md:text-base leading-relaxed mb-8 lg:mb-0 text-gray-300">
-            Reflect on your day with just one click. Rate your daily mood and add a short note to capture every precious
-            moment. 😊
-        </p>
-    </div>
-
-    <!-- Sign-In -->
-    <div class="flex-1 flex justify-center self-center z-10 max-w-md mx-auto lg:mx-0">
+<div class="flex flex-col flex-grow lg:items-center lg:justify-between">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+        integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <div
+        class="max-w-screen-xl mx-auto flex flex-col flex-grow lg:flex-row lg:items-center lg:justify-between gap-8 lg:gap-32 py-14 md:py-16">
+        <!-- Informasi - Visible on all screens -->
         <div
-            class="p-6 md:p-8 bg-white rounded-lg shadow-md w-96 backdrop-blur-sm transition-all duration-300 hover:shadow-2xl">
-
-            <!-- Error Messages -->
-            {% with messages = get_flashed_messages(with_categories=True) %}
-            {% if messages %}
-            {% for category, message in messages %}
-            <div class="text-red-800 text-sm bg-red-50 border border-red-500 px-4 py-3 rounded relative mb-2"
-                role="alert">
-                <span class="{{ category }}">{{ message }}</span>
-                <span class="absolute top-0 bottom-0 right-0 px-4 py-3"
-                    onclick="this.parentElement.style.display='none';">
-                    <svg class="fill-current h-6 w-6 text-red-500" role="button" xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 20 20">
-                        <title>Close</title>
-                        <path
-                            d="M14.348 14.849a1.2 1.2 0 0 1-1.697 0L10 11.819l-2.651 3.029a1.2 1.2 0 1 1-1.697-1.697l2.758-3.15-2.759-3.152a1.2 1.2 0 1 1 1.697-1.697L10 8.183l2.651-3.031a1.2 1.2 0 1 1 1.697 1.697l-2.758 3.152 2.758 3.15a1.2 1.2 0 0 1 0 1.698z" />
-                    </svg>
-                </span>
-            </div>
-            {% endfor %}
-            {% endif %}
-            {% endwith %}
-
-
-            <div class="mb-6 md:mb-8 text-left">
-                <h3 class="font-semibold text-xl md:text-2xl text-indigo-950 mb-2">Log In to RateMyDay</h3>
-                <p class="text-gray-600 text-sm">Start your journey with us today!</p>
-            </div>
-
-            <form method="POST" action="{{ url_for('login') }}" enctype="application/x-www-form-urlencoded"
-                class="space-y-4">
-                <div>
-                    <label for="email" class="block text-sm font-medium text-gray-700 mb-1">Email</label>
-                    <input type="email" id="email" name="email" placeholder="Enter your email" required
-                        class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors">
-                </div>
-
-                <div>
-                    <label for="password" class="block text-sm font-medium text-gray-700 mb-1">Password</label>
-                    <input type="password" id="password" name="password" placeholder="Create a password" required
-                        class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors">
-                </div>
-
-                <div class="flex items-center justify-between">
-                    <div class="flex items-center">
-                        <input id="remember-me" name="remember-me" type="checkbox"
-                            class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded">
-                        <label for="remember-me" class="ml-2 block text-sm text-gray-700">Remember me</label>
-                    </div>
-                    <div class="text-sm">
-                        <a href="{{ url_for('forgot_password') }}"
-                            class="font-medium text-indigo-600 hover:text-indigo-500">Lupa password?</a>
-                    </div>
-                </div>
-
-                <button type="submit"
-                    class="w-full bg-indigo-600 text-white py-2 px-4 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition-colors mt-6">
-                    Login
-                </button>
-            </form>
-
-            <div class="mt-6">
-                <div class="relative">
-                    <div class="absolute inset-0 flex items-center">
-                        <div class="w-full border-t border-gray-300"></div>
-                    </div>
-                    <div class="relative flex justify-center text-sm">
-                        <span class="px-2 bg-white text-gray-500">Or continue with</span>
-                    </div>
-                </div>
-
-                <div class="mt-6">
-
-                    <a href="{{ url_for('google.login') }}"
-                        class="w-full flex items-center justify-center gap-2 bg-white border border-gray-300 rounded-md py-2 px-4 text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition-colors">
-                        <svg class="h-5 w-5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                            <path
-                                d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
-                                fill="#4285F4" />
-                            <path
-                                d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"
-                                fill="#34A853" />
-                            <path
-                                d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"
-                                fill="#FBBC05" />
-                            <path
-                                d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"
-                                fill="#EA4335" />
-                        </svg>
-                        Log In with Google
-                    </a>
-
-                </div>
-            </div>
-
-            <p class="mt-6 md:mt-8 text-center text-sm text-gray-600">
-                Don't have an account?
-                <a href="{{ url_for('register') }}" class="font-medium text-indigo-600 hover:text-indigo-500">Sign
-                    Up</a>
+            class="flex-1 flex flex-col self-center z-10 text-gray-50 text-center lg:text-left max-w-xl mx-auto lg:mx-0">
+            <p class="font-medium text-2xl md:text-2xl">Track Your Daily Mood!</p>
+            <h1 class="mb-3 font-semibold text-3xl md:text-4xl">Discover Your Happiness Patterns!</h1>
+            <p class="text-sm md:text-base leading-relaxed mb-8 lg:mb-0 text-gray-300">
+                Reflect on your day with just one click. Rate your daily mood and add a short note to capture every
+                precious
+                moment. 😊
             </p>
         </div>
+
+        <!-- Sign-In -->
+        <div class="flex-1 flex justify-center self-center z-10 max-w-md mx-auto lg:mx-0">
+            <div
+                class="p-6 md:p-8 bg-white rounded-lg shadow-md w-96 backdrop-blur-sm transition-all duration-300 hover:shadow-2xl">
+
+                <!-- Error Messages -->
+                {% with messages = get_flashed_messages(with_categories=True) %}
+                {% if messages %}
+                {% for category, message in messages %}
+                <div class="text-red-800 text-sm bg-red-50 border border-red-500 px-4 py-3 rounded relative mb-2"
+                    role="alert">
+                    <span class="{{ category }}">{{ message }}</span>
+                    <span class="absolute top-0 bottom-0 right-0 px-4 py-3"
+                        onclick="this.parentElement.style.display='none';">
+                        <svg class="fill-current h-6 w-6 text-red-500" role="button" xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 20 20">
+                            <title>Close</title>
+                            <path
+                                d="M14.348 14.849a1.2 1.2 0 0 1-1.697 0L10 11.819l-2.651 3.029a1.2 1.2 0 1 1-1.697-1.697l2.758-3.15-2.759-3.152a1.2 1.2 0 1 1 1.697-1.697L10 8.183l2.651-3.031a1.2 1.2 0 1 1 1.697 1.697l-2.758 3.152 2.758 3.15a1.2 1.2 0 0 1 0 1.698z" />
+                        </svg>
+                    </span>
+                </div>
+                {% endfor %}
+                {% endif %}
+                {% endwith %}
+
+
+                <div class="mb-6 md:mb-8 text-left">
+                    <h3 class="font-semibold text-xl md:text-2xl text-indigo-950 mb-2">Log In to RateMyDay</h3>
+                    <p class="text-gray-600 text-sm">Start your journey with us today!</p>
+                </div>
+
+                <form method="POST" action="{{ url_for('login') }}" enctype="application/x-www-form-urlencoded"
+                    class="space-y-4">
+                    <div>
+                        <label for="email" class="block text-sm font-medium text-gray-700 mb-1">Email</label>
+                        <input type="email" id="email" name="email" placeholder="Enter your email" required
+                            class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors">
+                    </div>
+
+                    <div>
+                        <label for="password" class="block text-sm font-medium text-gray-700 mb-1">Password</label>
+                        <input type="password" id="password" name="password" placeholder="Create a password" required
+                            class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors">
+                    </div>
+
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center">
+                            <input id="remember-me" name="remember-me" type="checkbox"
+                                class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded">
+                            <label for="remember-me" class="ml-2 block text-sm text-gray-700">Remember me</label>
+                        </div>
+                        <div class="text-sm">
+                            <a href="{{ url_for('forgot_password') }}"
+                                class="font-medium text-indigo-600 hover:text-indigo-500">Lupa password?</a>
+                        </div>
+                    </div>
+
+                    <button type="submit"
+                        class="w-full bg-indigo-600 text-white py-2 px-4 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition-colors mt-6">
+                        Login
+                    </button>
+                </form>
+
+                <div class="mt-6">
+                    <div class="relative">
+                        <div class="absolute inset-0 flex items-center">
+                            <div class="w-full border-t border-gray-300"></div>
+                        </div>
+                        <div class="relative flex justify-center text-sm">
+                            <span class="px-2 bg-white text-gray-500">Or continue with</span>
+                        </div>
+                    </div>
+
+                    <div class="mt-6">
+
+                        <a href="{{ url_for('google.login') }}"
+                            class="w-full flex items-center justify-center gap-2 bg-white border border-gray-300 rounded-md py-2 px-4 text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition-colors">
+                            <svg class="h-5 w-5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
+                                    fill="#4285F4" />
+                                <path
+                                    d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"
+                                    fill="#34A853" />
+                                <path
+                                    d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"
+                                    fill="#FBBC05" />
+                                <path
+                                    d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"
+                                    fill="#EA4335" />
+                            </svg>
+                            Log In with Google
+                        </a>
+
+                    </div>
+                </div>
+
+                <p class="mt-6 md:mt-8 text-center text-sm text-gray-600">
+                    Don't have an account?
+                    <a href="{{ url_for('register') }}" class="font-medium text-indigo-600 hover:text-indigo-500">Sign
+                        Up</a>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Section Deskripsi Website & About Us (full width) -->
+    <div class="flex flex-col flex-grow gap-16 w-full mx-auto bg-white">
+        <!-- Section Deskripsi Website -->
+        <section class="max-w-screen-xl mx-auto py-16 px-6 md:px-12">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center text-gray-700">
+                <div class="text-center md:text-left">
+                    <h2 class="text-3xl font-semibold mb-4">
+                        <span class="text-indigo-950">Rate My Day</span>
+                    </h2>
+                    <p class="leading-relaxed mb-8 text-justify">
+                        Rate My Day adalah aplikasi sederhana untuk mencatat dan merefleksikan hari Anda. Dengan
+                        antarmuka yang intuitif, Anda dapat dengan mudah memberikan rating, menambahkan catatan, dan
+                        melihat tren suasana hati Anda.
+                    </p>
+
+                    <ul class="space-y-6 mb-8">
+                        <li
+                            class="flex flex-col md:flex-row items-center md:items-start group relative text-center md:text-left">
+                            <svg xmlns="http://www.w3.org/2000/svg"
+                                class="self-center h-10 w-10 md:h-6 md:w-6 text-indigo-500 mb-2 md:mb-0 md:mr-4 transition-colors duration-300 group-hover:text-indigo-700"
+                                fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15.172a2 2 0 01-2.828 0L5.828 11.172a2 2 0 010-2.828L9.172 4.828a2 2 0 012.828 0z" />
+                            </svg>
+                            <div>
+                                <h3
+                                    class="text-lg font-medium text-gray-800 mb-1 group-hover:text-indigo-700 transition-colors duration-300">
+                                    Catat Harimu
+                                </h3>
+                                <p class="text-gray-600">Beri rating dan tambahkan catatan singkat tentang hari Anda.
+                                </p>
+                            </div>
+                        </li>
+
+                        <li
+                            class="flex flex-col md:flex-row items-center md:items-start group relative text-center md:text-left">
+                            <svg xmlns="http://www.w3.org/2000/svg"
+                                class="self-center h-10 w-10 md:h-6 md:w-6 text-indigo-500 mb-2 md:mb-0 md:mr-4 transition-colors duration-300 group-hover:text-indigo-700"
+                                fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M9 17V7m0 10a2 2 0 01-2 2H5a2 2 0 01-2-2V7a2 2 0 012-2h2a2 2 0 012 2m0 10a2 2 0 002 2h2a2 2 0 002-2M9 7h12m0 0a2 2 0 012 2v8a2 2 0 01-2 2H9" />
+                            </svg>
+                            <div>
+                                <h3
+                                    class="text-lg font-medium text-gray-800 mb-1 group-hover:text-indigo-700 transition-colors duration-300">
+                                    Lihat Perkembangan</h3>
+                                <p class="text-gray-600">Grafik interaktif untuk melihat tren suasana hati Anda.</p>
+                            </div>
+                        </li>
+
+                        <li
+                            class="flex flex-col md:flex-row items-center md:items-start group relative text-center md:text-left">
+                            <svg xmlns="http://www.w3.org/2000/svg"
+                                class="self-center h-10 w-10 md:h-6 md:w-6 text-indigo-500 mb-2 md:mb-0 md:mr-4 transition-colors duration-300 group-hover:text-indigo-700"
+                                fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z" />
+                            </svg>
+                            <div>
+                                <h3
+                                    class="text-lg font-medium text-gray-800 mb-1 group-hover:text-indigo-700 transition-colors duration-300">
+                                    Fleksibel & Mudah</h3>
+                                <p class="text-gray-600">Cukup beberapa detik untuk mencatat hari Anda.</p>
+                            </div>
+                        </li>
+                    </ul>
+
+                    <div class="text-center md:text-left">
+                        <p class="font-semibold text-gray-700 mb-6">Mulai catat dan refleksikan hari Anda sekarang!</p>
+                        <button
+                            class="bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-3 px-6 rounded-lg transition-colors duration-300 hover:scale-105">
+                            Mulai Sekarang
+                        </button>
+                    </div>
+                </div>
+
+                <div class="flex flex-col items-center">
+                    <img src="{{ url_for('static', filename='img/taking_note.png') }}" alt="Ilustrasi Rate My Day"
+                        class="max-w-full h-auto">
+                    <p class="text-xs text-gray-600 mt-2">
+                        <a href="https://www.vecteezy.com/free-png/3d" class="hover:underline" target="_blank">3D PNGs
+                            by Vecteezy</a>
+                    </p>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Section About Us -->
+    <div class="flex flex-col flex-grow gap-16 w-full mx-auto bg-gradient-to-r from-yellow-50 via-orange-50 to-orange-100">
+        <section class="max-w-screen-xl mx-auto py-20 px-6 md:px-12 text-gray-700">
+            <div class="text-center md:text-left">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <div class="p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 bg-white">
+                        <div class="flex items-center justify-center mb-4">
+                            <i class="fas fa-heart text-indigo-500 text-2xl"></i>
+                        </div>
+                        <h3 class="text-lg font-medium text-gray-800 mb-2 text-center">Lebih Sadar Emosi</h3>
+                        <p class="text-gray-600 text-center">Melihat pola dan memahami perasaan Anda.</p>
+                    </div>
+
+                    <div class="p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 bg-white">
+                        <div class="flex items-center justify-center mb-4">
+                            <i class="fas fa-calendar-alt text-indigo-500 text-2xl"></i>
+                        </div>
+                        <h3 class="text-lg font-medium text-gray-800 mb-2 text-center">Membentuk Kebiasaan Positif</h3>
+                        <p class="text-gray-600 text-center">Mengenali pola baik dan buruk melalui pencatatan harian.
+                        </p>
+                    </div>
+
+                    <div class="p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 bg-white">
+                        <div class="flex items-center justify-center mb-4">
+                            <i class="fas fa-pencil-alt text-indigo-500 text-2xl"></i>
+                        </div>
+                        <h3 class="text-lg font-medium text-gray-800 mb-2 text-center">Ekspresi Diri Bebas</h3>
+                        <p class="text-gray-600 text-center">Simpan catatan harian sebagai refleksi pribadi.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Section About Us -->
+    <div class="flex flex-col flex-grow gap-16 w-full mx-auto bg-white">
+        <section class="max-w-screen-xl mx-auto py-16 px-6 md:px-12 text-gray-700">
+            <div class="text-center md:text-left">
+                <h2 class="text-3xl font-semibold mb-6">
+                    <span class="text-indigo-950">Tentang Kami</span>
+                </h2>
+                <p class="leading-relaxed mb-8 text-justify">
+                    Hai! Kami percaya bahwa setiap hari memiliki cerita uniknya sendiri. Itulah mengapa kami menciptakan
+                    Rate My Day, platform sederhana untuk merefleksikan harimu dengan cepat dan mudah.
+                </p>
+                <p class="leading-relaxed my-2 text-justify">
+                    Setiap hari adalah kanvas yang menunggu untuk diisi dengan warna-warni pengalaman. Melalui refleksi,
+                    kita bisa melihat pola, memahami diri sendiri, dan menemukan makna dalam setiap momen. Kami berharap
+                    Rate My Day bisa menjadi alat yang membantu dalam perjalanan refleksi ini, membimbing untuk
+                    menemukan kedamaian dan kebahagiaan di setiap hari.
+                </p>
+                <p class="font-medium leading-relaxed mb-8 text-justify">
+                    Salam hangat
+                </p>
+            </div>
+        </section>
     </div>
 </div>
+</div>
+
+
 
 <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
@@ -130,7 +287,7 @@
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
 
-        document.getElementById("login-form").addEventListener("submit", function(event) {
+        document.getElementById("login-form").addEventListener("submit", function (event) {
             event.preventDefault();
             const email = document.getElementById("email").value;
             const password = document.getElementById("password").value;
@@ -143,13 +300,13 @@
                             headers: { "Content-Type": "application/json" },
                             body: JSON.stringify({ token: token })
                         }).then(response => response.json())
-                          .then(data => {
-                              if (data.success) {
-                                  window.location.href = "/";
-                              } else {
-                                  alert("Login failed: " + data.error);
-                              }
-                          });
+                            .then(data => {
+                                if (data.success) {
+                                    window.location.href = "/";
+                                } else {
+                                    alert("Login failed: " + data.error);
+                                }
+                            });
                     });
                 })
                 .catch((error) => {
