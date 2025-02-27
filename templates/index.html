@@ -1,9 +1,32 @@
 {% extends "template/base-login.html" %}
 
 {% block content %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <style>
+        .journal-textarea {
+            min-height: 150px;
+            transition: min-height 0.3s ease;
+        }
+
+        .journal-textarea:focus {
+            min-height: 200px;
+        }
+        .journal-card {
+            transition: all 0.3s ease;
+        }
+        .journal-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+        .emoji-indicator {
+            font-size: 2rem;
+            line-height: 1;
+        }
+    </style>
+
 <!--Konten utama-->
 <div class="grid grid-cols-1 md:grid-cols-3 gap-6 py-8 p-8 w-full">
-
     <div class="md:col-span-2">
         <div class="p-4 rounded">
             <!--Grafik rating-->
@@ -13,12 +36,16 @@
                 {% if messages %}
                 {% for category, message in messages %}
                 {% if category == 'success' %}
-                <div class="text-blue-800 text-sm bg-blue-50 border border-blue-500 px-4 py-3 rounded relative mb-2" role="alert">
+                <div class="text-blue-800 text-sm bg-blue-50 border border-blue-500 px-4 py-3 rounded relative mb-2"
+                    role="alert">
                     <span>{{ message }}</span>
-                    <span class="absolute top-0 bottom-0 right-0 px-4 py-3" onclick="this.parentElement.style.display='none';">
-                        <svg class="fill-current h-6 w-6 text-blue-500" role="button" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                    <span class="absolute top-0 bottom-0 right-0 px-4 py-3"
+                        onclick="this.parentElement.style.display='none';">
+                        <svg class="fill-current h-6 w-6 text-blue-500" role="button" xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 20 20">
                             <title>Close</title>
-                            <path d="M14.348 14.849a1.2 1.2 0 0 1-1.697 0L10 11.819l-2.651 3.029a1.2 1.2 0 1 1-1.697-1.697l2.758-3.15-2.759-3.152a1.2 1.2 0 1 1 1.697-1.697L10 8.183l2.651-3.031a1.2 1.2 0 1 1 1.697 1.697l-2.758 3.152 2.758 3.15a1.2 1.2 0 0 1 0 1.698z" />
+                            <path
+                                d="M14.348 14.849a1.2 1.2 0 0 1-1.697 0L10 11.819l-2.651 3.029a1.2 1.2 0 1 1-1.697-1.697l2.758-3.15-2.759-3.152a1.2 1.2 0 1 1 1.697-1.697L10 8.183l2.651-3.031a1.2 1.2 0 1 1 1.697 1.697l-2.758 3.152 2.758 3.15a1.2 1.2 0 0 1 0 1.698z" />
                         </svg>
                     </span>
                 </div>
@@ -81,19 +108,34 @@
 
                     <div class="space-y-2">
                         <div class="mb-1">
-                            <label class="block text-sm font-bold text-gray-700">Rating</label>
-                            <label class="block text-sm text-gray-700 mt-2">Rate how you're feeling today!</label>
+                            <label class="block text-sm font-bold text-gray-700">Mood Rating</label>
+                            <label class="block text-sm text-gray-700 mt-2">How are you feeling today?</label>
                         </div>
-                        <select name="rating"
-                            class="w-full p-3 border text-sm border-gray-200 rounded bg-gray-50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 transition-all duration-300"
-                            required>
-                            <option value="">Pick a rating</option>
-                            <option value="1">😞 Terrible</option>
-                            <option value="2">☹️ Not Good</option>
-                            <option value="3">😐 Okay</option>
-                            <option value="4">🙂 Good</option>
-                            <option value="5">😊 Excellent</option>
-                        </select>
+                        <div class="flex justify-between mb-2">
+                            <span class=" text-gray-500">😞 Terrible</span>
+                            <span class=" text-gray-500">😊 Excellent</span>
+                        </div>
+                        <input type="range" min="1" max="5" value="3" name="mood-slider" id="mood-slider"
+                            class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer"
+                            oninput="updateMoodEmoji(this.value)">
+                        <div class="text-center mt-2">
+                            <span id="mood-emoji" class="text-5xl">😐</span>
+                            <input type="hidden" name="rating" id="rating" value="3">
+                        </div>
+                    </div>
+
+                    <div class="space-y-2">
+                        <div class="mb-1">
+                            <label class="block text-sm font-bold text-gray-700">Journal Entry</label>
+                            <label class="block text-sm text-gray-700 mt-2">Express your thoughts and
+                                feelings...</label>
+                        </div>
+                        <textarea name="journal" id="journal"
+                            placeholder="What's on your mind today? How are you feeling?"
+                            class="journal-textarea w-full p-3 text-sm border border-gray-200 rounded bg-gray-50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 transition-all duration-300"></textarea>
+                        <div class="text-right">
+                            <span id="char-count" class="text-xs text-gray-500">0 characters</span>
+                        </div>
                     </div>
 
                     <button type="submit" class="w-full bg-gradient-to-r from-blue-500 to-indigo-500 text-white py-3 px-6 rounded-md font-medium
@@ -109,25 +151,52 @@
 
 <!--Form-->
 <script>
+    // Update mood emoji based on slider value
+    function updateMoodEmoji(value) {
+        const emoji = document.getElementById('mood-emoji');
+        const ratingInput = document.getElementById('rating');
+        ratingInput.value = value;
+
+        switch (parseInt(value)) {
+            case 1:
+                emoji.textContent = '😞';
+                break;
+            case 2:
+                emoji.textContent = '☹️';
+                break;
+            case 3:
+                emoji.textContent = '😐';
+                break;
+            case 4:
+                emoji.textContent = '🙂';
+                break;
+            case 5:
+                emoji.textContent = '😊';
+                break;
+        }
+    }
+
+    // Character counter
+    document.getElementById('journal').addEventListener('input', function () {
+        document.getElementById('char-count').textContent = `${this.value.length} characters`;
+    });
+
+    // Set default date to today
     document.getElementById('date').valueAsDate = new Date();
 
+    // Form submission with your existing code
     document.getElementById('ratingForm').addEventListener('submit', function (event) {
         event.preventDefault();
-
         const formData = new FormData(this);
         const date = formData.get("date");
-
         // 🔹 Ambil `user_id` dari data yang dikirim Flask ke template
         const user_id = "{{ user.id if user.id else '' }}";
-
         // 🔹 Tambahkan ke FormData
         formData.append("user_id", user_id);
-
         const button = this.querySelector('button');
         const originalText = button.innerHTML;
         button.innerHTML = 'Submitting...';
         button.disabled = true;
-
         fetch("/homepage", {
             method: "POST",
             body: formData

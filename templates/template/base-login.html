@@ -24,7 +24,21 @@
             </a>
 
             <nav class="flex relative" aria-label="User navigation">
-                <div class="relative">
+                <div class="hidden md:flex items-center ml-20 flex-1 mx-10">
+                    <ul class="flex space-x-8">
+                        <li>
+                            <a href="/homepage" class="text-sm font-medium hover:text-blue-600 transition-colors">
+                                Home
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/journal" class="text-sm font-medium hover:text-blue-600 transition-colors">
+                                My Journal
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="relative self-center">
                     <!-- Dropdown Trigger Button -->
                     <button id="userDropdownButton"
                         class="flex items-center text-sm font-medium text-gray-700 hover:text-blue-600 focus:outline-none"
@@ -56,8 +70,22 @@
                         </a>
                     </div>
                 </div>
+                <!--Mobile Menu Button (visible only on mobile)-->
+                <button id="menu-toggle" type="button" class="md:hidden ml-4 text-gray-800 hover:text-blue-600">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M4 6h16M4 12h16M4 18h16"></path>
+                    </svg>
+                </button>
             </nav>
-
+        </div>
+        <!--Mobile Menu (hidden by default)-->
+        <div id="mobile-menu" class="hidden md:hidden">
+            <div class="px-2 pt-2 pb-3 space-y-1">
+                <a href="/homepage" class="block px-3 py-2 text-sm hover:bg-gray-200 rounded-md">Home</a>
+                <a href="/journal" class="block px-3 py-2 text-sm hover:bg-gray-200 rounded-md">My Journal</a>
+            </div>
         </div>
     </nav>
 
@@ -81,6 +109,16 @@
             if (!dropdownButton.contains(event.target) && !dropdownMenu.contains(event.target)) {
                 dropdownMenu.classList.add('hidden');
             }
+        });
+    </script>
+
+    <!-- JavaScript untuk toggle mobile menu -->
+    <script>
+        const menuToggle = document.getElementById("menu-toggle");
+        const mobileMenu = document.getElementById("mobile-menu");
+
+        menuToggle.addEventListener("click", () => {
+            mobileMenu.classList.toggle("hidden");
         });
     </script>
 </body>

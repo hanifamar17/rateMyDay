@@ -337,13 +337,13 @@ def get_db_connection():
 def load_data(user_id):
     conn = get_db_connection()
     cursor = conn.cursor(dictionary=True)
-    cursor.execute("SELECT date, rating FROM ratings WHERE user_id = %s ORDER BY date ASC", (user_id,))
+    cursor.execute("SELECT date, rating, journal FROM ratings WHERE user_id = %s ORDER BY date ASC", (user_id,))
     data = cursor.fetchall()
     conn.close()
     return data
 
 # Fungsi untuk menyimpan atau memperbarui data
-def save_data(user_id, date, rating):
+def save_data(user_id, date, rating, journal):
     with get_db_connection() as conn:
         with conn.cursor(dictionary=True) as cursor:
             # Cek apakah data dengan tanggal yang sama sudah ada
@@ -351,9 +351,9 @@ def save_data(user_id, date, rating):
             existing = cursor.fetchone()
 
             if existing:
-                cursor.execute("UPDATE ratings SET rating = %s WHERE date = %s AND user_id = %s", (rating, date, user_id))
+                cursor.execute("UPDATE ratings SET rating = %s, journal = %s WHERE date = %s AND user_id = %s", (rating, journal, date, user_id))
             else:
-                cursor.execute("INSERT INTO ratings (user_id, date, rating) VALUES (%s, %s, %s)", (user_id, date, rating))
+                cursor.execute("INSERT INTO ratings (user_id, date, rating, journal) VALUES (%s, %s, %s, %s)", (user_id, date, rating, journal))
 
             conn.commit()  # Simpan perubahan
 
@@ -361,9 +361,10 @@ def save_data(user_id, date, rating):
 def update_rating():
     date = request.form["date"]
     rating = int(request.form["rating"])
+    journal = request.form.get("journal", "")
     user_id = current_user.id  # 🔹 Gunakan Flask-Login, bukan session
 
-    save_data(user_id, date, rating)  # Langsung panggil fungsi save_data()
+    save_data(user_id, date, rating, journal)  # Langsung panggil fungsi save_data()
 
     return jsonify({"success": True, "message": f"Rating untuk hari <strong>{format_date(date)}</strong> berhasil diperbarui!"})
 
@@ -399,6 +400,7 @@ def index():
     if request.method == "POST":
         date = request.form["date"]
         rating = int(request.form["rating"])
+        journal = request.form.get("journal", " ")
 
         conn = get_db_connection()
         cursor = conn.cursor(dictionary=True)
@@ -419,7 +421,7 @@ def index():
             })
         
         # Jika tidak ada data, simpan sebagai entri baru
-        cursor.execute("INSERT INTO ratings (user_id, date, rating) VALUES (%s, %s, %s)", (user_id, date, rating))
+        cursor.execute("INSERT INTO ratings (user_id, date, rating, journal) VALUES (%s, %s, %s, %s)", (user_id, date, rating, journal))
         conn.commit()
         conn.close()
 
@@ -460,14 +462,93 @@ def index():
     given_name = current_user.given_name or current_user.name
     return render_template("index.html", chart_data=chart_data, given_name=given_name, user=current_user)
 
+@app.route("/journal", methods=["GET", "POST"])
+@login_required
+def journal():
+    print(f"DEBUG: Current user - {current_user}")  
+    print(f"DEBUG: Current user authenticated - {current_user.is_authenticated}")  
+    print(f"DEBUG: User ID - {current_user.id}")  
+    print(f"DEBUG: User Email - {current_user.email}") 
+
+    if not current_user.is_authenticated:
+        print("DEBUG: User tidak terautentikasi!")
+        return redirect(url_for("login"))
+
+    user_id = current_user.id 
+
+    data = load_data(user_id)
+    
+    # Fetch journal entries
+    conn = get_db_connection()
+    cursor = conn.cursor(dictionary=True)
+    
+    cursor.execute("""
+        SELECT id, date, rating, journal, 
+               DATE_FORMAT(date, '%W') AS day_of_week,
+               DATE_FORMAT(date, '%M %d, %Y') AS formatted_date
+        FROM ratings 
+        WHERE user_id = %s 
+        ORDER BY date DESC
+    """, (user_id,))
+    
+    journal_entries = cursor.fetchall()
+    conn.close()
+    
+    given_name = current_user.given_name or current_user.name
+    return render_template("journal.html", data=data, journal_entries=journal_entries, given_name=given_name, user=current_user)
+    
+@app.route("/delete_entry/<int:entry_id>", methods=["POST"])
+@login_required
+def delete_entry(entry_id):
+    user_id = current_user.id
+    
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    
+    # Make sure the entry belongs to the current user
+    cursor.execute("SELECT COUNT(*) FROM ratings WHERE id = %s AND user_id = %s", (entry_id, user_id))
+    if cursor.fetchone()[0] == 0:
+        conn.close()
+        return jsonify({"success": False, "message": "Entry not found or unauthorized"}), 403
+    
+    cursor.execute("DELETE FROM ratings WHERE id = %s", (entry_id,))
+    conn.commit()
+    conn.close()
+    
+    return jsonify({"success": True, "message": "Entry deleted successfully"})
+
+@app.route("/get_entry/<int:entry_id>", methods=["GET"])
+@login_required
+def get_entry(entry_id):
+    user_id = current_user.id
+    
+    conn = get_db_connection()
+    cursor = conn.cursor(dictionary=True)
+    
+    cursor.execute("""
+        SELECT id, date, rating, journal, 
+               DATE_FORMAT(date, '%W') AS day_of_week,
+               DATE_FORMAT(date, '%M %d, %Y') AS formatted_date
+        FROM ratings 
+        WHERE id = %s AND user_id = %s
+    """, (entry_id, user_id))
+    
+    entry = cursor.fetchone()
+    conn.close()
+    
+    if not entry:
+        return jsonify({"success": False, "message": "Entry not found"}), 404
+    
+    return jsonify({"success": True, "entry": entry})
+ 
 def format_date(date_str):
     bulan_mapping = {
-        1: "Jan", 2: "Feb", 3: "Mar", 4: "Apr", 5: "Mei", 6: "Jun",
-        7: "Jul", 8: "Agu", 9: "Sep", 10: "Okt", 11: "Nov", 12: "Des"
+        1: "Jan", 2: "Feb", 3: "Mar", 4: "Apr", 5: "May", 6: "Jun",
+        7: "Jul", 8: "Aug", 9: "Sep", 10: "Oct", 11: "Nov", 12: "Dec"
     }
     hari_mapping = {
-        0: "Senin", 1: "Selasa", 2: "Rabu", 3: "Kamis",
-        4: "Jumat", 5: "Sabtu", 6: "Minggu"
+        0: "Mon", 1: "Tue", 2: "Wed", 3: "Thur",
+        4: "Fri", 5: "Sat", 6: "Sun"
     }
 
     # 🔹 Jika `date_str` adalah objek `datetime.date`, konversi ke string

@@ -128,17 +128,16 @@
 
     <!-- Section Deskripsi Website & About Us (full width) -->
     <div class="flex flex-col flex-grow gap-16 w-full mx-auto bg-white">
-        <!-- Section Deskripsi Website -->
+        <!-- Section Features Website -->
         <section class="max-w-screen-xl mx-auto py-16 px-6 md:px-12">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center text-gray-700">
                 <div class="text-center md:text-left">
                     <h2 class="text-3xl font-semibold mb-4">
-                        <span class="text-indigo-950">Rate My Day</span>
+                        <span class="text-indigo-950">Features</span>
                     </h2>
-                    <p class="leading-relaxed mb-8 text-justify">
-                        Rate My Day adalah aplikasi sederhana untuk mencatat dan merefleksikan hari Anda. Dengan
-                        antarmuka yang intuitif, Anda dapat dengan mudah memberikan rating, menambahkan catatan, dan
-                        melihat tren suasana hati Anda.
+                    <p class="leading-relaxed mb-8 text-center md:text-justify">
+                        <strong>RateMyDay</strong> is a simple app to record and reflect on your day. With an intuitive interface, you
+                        can easily rate your day, add notes, and track your mood trends.
                     </p>
 
                     <ul class="space-y-6 mb-8">
@@ -153,9 +152,9 @@
                             <div>
                                 <h3
                                     class="text-lg font-medium text-gray-800 mb-1 group-hover:text-indigo-700 transition-colors duration-300">
-                                    Catat Harimu
+                                    Record Your Day
                                 </h3>
-                                <p class="text-gray-600">Beri rating dan tambahkan catatan singkat tentang hari Anda.
+                                <p class="text-gray-600">Give your day a rating and add a quick note.
                                 </p>
                             </div>
                         </li>
@@ -171,8 +170,8 @@
                             <div>
                                 <h3
                                     class="text-lg font-medium text-gray-800 mb-1 group-hover:text-indigo-700 transition-colors duration-300">
-                                    Lihat Perkembangan</h3>
-                                <p class="text-gray-600">Grafik interaktif untuk melihat tren suasana hati Anda.</p>
+                                    Track Your Progress</h3>
+                                <p class="text-gray-600">Interactive charts to visualize your mood trends.</p>
                             </div>
                         </li>
 
@@ -187,17 +186,18 @@
                             <div>
                                 <h3
                                     class="text-lg font-medium text-gray-800 mb-1 group-hover:text-indigo-700 transition-colors duration-300">
-                                    Fleksibel & Mudah</h3>
-                                <p class="text-gray-600">Cukup beberapa detik untuk mencatat hari Anda.</p>
+                                    Quick & Easy</h3>
+                                <p class="text-gray-600">Takes just seconds to note down your day.</p>
                             </div>
                         </li>
                     </ul>
 
                     <div class="text-center md:text-left">
-                        <p class="font-semibold text-gray-700 mb-6">Mulai catat dan refleksikan hari Anda sekarang!</p>
+                        <p class="font-semibold text-gray-700 mb-6">Start recording and reflecting on your days now! 🚀
+                        </p>
                         <button
                             class="bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-3 px-6 rounded-lg transition-colors duration-300 hover:scale-105">
-                            Mulai Sekarang
+                            Get Started
                         </button>
                     </div>
                 </div>
@@ -214,34 +214,55 @@
         </section>
     </div>
 
-    <!-- Section About Us -->
-    <div class="flex flex-col flex-grow gap-16 w-full mx-auto bg-gradient-to-r from-yellow-50 via-orange-50 to-orange-100">
+    <!-- Section Features -->
+    <div
+        class="flex flex-col flex-grow gap-16 w-full mx-auto bg-gradient-to-r from-yellow-100 via-orange-50 to-orange-100">
         <section class="max-w-screen-xl mx-auto py-20 px-6 md:px-12 text-gray-700">
             <div class="text-center md:text-left">
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
                     <div class="p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 bg-white">
-                        <div class="flex items-center justify-center mb-4">
-                            <i class="fas fa-heart text-indigo-500 text-2xl"></i>
+                        <div class="mb-4 text-center">
+                            <img src="{{ url_for('static', filename='img/love.png') }}" alt="Ilustrasi Rate My Day"
+                                class="max-w-40 h-auto mx-auto">
+                            <p class="text-xs text-gray-600 mt-2 self-center">
+                                <a href="https://www.vecteezy.com/free-png/adult" class="hover:underline"
+                                    target="_blank">Adult PNGs by Vecteezy</a>
+                            </p>
                         </div>
-                        <h3 class="text-lg font-medium text-gray-800 mb-2 text-center">Lebih Sadar Emosi</h3>
-                        <p class="text-gray-600 text-center">Melihat pola dan memahami perasaan Anda.</p>
+                        <h3 class="text-lg font-medium text-gray-800 mb-2 text-center">More Emotionally Aware</h3>
+                        <p class="text-gray-600 text-center">Recognize patterns and understand your feelings.</p>
                     </div>
 
                     <div class="p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 bg-white">
                         <div class="flex items-center justify-center mb-4">
-                            <i class="fas fa-calendar-alt text-indigo-500 text-2xl"></i>
+                            <div class="mb-4 text-center">
+                                <img src="{{ url_for('static', filename='img/date.png') }}" alt="Ilustrasi Rate My Day"
+                                    class="max-w-40 h-auto mx-auto">
+                                <p class="text-xs text-gray-600 mt-2 self-center">
+                                    <a href="https://www.vecteezy.com/free-png/3d" class="hover:underline"
+                                        target="_blank">3d PNGs by Vecteezy</a>
+                                </p>
+                            </div>
                         </div>
-                        <h3 class="text-lg font-medium text-gray-800 mb-2 text-center">Membentuk Kebiasaan Positif</h3>
-                        <p class="text-gray-600 text-center">Mengenali pola baik dan buruk melalui pencatatan harian.
+                        <h3 class="text-lg font-medium text-gray-800 mb-2 text-center">Build Positive Habits</h3>
+                        <p class="text-gray-600 text-center">Identify good and bad patterns through daily journaling.
                         </p>
                     </div>
 
                     <div class="p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 bg-white">
                         <div class="flex items-center justify-center mb-4">
-                            <i class="fas fa-pencil-alt text-indigo-500 text-2xl"></i>
+                            <div class="mb-4 text-center">
+                                <img src="{{ url_for('static', filename='img/note.png') }}" alt="Ilustrasi Rate My Day"
+                                    class="max-w-32 h-auto mx-auto">
+                                <p class="text-xs text-gray-600 mt-2 self-center">
+                                    <a href="https://www.vecteezy.com/free-png/article" class="hover:underline"
+                                        target="_blank">Article PNGs by Vecteezy</a>
+                                </p>
+                            </div>
                         </div>
-                        <h3 class="text-lg font-medium text-gray-800 mb-2 text-center">Ekspresi Diri Bebas</h3>
-                        <p class="text-gray-600 text-center">Simpan catatan harian sebagai refleksi pribadi.</p>
+                        <h3 class="text-lg font-medium text-gray-800 mb-2 text-center">Express Yourself Freely</h3>
+                        <p class="text-gray-600 text-center">Keep a personal journal as a reflection of your journey.
+                        </p>
                     </div>
                 </div>
             </div>
@@ -253,21 +274,23 @@
         <section class="max-w-screen-xl mx-auto py-16 px-6 md:px-12 text-gray-700">
             <div class="text-center md:text-left">
                 <h2 class="text-3xl font-semibold mb-6">
-                    <span class="text-indigo-950">Tentang Kami</span>
+                    <span class="text-indigo-950">About Us</span>
                 </h2>
-                <p class="leading-relaxed mb-8 text-justify">
-                    Hai! Kami percaya bahwa setiap hari memiliki cerita uniknya sendiri. Itulah mengapa kami menciptakan
-                    Rate My Day, platform sederhana untuk merefleksikan harimu dengan cepat dan mudah.
-                </p>
-                <p class="leading-relaxed my-2 text-justify">
-                    Setiap hari adalah kanvas yang menunggu untuk diisi dengan warna-warni pengalaman. Melalui refleksi,
-                    kita bisa melihat pola, memahami diri sendiri, dan menemukan makna dalam setiap momen. Kami berharap
-                    Rate My Day bisa menjadi alat yang membantu dalam perjalanan refleksi ini, membimbing untuk
-                    menemukan kedamaian dan kebahagiaan di setiap hari.
-                </p>
-                <p class="font-medium leading-relaxed mb-8 text-justify">
-                    Salam hangat
-                </p>
+                <div class="text-center md:text-justify">
+                    <p class="leading-relaxed mb-2">
+                        Hey there! We believe that every day has its own unique story. That’s why we created <strong>RateMyDay</strong>—a simple platform to reflect on your day quickly and effortlessly.
+                    </p>
+                    <p class="leading-relaxed mb-8">
+                        Each day is a canvas waiting to be filled with the colors of your experiences. Through
+                        reflection, we can recognize patterns, understand ourselves better, and find meaning in every
+                        moment. We hope <strong>RateMyDay</strong> becomes a helpful tool in your journey, guiding you toward peace and
+                        happiness every day.
+                    </p>
+                    <span class="leading-relaxed">
+                        <p class="font-bold">Warm regards,</p>
+                        RateMyDay Team 🚀
+                    </span>
+                </div>
             </div>
         </section>
     </div>
