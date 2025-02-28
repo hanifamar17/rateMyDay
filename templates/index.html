@@ -2,28 +2,31 @@
 
 {% block content %}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <style>
-        .journal-textarea {
-            min-height: 150px;
-            transition: min-height 0.3s ease;
-        }
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<style>
+    .journal-textarea {
+        min-height: 150px;
+        transition: min-height 0.3s ease;
+    }
 
-        .journal-textarea:focus {
-            min-height: 200px;
-        }
-        .journal-card {
-            transition: all 0.3s ease;
-        }
-        .journal-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-        }
-        .emoji-indicator {
-            font-size: 2rem;
-            line-height: 1;
-        }
-    </style>
+    .journal-textarea:focus {
+        min-height: 200px;
+    }
+
+    .journal-card {
+        transition: all 0.3s ease;
+    }
+
+    .journal-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    }
+
+    .emoji-indicator {
+        font-size: 2rem;
+        line-height: 1;
+    }
+</style>
 
 <!--Konten utama-->
 <div class="grid grid-cols-1 md:grid-cols-3 gap-6 py-8 p-8 w-full">
@@ -94,16 +97,18 @@
                     <p class="text-gray-500 text-sm">Take a moment to reflect on your day</p>
                 </div>
 
-                <form id="ratingForm" class="space-y-6">
+                <form id="ratingForm" class="space-y-6" method="POST">
+                    {{ form.hidden_tag() }} <!-- CSRF Token -->
+
                     <div class="space-y-2">
                         <div class="mb-1">
                             <label class="block text-sm font-bold text-gray-700">Date</label>
                             <label class="block text-sm text-gray-700 mt-2">Pick a date, or I'll default to
                                 today!</label>
                         </div>
-                        <input type="date" name="date" id="date"
-                            class="w-full p-3 text-sm border border-gray-200 rounded bg-gray-50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 transition-all duration-300"
-                            required>
+                        {{ form.date(class="w-full p-3 text-sm border border-gray-200 rounded bg-gray-50 focus:bg-white
+                        focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 transition-all
+                        duration-300") }}
                     </div>
 
                     <div class="space-y-2">
@@ -112,10 +117,10 @@
                             <label class="block text-sm text-gray-700 mt-2">How are you feeling today?</label>
                         </div>
                         <div class="flex justify-between mb-2">
-                            <span class=" text-gray-500">😞 Terrible</span>
-                            <span class=" text-gray-500">😊 Excellent</span>
+                            <span class="text-gray-500">😞 Terrible</span>
+                            <span class="text-gray-500">😊 Excellent</span>
                         </div>
-                        <input type="range" min="1" max="5" value="3" name="mood-slider" id="mood-slider"
+                        <input type="range" min="1" max="5" value="3" id="mood-slider"
                             class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer"
                             oninput="updateMoodEmoji(this.value)">
                         <div class="text-center mt-2">
@@ -130,20 +135,20 @@
                             <label class="block text-sm text-gray-700 mt-2">Express your thoughts and
                                 feelings...</label>
                         </div>
-                        <textarea name="journal" id="journal"
-                            placeholder="What's on your mind today? How are you feeling?"
-                            class="journal-textarea w-full p-3 text-sm border border-gray-200 rounded bg-gray-50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 transition-all duration-300"></textarea>
+                        {{ form.journal(class="journal-textarea w-full p-3 text-sm border border-gray-200 rounded
+                        bg-gray-50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-blue-500
+                        focus:ring-opacity-50 transition-all duration-300") }}
                         <div class="text-right">
                             <span id="char-count" class="text-xs text-gray-500">0 characters</span>
                         </div>
                     </div>
 
-                    <button type="submit" class="w-full bg-gradient-to-r from-blue-500 to-indigo-500 text-white py-3 px-6 rounded-md font-medium
-                           hover:from-blue-600 hover:to-indigo-600 transition-all duration-300 hover:shadow-lg
-                           focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50">
+                    <button type="submit"
+                        class="w-full bg-gradient-to-r from-blue-500 to-indigo-500 text-white py-3 px-6 rounded-md font-medium hover:from-blue-600 hover:to-indigo-600 transition-all duration-300 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50">
                         Submit Rating
                     </button>
                 </form>
+
             </div>
         </div>
     </div>
@@ -184,25 +189,56 @@
     // Set default date to today
     document.getElementById('date').valueAsDate = new Date();
 
+
     // Form submission with your existing code
+    // Form submission
     document.getElementById('ratingForm').addEventListener('submit', function (event) {
         event.preventDefault();
         const formData = new FormData(this);
         const date = formData.get("date");
-        // 🔹 Ambil `user_id` dari data yang dikirim Flask ke template
+        const rating = formData.get("rating");
+        const journal = formData.get("journal");
+
+        // 🔹 Ambil `user_id` dari template Flask
         const user_id = "{{ user.id if user.id else '' }}";
-        // 🔹 Tambahkan ke FormData
+
+        // 🔹 Ambil CSRF Token dari form
+        const csrf_token = document.querySelector('input[name="csrf_token"]').value;
+
+        // 🔹 Tambahkan user_id & token ke FormData
         formData.append("user_id", user_id);
+        formData.append("csrf_token", csrf_token);
+
+        // 🔍 Debugging: Log data sebelum dikirim
+        console.log("DEBUG: Data yang dikirim ke server:");
+        console.log("Date:", date);
+        console.log("Rating:", rating);
+        console.log("Journal:", journal);
+        console.log("User ID:", user_id);
+
         const button = this.querySelector('button');
         const originalText = button.innerHTML;
         button.innerHTML = 'Submitting...';
         button.disabled = true;
+
         fetch("/homepage", {
             method: "POST",
             body: formData
         })
-            .then(response => response.json())
+            .then(response => {
+                // 🔍 Debugging: Log status response
+                console.log("DEBUG: Response Status:", response.status);
+
+                if (!response.ok) {
+                    return response.text().then(text => {
+                        throw new Error(`Server Error: ${response.status} - ${text}`);
+                    });
+                }
+                return response.json();
+            })
             .then(data => {
+                console.log("DEBUG: Server Response Data:", data);
+
                 if (data.duplicate) {
                     Swal.fire({
                         title: "Data Sudah Ada",
@@ -242,6 +278,7 @@
                 }
             })
             .catch(error => {
+                console.error("ERROR: Gagal menyimpan data!", error);
                 Swal.fire({
                     title: "Oops!",
                     text: "Something went wrong. Please try again.",

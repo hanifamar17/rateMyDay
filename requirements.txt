@@ -4,3 +4,5 @@ flask-dance
 firebase-admin
 flask-login
 Flask-Mail
+flask-wtf
+email-validator

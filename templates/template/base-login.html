@@ -17,6 +17,7 @@
 </head>
 
 <body class="bg-white flex flex-col min-h-screen p-0 md:p-0">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <nav class="border-gray-200 bg-yellow-50 shadow">
         <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
             <a href="/" class="flex items-center space-x-3 rtl:space-x-reverse">
@@ -25,14 +26,14 @@
 
             <nav class="flex relative" aria-label="User navigation">
                 <div class="hidden md:flex items-center ml-20 flex-1 mx-10">
-                    <ul class="flex space-x-8">
+                    <ul class="flex space-x-8 text-gray-700">
                         <li>
-                            <a href="/homepage" class="text-sm font-medium hover:text-blue-600 transition-colors">
+                            <a href="/homepage" class="text-sm hover:text-blue-600 transition-colors">
                                 Home
                             </a>
                         </li>
                         <li>
-                            <a href="/journal" class="text-sm font-medium hover:text-blue-600 transition-colors">
+                            <a href="/journal" class="text-sm hover:text-blue-600 transition-colors">
                                 My Journal
                             </a>
                         </li>
@@ -41,9 +42,9 @@
                 <div class="relative self-center">
                     <!-- Dropdown Trigger Button -->
                     <button id="userDropdownButton"
-                        class="flex items-center text-sm font-medium text-gray-700 hover:text-blue-600 focus:outline-none"
+                        class="flex items-center text-sm text-gray-700 hover:text-blue-600 focus:outline-none"
                         type="button">
-                        Halo,<strong class="ml-1 capitalize">{{ given_name if given_name else name }}!</strong>
+                        Halo,<strong class="ml-1 capitalize font-bold">{{ given_name if given_name else name }}!</strong>
                         <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"
                             xmlns="http://www.w3.org/2000/svg">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7">
@@ -55,7 +56,7 @@
                     <div id="userDropdownMenu"
                         class="hidden absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-50">
                         <div class="px-4 py-3">
-                            <span class="block text-sm text-gray-900 capitalize">
+                            <span class="block text-sm font-bold text-gray-900 capitalize">
                                 {{ given_name if given_name else name }}</span>
                         </div>
                         <a href="/account" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">

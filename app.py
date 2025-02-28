@@ -11,10 +11,13 @@ from firebase_admin import auth, credentials
 from werkzeug.security import generate_password_hash, check_password_hash
 import traceback
 from flask_mail import Mail, Message
+from flask_wtf.csrf import CSRFProtect
+from forms import LoginForm, RatingForm, RegisterForm
 
 
 app = Flask(__name__)
 app.config.from_object(Config)
+csrf = CSRFProtect(app)
 
 # 🔹 Konfigurasi Gmail SMTP using GOOGLE APP PASSWORD
 app.config["MAIL_SERVER"] = "smtp.gmail.com"
@@ -91,48 +94,50 @@ def load_user(firebase_uid):
 # Register Form
 @app.route("/register", methods=["GET", "POST"])
 def register():
+    form = RegisterForm()
     if request.method == "POST":
-        given_name = request.form.get("first_name", "").strip()
-        family_name = request.form.get("last_name", "").strip()
-        email = request.form["email"]
-        password = request.form["password"]
+        if form.validate_on_submit():  # Menggunakan form untuk validasi
+            given_name = form.first_name.data.strip()
+            family_name = form.last_name.data.strip()
+            email = form.email.data
+            password = form.password.data
 
-        name = f"{given_name} {family_name}".strip()
+            name = f"{given_name} {family_name}".strip()
+    
+            try:
+                # 🔹 1. Buat user di Firebase Authentication
+                firebase_user = auth.create_user(email=email, password=password, display_name=name)
+    
+                # 🔹 2. Simpan user ke database lokal dengan Firebase UID
+                password_hash = generate_password_hash(password)
+                conn = get_db_connection()
+                cursor = conn.cursor()
+                cursor.execute(
+                    "INSERT INTO users (firebase_uid, name, password_hash, given_name, family_name, email) VALUES (%s, %s, %s, %s, %s, %s)",
+                    (firebase_user.uid, name, password_hash, given_name, family_name, email)
+                )
+                conn.commit()
+    
+                # 🔹 3. Ambil user yang baru saja disimpan dari database
+                cursor.execute("SELECT firebase_uid, name, password_hash, given_name, family_name, email FROM users WHERE firebase_uid = %s", (firebase_user.uid,))
+                user_data = cursor.fetchone()
+    
+                if user_data:
+                    user = User(*user_data)  # 🔥 Buat objek User dari hasil query
+                    login_user(user)  # 🔥 Gunakan Flask-Login untuk login otomatis
+    
+                flash("Awesome! You're in. Welcome!", "success")
+                return redirect(url_for("index"))
+    
+            except firebase_admin.auth.EmailAlreadyExistsError:
+                flash("Oops! This email is already registered.", "danger")
+            except Exception as e:
+                print("ERROR: Terjadi kesalahan saat registrasi!")
+                print(traceback.format_exc())  # ✅ Cetak error lengkap dengan nomor barisnya
+                flash("Registrasi gagal. Silakan coba lagi.", "danger")
+                flash(f"Registration failed: {e}", "danger")
 
-        try:
-            # 🔹 1. Buat user di Firebase Authentication
-            firebase_user = auth.create_user(email=email, password=password, display_name=name)
-
-            # 🔹 2. Simpan user ke database lokal dengan Firebase UID
-            password_hash = generate_password_hash(password)
-            conn = get_db_connection()
-            cursor = conn.cursor()
-            cursor.execute(
-                "INSERT INTO users (firebase_uid, name, password_hash, given_name, family_name, email) VALUES (%s, %s, %s, %s, %s, %s)",
-                (firebase_user.uid, name, password_hash, given_name, family_name, email)
-            )
-            conn.commit()
-
-            # 🔹 3. Ambil user yang baru saja disimpan dari database
-            cursor.execute("SELECT firebase_uid, name, password_hash, given_name, family_name, email FROM users WHERE firebase_uid = %s", (firebase_user.uid,))
-            user_data = cursor.fetchone()
-
-            if user_data:
-                user = User(*user_data)  # 🔥 Buat objek User dari hasil query
-                login_user(user)  # 🔥 Gunakan Flask-Login untuk login otomatis
-
-            flash("Awesome! You're in. Welcome!", "success")
-            return redirect(url_for("index"))
-
-        except firebase_admin.auth.EmailAlreadyExistsError:
-            flash("Oops! This email is already registered.", "danger")
-        except Exception as e:
-            print("ERROR: Terjadi kesalahan saat registrasi!")
-            print(traceback.format_exc())  # ✅ Cetak error lengkap dengan nomor barisnya
-            flash("Registrasi gagal. Silakan coba lagi.", "danger")
-            flash(f"Registration failed: {e}", "danger")
-
-    return render_template("auth/sign-up.html")
+    return render_template("auth/sign-up.html", form=form)
 
 # Sign-in Form using firebase
 @app.route("/verify-login", methods=["POST"])
@@ -155,65 +160,60 @@ def verify_login():
     except Exception as e:
         return jsonify({"success": False, "error": str(e)}), 401
 
-from flask_login import logout_user
-
 @app.route("/login", methods=["POST", "GET"])
 def login():
+    form = LoginForm()
+
     if request.method == "GET":
         flash("Silakan login terlebih dahulu.", "danger")
-        return redirect(url_for("home"))
+        return render_template("home.html", form=form)
 
-    email = request.form.get("email")
-    password = request.form.get("password")
+    if form.validate_on_submit():  # 🔥 Gunakan Flask-WTF untuk validasi
+        email = form.email.data
+        password = form.password.data
+        remember = form.remember_me.data
 
-    if not email or not password:
-        flash("Email dan password tidak boleh kosong.", "danger")
-        return redirect(url_for("home"))
+        if not email or not password:
+            flash("Email dan password tidak boleh kosong.", "danger")
+            return render_template("home.html", form=form)
 
-    try:
-        # Verifikasi email dan password di Firebase
-        firebase_auth = firebase_admin.auth  # Ambil auth dari Firebase Admin SDK
-        firebase_user = firebase_auth.get_user_by_email(email)  # Cek apakah email terdaftar
+        try:
+            # Verifikasi email dan password di Firebase
+            firebase_auth = firebase_admin.auth  # Ambil auth dari Firebase Admin SDK
+            firebase_user = firebase_auth.get_user_by_email(email)  # Cek apakah email terdaftar
+            
+            # 🔹 Gunakan Firebase REST API untuk autentikasi
+            firebase_api_key = app.config["FIREBASE_API_KEY"]
+            firebase_signin_url = f"https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key={firebase_api_key}"
+            response = requests.post(firebase_signin_url, json={"email": email, "password": password, "returnSecureToken": True})
+            data = response.json()
 
-        # 🔹 Gunakan Firebase REST API untuk autentikasi
-        import requests
+            if "error" in data:
+                flash("Email atau password salah.", "danger")
+                print(f"DEBUG: Login gagal - {data['error']['message']}")  # 🔍 Debug error dari Firebase
+                return render_template("home.html", form=form)
+            
+            # 🔹 Logout user lama sebelum login ulang
+            logout_user()
 
-        firebase_api_key = app.config["FIREBASE_API_KEY"]
-        firebase_signin_url = f"https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key={firebase_api_key}"
+            # 🔹 Ambil user dari database dengan firebase_uid
+            user = load_user(firebase_user.uid) 
+             
+            if user:
+                login_user(user, remember=remember)  # ✅ Login ulang dengan user baru
+                session.permanent = False
+                print(f"DEBUG: User berhasil login - {user.email}")
+                flash("You're in! Welcome back!", "success")
+                return redirect(url_for("index"))
+            else:
+                flash("User tidak ditemukan di database.", "danger")
+                print("DEBUG: User tidak ditemukan di database.")
 
-        response = requests.post(firebase_signin_url, json={"email": email, "password": password, "returnSecureToken": True})
-        data = response.json()
+        except firebase_admin.auth.UserNotFoundError:
+            flash("Oops! No account found with this email.", "danger")
+            print("DEBUG: User tidak ditemukan di Firebase.")
 
-        if "error" in data:
-            flash("Email atau password salah.", "danger")
-            print(f"DEBUG: Login gagal - {data['error']['message']}")  # 🔍 Debug error dari Firebase
-            return redirect(url_for("home"))
-
-        # 🔹 Logout user lama sebelum login ulang
-        logout_user()  # 🔥 Hapus sesi sebelumnya
-
-        # 🔹 Ambil user dari database dengan firebase_uid
-        user = load_user(firebase_user.uid)  
-
-        if user:
-            login_user(user, remember=False)  # ✅ Login ulang dengan user baru
-            session.permanent = False
-            print(f"DEBUG: User berhasil login - {user.email}")
-            flash("You're in! Welcome back!", "success")
-            return redirect(url_for("index"))
-        else:
-            flash("User tidak ditemukan di database.", "danger")
-            print("DEBUG: User tidak ditemukan di database.")
-
-    except firebase_admin.auth.UserNotFoundError:
-        flash("Oops! No account found with this email.", "danger")
-        print("DEBUG: User tidak ditemukan di Firebase.")
-
-    return redirect(url_for("home"))
-
-# 🔹 Sign-Up/Sign-in dengan Google
-import firebase_admin
-from firebase_admin import auth
+    return render_template("home.html", form=form)
 
 @app.route("/google")
 def google_login():
@@ -371,7 +371,8 @@ def update_rating():
 # Landing Page
 @app.route("/")
 def home():
-    return render_template("home.html", user=current_user if current_user.is_authenticated else None)
+    form = LoginForm()
+    return render_template("home.html", user=current_user if current_user.is_authenticated else None, form=form)
 
 @app.route("/check_session")
 def check_session():
@@ -390,6 +391,8 @@ def index():
     print(f"DEBUG: User ID - {current_user.id}")  
     print(f"DEBUG: User Email - {current_user.email}")  # 🔥 Tambahkan ini
 
+    form = RatingForm()  
+
     if not current_user.is_authenticated:
         print("DEBUG: User tidak terautentikasi!")
         return redirect(url_for("login"))
@@ -398,34 +401,46 @@ def index():
     #print("User ID setelah login:", user_id)  # Debugging
 
     if request.method == "POST":
-        date = request.form["date"]
-        rating = int(request.form["rating"])
-        journal = request.form.get("journal", " ")
+        if form.validate_on_submit():
+            date = form.date.data
+            rating = form.rating.data
+            journal = form.journal.data.strip()
 
-        conn = get_db_connection()
-        cursor = conn.cursor(dictionary=True)
+            print(f"DEBUG: date={date}, rating={rating}, journal='{journal}'")
 
-        # 🔹 Perbaiki pemanggilan load_data() dengan user_id
-        data = load_data(user_id)
-        
-        # Cek apakah data dengan tanggal yang sama sudah ada
-        cursor.execute("SELECT rating FROM ratings WHERE date = %s AND user_id = %s", (date, user_id))
-        existing = cursor.fetchone()
+            # Validasi input
+            if not date or not rating:
+                return jsonify({"success": False, "message": "Date and rating are required!"}), 400
 
-        if existing:
+            try:
+                rating = int(rating)  # Konversi rating ke integer
+            except ValueError:
+                return jsonify({"success": False, "message": "Invalid rating value!"}), 400
+
+            conn = get_db_connection()
+            cursor = conn.cursor(dictionary=True)
+
+            # 🔹 Perbaiki pemanggilan load_data() dengan user_id
+            data = load_data(user_id)
+
+            # Cek apakah data dengan tanggal yang sama sudah ada
+            cursor.execute("SELECT rating FROM ratings WHERE date = %s AND user_id = %s", (date, user_id))
+            existing = cursor.fetchone()
+
+            if existing:
+                conn.close()
+                return jsonify({
+                    "duplicate": True,
+                    "message": f"Data untuk hari <strong>{format_date(date)}</strong> sudah ada. Apakah ingin memperbarui?",
+                    "existing_data": existing
+                })
+
+            # Jika tidak ada data, simpan sebagai entri baru
+            cursor.execute("INSERT INTO ratings (user_id, date, rating, journal) VALUES (%s, %s, %s, %s)", (user_id, date, rating, journal))
+            conn.commit()
             conn.close()
-            return jsonify({
-                "duplicate": True,
-                "message": f"Data untuk hari <strong>{format_date(date)}</strong> sudah ada. Apakah ingin memperbarui?",
-                "existing_data": existing
-            })
-        
-        # Jika tidak ada data, simpan sebagai entri baru
-        cursor.execute("INSERT INTO ratings (user_id, date, rating, journal) VALUES (%s, %s, %s, %s)", (user_id, date, rating, journal))
-        conn.commit()
-        conn.close()
 
-        return jsonify({"success": True, "message": "Rating berhasil disimpan!"})
+            return jsonify({"success": True, "message": "Rating berhasil disimpan!"})
     
     data = load_data(user_id)
     range_filter = request.args.get("range", "1w")  # Default ke 1 minggu terakhir
@@ -460,7 +475,7 @@ def index():
         chart_data = {"dates": dates, "ratings": ratings}
     
     given_name = current_user.given_name or current_user.name
-    return render_template("index.html", chart_data=chart_data, given_name=given_name, user=current_user)
+    return render_template("index.html", chart_data=chart_data, given_name=given_name, user=current_user, form=form)
 
 @app.route("/journal", methods=["GET", "POST"])
 @login_required
@@ -496,7 +511,7 @@ def journal():
     
     given_name = current_user.given_name or current_user.name
     return render_template("journal.html", data=data, journal_entries=journal_entries, given_name=given_name, user=current_user)
-    
+
 @app.route("/delete_entry/<int:entry_id>", methods=["POST"])
 @login_required
 def delete_entry(entry_id):
@@ -504,8 +519,8 @@ def delete_entry(entry_id):
     
     conn = get_db_connection()
     cursor = conn.cursor()
-    
-    # Make sure the entry belongs to the current user
+
+    # Periksa apakah entri ini milik pengguna yang login
     cursor.execute("SELECT COUNT(*) FROM ratings WHERE id = %s AND user_id = %s", (entry_id, user_id))
     if cursor.fetchone()[0] == 0:
         conn.close()
