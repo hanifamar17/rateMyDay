@@ -12,7 +12,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 import traceback
 from flask_mail import Mail, Message
 from flask_wtf.csrf import CSRFProtect
-from forms import LoginForm, RatingForm, RegisterForm
+from forms import LoginForm, RatingForm, RegisterForm, FeedbackForm
 
 
 app = Flask(__name__)
@@ -372,7 +372,8 @@ def update_rating():
 @app.route("/")
 def home():
     form = LoginForm()
-    return render_template("home.html", user=current_user if current_user.is_authenticated else None, form=form)
+    feedback_form = FeedbackForm()
+    return render_template("home.html", user=current_user if current_user.is_authenticated else None, form=form, feedback_form=feedback_form)
 
 @app.route("/check_session")
 def check_session():
@@ -580,9 +581,35 @@ def format_date(date_str):
     bulan = bulan_mapping[dt.month]
     return f"{hari}, {dt.day} {bulan}"
 
-@app.route("/support-us")
-def support_us():
-    return render_template("support-us.html")
+# 🔹 Route untuk menerima feedback dan mengirimkan email
+@app.route("/send-feedback", methods=["POST"])
+def send_feedback():
+    feedback_form = FeedbackForm()
+
+    if feedback_form.validate_on_submit():
+        name = feedback_form.name.data
+        email = feedback_form.email.data
+        message = feedback_form.message.data
+
+        # Kirim email ke admin
+        msg = Message(
+            subject=f"RateMyDay: Feedback",
+            sender=email,
+            recipients=["luciddream982@gmail.com.com"],  # Ganti dengan email admin
+            body=f"From: {name} ({email})\n\nMessage:\n{message}",
+        )
+
+        try:
+            mail.send(msg)
+            flash("Feedback sent successfully!", "success")
+        except Exception as e:
+            flash("Failed to send feedback. Try again later.", "danger")
+            print(f"Error: {e}")  # Debugging
+
+        return redirect(url_for("home"))
+
+    flash("Please fill out the form correctly.", "warning")
+    return redirect(url_for("home"))
 
 @app.route("/graph")
 def graph():

@@ -24,3 +24,8 @@ class RatingForm(FlaskForm):
     rating = IntegerField("Rating", validators=[DataRequired()])
     journal = TextAreaField("Journal")
     submit = SubmitField("Submit")
+
+class FeedbackForm(FlaskForm):
+    name = StringField("Name", validators=[DataRequired()])
+    email = StringField("Email", validators=[DataRequired(), Email()])
+    message = TextAreaField("Message", validators=[DataRequired()])
