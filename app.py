@@ -103,11 +103,11 @@ def register():
             password = form.password.data
 
             name = f"{given_name} {family_name}".strip()
-    
+
             try:
                 # 🔹 1. Buat user di Firebase Authentication
                 firebase_user = auth.create_user(email=email, password=password, display_name=name)
-    
+
                 # 🔹 2. Simpan user ke database lokal dengan Firebase UID
                 password_hash = generate_password_hash(password)
                 conn = get_db_connection()
@@ -117,18 +117,18 @@ def register():
                     (firebase_user.uid, name, password_hash, given_name, family_name, email)
                 )
                 conn.commit()
-    
+
                 # 🔹 3. Ambil user yang baru saja disimpan dari database
                 cursor.execute("SELECT firebase_uid, name, password_hash, given_name, family_name, email FROM users WHERE firebase_uid = %s", (firebase_user.uid,))
                 user_data = cursor.fetchone()
-    
+
                 if user_data:
                     user = User(*user_data)  # 🔥 Buat objek User dari hasil query
                     login_user(user)  # 🔥 Gunakan Flask-Login untuk login otomatis
-    
+
                 flash("Awesome! You're in. Welcome!", "success")
                 return redirect(url_for("index"))
-    
+
             except firebase_admin.auth.EmailAlreadyExistsError:
                 flash("Oops! This email is already registered.", "danger")
             except Exception as e:
@@ -579,6 +579,10 @@ def format_date(date_str):
     hari = hari_mapping[dt.weekday()]
     bulan = bulan_mapping[dt.month]
     return f"{hari}, {dt.day} {bulan}"
+
+@app.route("/support-us")
+def support_us():
+    return render_template("support-us.html")
 
 @app.route("/graph")
 def graph():
