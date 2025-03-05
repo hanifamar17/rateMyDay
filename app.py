@@ -12,12 +12,13 @@ from werkzeug.security import generate_password_hash, check_password_hash
 import traceback
 from flask_mail import Mail, Message
 from flask_wtf.csrf import CSRFProtect
-from forms import LoginForm, RatingForm, RegisterForm, FeedbackForm
+from forms import RatingForm, RegisterForm, FeedbackForm
+from flask_seasurf import SeaSurf
 
 
 app = Flask(__name__)
 app.config.from_object(Config)
-csrf = CSRFProtect(app)
+csrf = CSRFProtect(app) 
 
 # 🔹 Konfigurasi Gmail SMTP using GOOGLE APP PASSWORD
 app.config["MAIL_SERVER"] = "smtp.gmail.com"
@@ -58,13 +59,12 @@ login_manager.login_view = "login"
 
 # 🔹 Model User untuk Flask-Login
 class User(UserMixin):
-    def __init__(self, firebase_uid, email, name, given_name, family_name, picture):
+    def __init__(self, firebase_uid, email, name, given_name, family_name):
         self.id = firebase_uid  # 🔥 Pakai firebase_uid sebagai ID utama
         self.email = email
         self.name = name
         self.given_name = given_name
         self.family_name = family_name
-        self.picture = picture
 
     @property
     def is_authenticated(self):
@@ -80,140 +80,269 @@ class User(UserMixin):
     
 @login_manager.user_loader
 def load_user(firebase_uid):
-    conn = get_db_connection()
-    cursor = conn.cursor(dictionary=True)
-    cursor.execute("SELECT * FROM users WHERE firebase_uid = %s", (firebase_uid,))
-    user = cursor.fetchone()
-    conn.close()
-    
-    if user:
-        return User(user["firebase_uid"], user["email"], user["name"], user.get("given_name", ""), user.get("family_name", ""), user.get("picture"))
-    return None
+    try:
+        # Verify the Firebase user using Firebase Admin SDK
+        try:
+            firebase_user = auth.get_user(firebase_uid)
+        except (ValueError, firebase_admin.auth.UserNotFoundError):
+            return None
+
+        # Extract user details from Firebase
+        email = firebase_user.email
+        name = firebase_user.display_name or email.split('@')[0]
+        
+        # Split name into given_name and family_name
+        name_parts = name.split()
+        given_name = name_parts[0] if name_parts else name
+        family_name = name_parts[-1] if len(name_parts) > 1 else ''
+
+        # Create and return User object
+        return User(
+            firebase_uid, 
+            email, 
+            name, 
+            given_name, 
+            family_name
+        )
+    except Exception as e:
+        # Log the error for debugging
+        app.logger.error(f"Error loading user {firebase_uid}: {str(e)}")
+        return None
+
+# function to refresh user information
+def refresh_user_info(user):
+    try:
+        firebase_user = auth.get_user(user.id)
+        
+        # Update user information if needed
+        updated_name = firebase_user.display_name or user.name
+        name_parts = updated_name.split()
+        
+        return User(
+            user.id, 
+            firebase_user.email, 
+            updated_name, 
+            name_parts[0] if name_parts else updated_name,
+            name_parts[-1] if len(name_parts) > 1 else ''
+        )
+    except Exception as e:
+        app.logger.error(f"Error refreshing user info: {str(e)}")
+        return user
 
 
 # Register Form
 @app.route("/register", methods=["GET", "POST"])
+@csrf.exempt
 def register():
     form = RegisterForm()
     if request.method == "POST":
-        if form.validate_on_submit():  # Menggunakan form untuk validasi
+        if form.validate_on_submit():
             given_name = form.first_name.data.strip()
-            family_name = form.last_name.data.strip()
+            family_name = form.last_name.data.strip() if form.last_name.data else ""
             email = form.email.data
             password = form.password.data
-
             name = f"{given_name} {family_name}".strip()
-
+            
             try:
-                # 🔹 1. Buat user di Firebase Authentication
-                firebase_user = auth.create_user(email=email, password=password, display_name=name)
-
-                # 🔹 2. Simpan user ke database lokal dengan Firebase UID
-                password_hash = generate_password_hash(password)
-                conn = get_db_connection()
-                cursor = conn.cursor()
-                cursor.execute(
-                    "INSERT INTO users (firebase_uid, name, password_hash, given_name, family_name, email) VALUES (%s, %s, %s, %s, %s, %s)",
-                    (firebase_user.uid, name, password_hash, given_name, family_name, email)
+                # Create user in Firebase Authentication
+                firebase_user = auth.create_user(
+                    email=email, 
+                    password=password, 
+                    display_name=name
                 )
-                conn.commit()
-
-                # 🔹 3. Ambil user yang baru saja disimpan dari database
-                cursor.execute("SELECT firebase_uid, name, password_hash, given_name, family_name, email FROM users WHERE firebase_uid = %s", (firebase_user.uid,))
-                user_data = cursor.fetchone()
-
-                if user_data:
-                    user = User(*user_data)  # 🔥 Buat objek User dari hasil query
-                    login_user(user)  # 🔥 Gunakan Flask-Login untuk login otomatis
-
+                
+                # Firebase sign-in to get ID token
+                firebase_signin_url = f"https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key={app.config.get('FIREBASE_API_KEY')}"
+                
+                response = requests.post(firebase_signin_url, json={
+                    "email": email,
+                    "password": password,
+                    "returnSecureToken": True
+                })
+                
+                signin_data = response.json()
+                
+                if "idToken" not in signin_data:
+                    flash("Authentication failed after registration.", "danger")
+                    return render_template("auth/sign-up.html", form=form)
+                
+                # Create User object
+                user = User(
+                    firebase_user.uid,  # This becomes current_user.id
+                    email, 
+                    name, 
+                    given_name, 
+                    family_name
+                )
+                
+                # Login user
+                login_user(user)
+                
+                # Verify that current_user.id is set correctly
+                if not current_user.id:
+                    flash("User authentication failed.", "danger")
+                    return render_template("auth/sign-up.html", form=form)
+                
                 flash("Awesome! You're in. Welcome!", "success")
                 return redirect(url_for("index"))
-
+            
             except firebase_admin.auth.EmailAlreadyExistsError:
                 flash("Oops! This email is already registered.", "danger")
+            
             except Exception as e:
-                print("ERROR: Terjadi kesalahan saat registrasi!")
-                print(traceback.format_exc())  # ✅ Cetak error lengkap dengan nomor barisnya
-                flash("Registrasi gagal. Silakan coba lagi.", "danger")
-                flash(f"Registration failed: {e}", "danger")
-
+                app.logger.error(f"Registration error: {traceback.format_exc()}")
+                flash(f"Sign-up failed: {str(e)}", "danger")
+    
     return render_template("auth/sign-up.html", form=form)
 
 # Sign-in Form using firebase
 @app.route("/verify-login", methods=["POST"])
 def verify_login():
     if request.content_type != "application/json":
-        return jsonify({"success": False, "error": "Invalid Content-Type"}), 415  # Debugging
+        return jsonify({"success": False, "error": "Invalid Content-Type"}), 415
 
-    data = request.get_json(silent=True)  # Pastikan ini tidak error jika request body kosong
+    data = request.get_json(silent=True)
     if not data:
-        return jsonify({"success": False, "error": "Invalid JSON data"}), 400  # Debugging
-    
+        return jsonify({"success": False, "error": "Invalid JSON data"}), 400
+
     token = data.get("token")
     if not token:
         return jsonify({"success": False, "error": "Token is required"}), 400
 
     try:
         decoded_token = auth.verify_id_token(token)
-        user_id = decoded_token["uid"]
-        return jsonify({"success": True, "user_id": user_id})
+        firebase_uid = decoded_token.get("uid")
+        email = decoded_token.get("email")
+        name = decoded_token.get("name", "")
+        given_name = decoded_token.get("given_name", "")
+        family_name = decoded_token.get("family_name", "")
+
+        if not firebase_uid or not email:
+            return jsonify({"success": False, "error": "Invalid token"}), 401
+
+        # 🔹 Cek apakah user sudah ada di database
+        conn = get_db_connection()
+        cursor = conn.cursor(dictionary=True)
+        cursor.execute("SELECT * FROM users WHERE firebase_uid = %s", (firebase_uid,))
+        user_data = cursor.fetchone()
+
+        if not user_data:
+            # 🔹 Jika user belum ada, simpan ke database
+            cursor.execute(
+                "INSERT INTO users (firebase_uid, email, name, given_name, family_name) VALUES (%s, %s, %s, %s, %s)",
+                (firebase_uid, email, name, given_name, family_name),
+            )
+            conn.commit()
+            user_data = {
+                "firebase_uid": firebase_uid,
+                "email": email,
+                "name": name,
+                "given_name": given_name,
+                "family_name": family_name,
+            }
+
+        conn.close()
+
+        # 🔹 Buat objek User dan login dengan Flask-Login
+        user = User(
+            firebase_uid=user_data["firebase_uid"],
+            email=user_data["email"],
+            name=user_data["name"],
+            given_name=user_data.get("given_name", ""),
+            family_name=user_data.get("family_name", ""),
+        )
+
+        login_user(user)  # 🔥 Login dengan Flask-Login
+
+        session["user_id"] = firebase_uid  # (Opsional)
+        session.permanent = True
+
+        return jsonify({"success": True, "user_id": firebase_uid})
+
     except Exception as e:
         return jsonify({"success": False, "error": str(e)}), 401
 
 @app.route("/login", methods=["POST", "GET"])
+@csrf.exempt
 def login():
-    form = LoginForm()
+    feedback_form = FeedbackForm()  # Tetap menyertakan feedback_form jika diperlukan
 
     if request.method == "GET":
-        flash("Silakan login terlebih dahulu.", "danger")
-        return render_template("home.html", form=form)
+        return render_template("home.html", feedback_form=feedback_form)
+    
+    email = request.form.get("email")
+    password = request.form.get("password")
 
-    if form.validate_on_submit():  # 🔥 Gunakan Flask-WTF untuk validasi
-        email = form.email.data
-        password = form.password.data
-        remember = form.remember_me.data
+    if not email or not password:
+        flash("Oops! Email and password can't be empty", "danger")
+        return render_template("home.html", feedback_form=feedback_form)
 
-        if not email or not password:
-            flash("Email dan password tidak boleh kosong.", "danger")
-            return render_template("home.html", form=form)
+    # Firebase Authentication
+    firebase_api_key = app.config.get("FIREBASE_API_KEY")
+    
+    # Sign-in URL
+    signin_url = f"https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key={firebase_api_key}"
 
-        try:
-            # Verifikasi email dan password di Firebase
-            firebase_auth = firebase_admin.auth  # Ambil auth dari Firebase Admin SDK
-            firebase_user = firebase_auth.get_user_by_email(email)  # Cek apakah email terdaftar
-            
-            # 🔹 Gunakan Firebase REST API untuk autentikasi
-            firebase_api_key = app.config["FIREBASE_API_KEY"]
-            firebase_signin_url = f"https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key={firebase_api_key}"
-            response = requests.post(firebase_signin_url, json={"email": email, "password": password, "returnSecureToken": True})
-            data = response.json()
+    try:
+        # Authenticate user
+        response = requests.post(signin_url, json={
+            "email": email,
+            "password": password,
+            "returnSecureToken": True
+        })
+        signin_data = response.json()
 
-            if "error" in data:
-                flash("Email atau password salah.", "danger")
-                print(f"DEBUG: Login gagal - {data['error']['message']}")  # 🔍 Debug error dari Firebase
-                return render_template("home.html", form=form)
-            
-            # 🔹 Logout user lama sebelum login ulang
-            logout_user()
+        if "error" in signin_data:
+            flash("Hmm... that email or password doesn’t seem right", "danger")
+            return render_template("home.html", feedback_form=feedback_form)
 
-            # 🔹 Ambil user dari database dengan firebase_uid
-            user = load_user(firebase_user.uid) 
-             
-            if user:
-                login_user(user, remember=remember)  # ✅ Login ulang dengan user baru
-                session.permanent = False
-                print(f"DEBUG: User berhasil login - {user.email}")
-                flash("You're in! Welcome back!", "success")
-                return redirect(url_for("index"))
-            else:
-                flash("User tidak ditemukan di database.", "danger")
-                print("DEBUG: User tidak ditemukan di database.")
+        # Extract authentication details
+        firebase_uid = signin_data.get("localId")
+        id_token = signin_data.get("idToken")
 
-        except firebase_admin.auth.UserNotFoundError:
-            flash("Oops! No account found with this email.", "danger")
-            print("DEBUG: User tidak ditemukan di Firebase.")
+        # Fetch additional user information
+        get_user_url = f"https://identitytoolkit.googleapis.com/v1/accounts:lookup?key={firebase_api_key}"
+        user_info_response = requests.post(get_user_url, json={
+            "idToken": id_token
+        })
+        user_info_data = user_info_response.json()
 
-    return render_template("home.html", form=form)
+        # Extract user profile information
+        users = user_info_data.get("users", [])
+        if not users:
+            flash("We couldn’t find your account", "danger")
+            return render_template("home.html", feedback_form=feedback_form)
+
+        user_profile = users[0]
+        
+        # Prepare user data
+        name = user_profile.get("displayName") or email.split('@')[0]
+        given_name = name.split()[0] if ' ' in name else name
+        family_name = name.split()[-1] if ' ' in name else ''
+
+        # Create User object with all required parameters
+        user = User(
+            firebase_uid, 
+            email, 
+            name, 
+            given_name, 
+            family_name
+        )
+
+        # Store session information
+        session["user_id"] = firebase_uid
+        session["id_token"] = id_token
+
+        # Login using Flask-Login
+        login_user(user)
+
+        flash("Awesome! You're in. Welcome!", "success")
+        return redirect(url_for("index"))
+
+    except Exception as e:
+        # Log the full error for debugging
+        flash(f"Login failed: Something went wrong on our end.", "danger")
+        return render_template("home.html", feedback_form=feedback_form)
 
 @app.route("/google")
 def google_login():
@@ -228,7 +357,6 @@ def google_login():
     user_info = resp.json()
     email = user_info.get("email")
     name = user_info.get("name", "No Name")
-    firebase_uid = user_info.get("id")  # ✅ Gunakan Google ID sebagai Firebase UID
     given_name = user_info.get("given_name", "")
     family_name = user_info.get("family_name", "")
     picture = user_info.get("picture", "")
@@ -236,42 +364,33 @@ def google_login():
     if not email:
         return "This email isn’t available in Google’s data", 400
 
-    # 🔥 1. Simpan user ke Firebase jika belum ada
     try:
-        firebase_user = auth.get_user(firebase_uid)
+        # 🔥 1. Cek apakah user sudah ada di Firebase berdasarkan email
+        user_record = auth.get_user_by_email(email)
+
+        # 🔥 2. Cek metode login yang digunakan
+        providers = auth.get_user(user_record.uid).provider_data
+        provider_ids = [p.provider_id for p in providers]
+
+        if "password" in provider_ids and "google.com" not in provider_ids:
+            # Jika akun dibuat dengan Email/Password, tolak login dengan Google
+            flash("Email ini sudah terdaftar menggunakan Email/Password. Silakan login secara manual.", "danger")
+            return redirect(url_for("login"))
+
+        # ✅ Jika bisa login dengan Google, gunakan UID yang ada
+        firebase_uid = user_record.uid
+
     except firebase_admin.auth.UserNotFoundError:
+        # 🔥 3. Jika tidak ada, buat akun baru dengan Google
         firebase_user = auth.create_user(
-            uid=firebase_uid,
             email=email,
             display_name=name,
             photo_url=picture
         )
+        firebase_uid = firebase_user.uid
 
-    # 🔥 2. Simpan user ke MySQL jika belum ada
-    conn = get_db_connection()
-    cursor = conn.cursor(dictionary=True)
-
-    cursor.execute("SELECT * FROM users WHERE firebase_uid = %s", (firebase_uid,))
-    user = cursor.fetchone()
-
-    if not user:
-        cursor.execute(
-            "INSERT INTO users (firebase_uid, email, name, given_name, family_name, picture) VALUES (%s, %s, %s, %s, %s, %s)", 
-            (firebase_uid, email, name, given_name, family_name, picture)
-        )
-        conn.commit()
-    else:
-        # 🔥 3. Update data user jika sudah ada
-        cursor.execute(
-            "UPDATE users SET email = %s, name = %s, given_name = %s, family_name = %s, picture = %s WHERE firebase_uid = %s", 
-            (email, name, given_name, family_name, picture, firebase_uid)
-        )
-        conn.commit()
-
-    conn.close()
-
-    # 🔥 4. Login ke Flask-Login dengan `firebase_uid`
-    user = User(firebase_uid, name, given_name, family_name, email, picture)
+    # 🔥 4. Login ke Flask-Login menggunakan UID yang ditemukan atau dibuat
+    user = User(firebase_uid, email, name, given_name, family_name)
     login_user(user)
 
     flash(f"You're in! Welcome back, {name}!", "success")
@@ -371,9 +490,8 @@ def update_rating():
 # Landing Page
 @app.route("/")
 def home():
-    form = LoginForm()
     feedback_form = FeedbackForm()
-    return render_template("home.html", user=current_user if current_user.is_authenticated else None, form=form, feedback_form=feedback_form)
+    return render_template("home.html", user=current_user if current_user.is_authenticated else None, feedback_form=feedback_form)
 
 @app.route("/check_session")
 def check_session():
@@ -477,6 +595,7 @@ def index():
     
     given_name = current_user.given_name or current_user.name
     return render_template("index.html", chart_data=chart_data, given_name=given_name, user=current_user, form=form)
+
 
 @app.route("/journal", methods=["GET", "POST"])
 @login_required
@@ -582,6 +701,7 @@ def format_date(date_str):
     return f"{hari}, {dt.day} {bulan}"
 
 # 🔹 Route untuk menerima feedback dan mengirimkan email
+@csrf.exempt
 @app.route("/send-feedback", methods=["POST"])
 def send_feedback():
     feedback_form = FeedbackForm()

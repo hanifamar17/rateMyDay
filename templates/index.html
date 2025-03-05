@@ -189,11 +189,10 @@
     // Set default date to today
     document.getElementById('date').valueAsDate = new Date();
 
-
-    // Form submission with your existing code
     // Form submission
     document.getElementById('ratingForm').addEventListener('submit', function (event) {
         event.preventDefault();
+
         const formData = new FormData(this);
         const date = formData.get("date");
         const rating = formData.get("rating");
@@ -202,19 +201,19 @@
         // 🔹 Ambil `user_id` dari template Flask
         const user_id = "{{ user.id if user.id else '' }}";
 
-        // 🔹 Ambil CSRF Token dari form
-        const csrf_token = document.querySelector('input[name="csrf_token"]').value;
+        // 🔹 Ambil CSRF Token dari meta tag
+        const csrf_token = document.querySelector('meta[name="csrf-token"]').getAttribute("content");
 
         // 🔹 Tambahkan user_id & token ke FormData
         formData.append("user_id", user_id);
-        formData.append("csrf_token", csrf_token);
 
-        // 🔍 Debugging: Log data sebelum dikirim
+        // 🔹 Debugging: Log data sebelum dikirim
         console.log("DEBUG: Data yang dikirim ke server:");
         console.log("Date:", date);
         console.log("Rating:", rating);
         console.log("Journal:", journal);
         console.log("User ID:", user_id);
+        console.log("CSRF Token:", csrf_token);
 
         const button = this.querySelector('button');
         const originalText = button.innerHTML;
@@ -251,7 +250,11 @@
                         if (result.isConfirmed) {
                             fetch("/update", {
                                 method: "POST",
-                                body: formData
+                                body: formData,
+                                headers: {
+                                    "X-CSRFToken": csrf_token
+                                },
+                                credentials: "same-origin"
                             })
                                 .then(response => response.json())
                                 .then(updateData => {

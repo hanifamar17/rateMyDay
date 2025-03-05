@@ -6,3 +6,4 @@ flask-login
 Flask-Mail
 flask-wtf
 email-validator
+Flask-SeaSurf

@@ -14,10 +14,10 @@
             font-family: 'Inter', sans-serif;
         }
     </style>
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 </head>
 
 <body class="bg-white flex flex-col min-h-screen p-0 md:p-0">
-    <meta name="csrf-token" content="{{ csrf_token() }}">
     <nav class="border-gray-200 bg-yellow-50 shadow">
         <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
             <a href="/" class="flex items-center space-x-3 rtl:space-x-reverse">
@@ -44,7 +44,7 @@
                     <button id="userDropdownButton"
                         class="flex items-center text-sm text-gray-700 hover:text-blue-600 focus:outline-none"
                         type="button">
-                        Halo,<strong class="ml-1 capitalize font-bold">{{ given_name if given_name else name }}!</strong>
+                        Halo,<strong class="ml-1 capitalize font-bold">{{ given_name if given_name else name }}</strong>
                         <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"
                             xmlns="http://www.w3.org/2000/svg">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7">
