@@ -600,11 +600,6 @@ def index():
 @app.route("/journal", methods=["GET", "POST"])
 @login_required
 def journal():
-    print(f"DEBUG: Current user - {current_user}")  
-    print(f"DEBUG: Current user authenticated - {current_user.is_authenticated}")  
-    print(f"DEBUG: User ID - {current_user.id}")  
-    print(f"DEBUG: User Email - {current_user.email}") 
-
     if not current_user.is_authenticated:
         print("DEBUG: User tidak terautentikasi!")
         return redirect(url_for("login"))
@@ -620,7 +615,7 @@ def journal():
     cursor.execute("""
         SELECT id, date, rating, journal, 
                DATE_FORMAT(date, '%W') AS day_of_week,
-               DATE_FORMAT(date, '%M %d, %Y') AS formatted_date
+               DATE_FORMAT(date, '%d %M %Y') AS formatted_date
         FROM ratings 
         WHERE user_id = %s 
         ORDER BY date DESC
@@ -652,6 +647,33 @@ def delete_entry(entry_id):
     
     return jsonify({"success": True, "message": "Entry deleted successfully"})
 
+@app.route("/update_entry/<int:entry_id>", methods=["POST"])
+@login_required
+def update_entry(entry_id):
+    if not current_user.is_authenticated:
+        return jsonify({"success": False, "message": "Unauthorized"}), 401
+
+    rating = request.form.get("rating")
+    journal = request.form.get("journal")
+
+    if not rating or not journal:
+        return jsonify({"success": False, "message": "Missing data"}), 400
+
+    try:
+        conn = get_db_connection()
+        cursor = conn.cursor()
+        cursor.execute("""
+            UPDATE ratings 
+            SET rating = %s, journal = %s
+            WHERE id = %s AND user_id = %s
+        """, (rating, journal, entry_id, current_user.id))
+        conn.commit()
+        conn.close()
+
+        return jsonify({"success": True, "message": "Entry updated successfully!"})
+    except Exception as e:
+        return jsonify({"success": False, "message": str(e)}), 500
+
 @app.route("/get_entry/<int:entry_id>", methods=["GET"])
 @login_required
 def get_entry(entry_id):
@@ -663,7 +685,7 @@ def get_entry(entry_id):
     cursor.execute("""
         SELECT id, date, rating, journal, 
                DATE_FORMAT(date, '%W') AS day_of_week,
-               DATE_FORMAT(date, '%M %d, %Y') AS formatted_date
+               DATE_FORMAT(date, '%d %M %Y') AS formatted_date
         FROM ratings 
         WHERE id = %s AND user_id = %s
     """, (entry_id, user_id))
@@ -701,7 +723,6 @@ def format_date(date_str):
     return f"{hari}, {dt.day} {bulan}"
 
 # 🔹 Route untuk menerima feedback dan mengirimkan email
-@csrf.exempt
 @app.route("/send-feedback", methods=["POST"])
 def send_feedback():
     feedback_form = FeedbackForm()
@@ -711,22 +732,31 @@ def send_feedback():
         email = feedback_form.email.data
         message = feedback_form.message.data
 
-        # Kirim email ke admin
         msg = Message(
-            subject=f"RateMyDay: Feedback",
+            subject="RateMyDay: Feedback",
             sender=email,
-            recipients=["luciddream982@gmail.com.com"],  # Ganti dengan email admin
+            recipients=["luciddream982@gmail.com"],  # Perbaiki email admin
             body=f"From: {name} ({email})\n\nMessage:\n{message}",
         )
 
         try:
             mail.send(msg)
-            flash("Feedback sent successfully!", "success")
+            response_data = {"status": "success", "message": "Feedback sent successfully!"}
         except Exception as e:
-            flash("Failed to send feedback. Try again later.", "danger")
             print(f"Error: {e}")  # Debugging
+            response_data = {"status": "error", "message": "Failed to send feedback. Try again later."}
 
+        # Jika request dari JavaScript (fetch), kembalikan JSON
+        if request.accept_mimetypes["application/json"]:
+            return jsonify(response_data)
+
+        # Jika dari form biasa, gunakan flash dan redirect
+        flash(response_data["message"], "success" if response_data["status"] == "success" else "danger")
         return redirect(url_for("home"))
+
+    # Form tidak valid
+    if request.accept_mimetypes["application/json"]:
+        return jsonify({"status": "error", "message": "Please fill out the form correctly."})
 
     flash("Please fill out the form correctly.", "warning")
     return redirect(url_for("home"))
