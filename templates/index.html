@@ -181,13 +181,23 @@
         }
     }
 
-    // Character counter
-    document.getElementById('journal').addEventListener('input', function () {
-        document.getElementById('char-count').textContent = `${this.value.length} characters`;
+    document.addEventListener("DOMContentLoaded", function () {
+        // Ambil tanggal hari ini sesuai zona waktu lokal
+        const today = new Date();
+        const timezoneOffset = today.getTimezoneOffset() * 60000; // Konversi offset ke milidetik
+        const localDate = new Date(today.getTime() - timezoneOffset); // Sesuaikan ke waktu lokal
+        const todayFormatted = localDate.toISOString().split('T')[0]; // Format YYYY-MM-DD
+
+        // Set nilai default pada input date
+        const dateInput = document.querySelector("input[name='date']");
+        if (dateInput) {
+            dateInput.value = todayFormatted;
+        }
+
+        // Trigger event 'change' agar langsung mengecek data jika ada
+        dateInput.dispatchEvent(new Event("change"));
     });
 
-    // Set default date to today
-    document.getElementById('date').valueAsDate = new Date();
 
     // Form submission
     document.getElementById('ratingForm').addEventListener('submit', function (event) {
@@ -208,17 +218,40 @@
         formData.append("user_id", user_id);
 
         // 🔹 Debugging: Log data sebelum dikirim
-        console.log("DEBUG: Data yang dikirim ke server:");
-        console.log("Date:", date);
-        console.log("Rating:", rating);
-        console.log("Journal:", journal);
-        console.log("User ID:", user_id);
-        console.log("CSRF Token:", csrf_token);
+        //console.log("DEBUG: Data yang dikirim ke server:");
+        //console.log("Date:", date);
+        //console.log("Rating:", rating);
+        //console.log("Journal:", journal);
+        //console.log("User ID:", user_id);
+        //console.log("CSRF Token:", csrf_token);
 
         const button = this.querySelector('button');
         const originalText = button.innerHTML;
         button.innerHTML = 'Submitting...';
         button.disabled = true;
+
+        // Create SweetAlert2 mixins for different notification styles
+        const Toast = Swal.mixin({
+            toast: true,
+            position: "top-end",
+            showConfirmButton: false,
+            timer: 3000,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+                toast.onmouseenter = Swal.stopTimer;
+                toast.onmouseleave = Swal.resumeTimer;
+            }
+        });
+
+        // Quick alert mixin for important confirmations
+        const QuickAlert = Swal.mixin({
+            confirmButtonColor: '#4F46E5',
+            background: '#fff',
+            confirmButtonText: 'Got it!',
+            customClass: {
+                title: 'text-lg font-medium'
+            }
+        });
 
         fetch("/homepage", {
             method: "POST",
@@ -227,7 +260,6 @@
             .then(response => {
                 // 🔍 Debugging: Log status response
                 console.log("DEBUG: Response Status:", response.status);
-
                 if (!response.ok) {
                     return response.text().then(text => {
                         throw new Error(`Server Error: ${response.status} - ${text}`);
@@ -236,16 +268,16 @@
                 return response.json();
             })
             .then(data => {
-                console.log("DEBUG: Server Response Data:", data);
-
+                //console.log("DEBUG: Server Response Data:", data);
                 if (data.duplicate) {
-                    Swal.fire({
-                        title: "Data Sudah Ada",
-                        html: data.message,
-                        icon: "warning",
+                    // Duplicate data confirmation with friendly message
+                    QuickAlert.fire({
+                        title: "Hey, this looks familiar!",
+                        html: "We already have this entry in our records. Would you like to update it?",
+                        icon: "info",
                         showCancelButton: true,
-                        confirmButtonText: "Perbarui",
-                        cancelButtonText: "Batal"
+                        confirmButtonText: "Yes, update it",
+                        cancelButtonText: "Nevermind"
                     }).then((result) => {
                         if (result.isConfirmed) {
                             fetch("/update", {
@@ -258,36 +290,30 @@
                             })
                                 .then(response => response.json())
                                 .then(updateData => {
-                                    Swal.fire({
-                                        title: "Berhasil!",
-                                        html: updateData.message,
+                                    // Success toast notification
+                                    Toast.fire({
                                         icon: "success",
-                                        confirmButtonText: "OK"
+                                        title: "All updated! Your changes have been saved."
                                     }).then(() => location.reload());
                                 });
                         }
                     });
                 } else {
-                    Swal.fire({
-                        title: "Thank you!",
-                        text: data.message,
+                    // Success toast notification
+                    Toast.fire({
                         icon: "success",
-                        confirmButtonText: "Continue",
-                        confirmButtonColor: '#4F46E5',
-                        background: '#fff'
+                        title: "Great job! Your data has been saved successfully."
                     }).then(() => {
                         location.reload();
                     });
                 }
             })
             .catch(error => {
-                console.error("ERROR: Gagal menyimpan data!", error);
-                Swal.fire({
-                    title: "Oops!",
-                    text: "Something went wrong. Please try again.",
+                console.error("ERROR: Failed to save data!", error);
+                // Error toast notification
+                Toast.fire({
                     icon: "error",
-                    confirmButtonColor: '#4F46E5',
-                    confirmButtonText: "Okay"
+                    title: "Oops! Something went wrong. Give it another try?"
                 });
             })
             .finally(() => {
@@ -295,6 +321,59 @@
                 button.disabled = false;
             });
     });
+
+    // Ambil elemen textarea dan counter karakter
+    const journalTextarea = document.querySelector('.journal-textarea');
+    const charCount = document.getElementById('char-count');
+
+    // Fungsi untuk memperbarui counter karakter
+    function updateCharCount() {
+        charCount.textContent = `${journalTextarea.value.length} characters`;
+    }
+
+    // Jalankan counter saat pengguna mengetik
+    journalTextarea.addEventListener('input', updateCharCount);
+
+    // 🔹 Perbarui char count setelah data dari server dimuat
+    document.getElementById('date').addEventListener('change', function () {
+        const selectedDate = this.value;
+        if (!selectedDate) return;
+
+        fetch(`/get_rating?date=${selectedDate}`)
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    document.getElementById('mood-slider').value = data.rating;
+                    document.getElementById('rating').value = data.rating;
+                    document.getElementById('mood-emoji').innerHTML = getEmoji(data.rating);
+                    journalTextarea.value = data.journal;
+                } else {
+                    // Reset form jika tidak ada data
+                    document.getElementById('mood-slider').value = 3;
+                    document.getElementById('rating').value = 3;
+                    document.getElementById('mood-emoji').innerHTML = "😐";
+                    journalTextarea.value = "";
+                }
+                // 🔹 Perbarui char count setelah data dimuat
+                updateCharCount();
+            })
+            .catch(error => console.error("Error fetching rating:", error));
+    });
+
+    // 🔹 Jalankan update awal saat halaman dimuat
+    updateCharCount();
+
+    // Set default date ke hari ini, lalu trigger event change untuk cek apakah ada data
+    document.getElementById('date').valueAsDate = new Date();
+    document.getElementById('date').dispatchEvent(new Event('change'));
+
+    // Fungsi untuk mendapatkan emoji berdasarkan rating
+    function getEmoji(value) {
+        const emojis = ["😞", "😐", "🙂", "😊", "😃"];
+        return emojis[value - 1];
+    }
+
+
 </script>
 
 <!--Grafik rating-->

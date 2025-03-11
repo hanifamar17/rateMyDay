@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Journal Entry</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gray-100 flex justify-center items-center h-screen">
+    <div class="bg-white p-6 rounded-xl shadow-lg w-96">
+        <h2 class="text-lg font-semibold text-gray-800">My Journal</h2>
+        <p class="text-sm text-gray-500">{{ entry.formatted_date }} ({{ entry.day_of_week }})</p>
+        <div class="mt-4">
+            <p class="text-xl">{{ "⭐" * entry.rating }}</p>
+            <p class="mt-2 text-gray-700">{{ entry.journal }}</p>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const captureButton = document.createElement("button");
+            captureButton.innerText = "Capture Journal";
+            captureButton.classList.add("bg-blue-500", "text-white", "px-4", "py-2", "rounded-lg", "mt-4");
+            document.body.appendChild(captureButton);
+
+            captureButton.addEventListener("click", function () {
+                const targetElement = document.querySelector("body"); // Pastikan elemen ini benar
+
+                html2canvas(targetElement, {
+                    backgroundColor: "#ffffff",
+                    scale: 2, // Supaya kualitas lebih bagus
+                }).then(canvas => {
+                    const imageUrl = canvas.toDataURL("image/png");
+
+                    // Tampilkan hasil di layar
+                    const imgElement = document.createElement("img");
+                    imgElement.src = imageUrl;
+                    imgElement.classList.add("mt-4", "border", "border-gray-300", "rounded-lg", "shadow");
+                    document.body.appendChild(imgElement);
+                }).catch(error => {
+                    console.error("Error capturing image:", error);
+                });
+            });
+        });
+    </script>
+
+</body>
+
+</html>

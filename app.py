@@ -8,12 +8,12 @@ from flask_dance.contrib.google import make_google_blueprint, google
 from flask_login import LoginManager, UserMixin, login_user, logout_user, login_required, current_user
 import firebase_admin
 from firebase_admin import auth, credentials
-from werkzeug.security import generate_password_hash, check_password_hash
 import traceback
 from flask_mail import Mail, Message
 from flask_wtf.csrf import CSRFProtect
 from forms import RatingForm, RegisterForm, FeedbackForm
-from flask_seasurf import SeaSurf
+import subprocess
+import os
 
 
 app = Flask(__name__)
@@ -596,6 +596,28 @@ def index():
     given_name = current_user.given_name or current_user.name
     return render_template("index.html", chart_data=chart_data, given_name=given_name, user=current_user, form=form)
 
+@app.route("/get_rating", methods=["GET"])
+@login_required
+def get_rating():
+    """Mengambil rating dan journal berdasarkan tanggal yang dipilih."""
+    date = request.args.get("date")
+    user_id = current_user.id
+
+    if not date:
+        return jsonify({"success": False, "message": "Date is required!"}), 400
+
+    conn = get_db_connection()
+    cursor = conn.cursor(dictionary=True)
+    
+    cursor.execute("SELECT rating, journal FROM ratings WHERE date = %s AND user_id = %s", (date, user_id))
+    data = cursor.fetchone()
+    conn.close()
+
+    if data:
+        return jsonify({"success": True, "rating": data["rating"], "journal": data["journal"]})
+    else:
+        return jsonify({"success": False, "message": "No data found for this date."})
+
 
 @app.route("/journal", methods=["GET", "POST"])
 @login_required
@@ -654,9 +676,9 @@ def update_entry(entry_id):
         return jsonify({"success": False, "message": "Unauthorized"}), 401
 
     rating = request.form.get("rating")
-    journal = request.form.get("journal")
+    journal = request.form.get("journal", " ").strip()
 
-    if not rating or not journal:
+    if not rating:
         return jsonify({"success": False, "message": "Missing data"}), 400
 
     try:
@@ -671,6 +693,54 @@ def update_entry(entry_id):
         conn.close()
 
         return jsonify({"success": True, "message": "Entry updated successfully!"})
+    except Exception as e:
+        return jsonify({"success": False, "message": str(e)}), 500
+
+@app.route("/journal_image/<int:entry_id>")
+@login_required
+def journal_image(entry_id):
+    conn = get_db_connection()
+    cursor = conn.cursor(dictionary=True)
+
+    cursor.execute("""
+        SELECT date, rating, journal, 
+               DATE_FORMAT(date, '%W') AS day_of_week,
+               DATE_FORMAT(date, '%d %M %Y') AS formatted_date
+        FROM ratings 
+        WHERE id = %s AND user_id = %s
+    """, (entry_id, current_user.id))
+
+    entry = cursor.fetchone()
+    conn.close()
+
+    if not entry:
+        return "Journal entry not found", 404
+
+    return render_template("journal_image.html", entry=entry)
+
+@app.route("/generate_screenshot", methods=["POST"])
+def generate_screenshot():
+    data = request.json
+    html_content = data.get("html")
+
+    if not html_content:
+        return jsonify({"success": False, "message": "Missing HTML content"}), 400
+
+    try:
+        # Panggil Puppeteer melalui Node.js
+        result = subprocess.run(
+            ["node", "static/js/screenshot.js"],
+            input=json.dumps({"html": html_content}),
+            text=True,
+            capture_output=True
+        )
+
+        if result.returncode != 0:
+            return jsonify({"success": False, "message": "Puppeteer error"}), 500
+
+        screenshot_base64 = result.stdout.strip()
+        return jsonify({"success": True, "image": f"data:image/png;base64,{screenshot_base64}"})
+
     except Exception as e:
         return jsonify({"success": False, "message": str(e)}), 500
 

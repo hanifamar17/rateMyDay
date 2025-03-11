@@ -83,6 +83,26 @@
                     <p class="text-gray-500 text-sm">Check out your daily journal, and feel free to edit if needed!</p>
                 </div>
                 <div class="flex flex-wrap gap-2 justify-center md:justify-start" id="action-buttons">
+                    <!--
+                    <button id="download-journal" class="bg-green-500 text-white px-4 py-2 rounded-lg font-semibold 
+hover:bg-green-600 transition duration-300 ease-in-out flex items-center justify-center">
+                        <span id="download-text">Download Journal Image</span>
+                        <svg id="loading-icon" class="hidden animate-spin h-5 w-5 ml-2 text-white"
+                            xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4">
+                            </circle>
+                            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 0116 0h-2a6 6 0 00-12 0H4z">
+                            </path>
+                        </svg>
+                    </button>-->
+
+                    <!-- Tombol untuk Membuka Halaman Journal Image 
+                    <button id="view-journal" class="bg-blue-500 text-white px-4 py-2 rounded-lg font-semibold 
+    hover:bg-blue-600 transition duration-300 ease-in-out hidden"
+                        data-entry-id="{{ journal_entries[0].id if journal_entries else '' }}">
+                        View Journal Image
+                    </button>-->
+
                     <button id="save-button"
                         class="w-full md:w-auto bg-gray-100 text-gray-700 px-4 py-1.5 rounded-md border border-gray-200 hover:bg-gray-200 transition text-sm font-medium">
                         Save
@@ -162,8 +182,57 @@
     </div>
 </div>
 
-<!-- Toast Notification -->
-<div id="toast-container" class="fixed top-4 right-4 z-50"></div>
+<img id="journal-screenshot" style="display: none; margin-top: 20px; width: 100%;" alt="Journal Screenshot">
+
+<script id="journal-data" type="application/json">
+    {{ journal_entries | tojson | safe }}
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const viewButton = document.getElementById("view-journal");
+        const entryId = viewButton.getAttribute("data-entry-id");
+
+        if (entryId) {
+            // Tampilkan tombol jika ada jurnal
+            viewButton.classList.remove("hidden");
+
+            // Arahkan ke halaman journal_image berdasarkan entry_id
+            viewButton.addEventListener("click", function () {
+                window.open(`/journal_image/${entryId}`, "_blank");
+            });
+        }
+    });
+</script>
+
+<script>
+    function getCSRFToken() {
+        return document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+    }
+
+    document.getElementById("download-journal").addEventListener("click", async () => {
+        const journalElement = document.getElementById("journal-form").outerHTML;
+
+        const response = await fetch("/generate_screenshot", {
+            method: "POST",
+            headers: { "Content-Type": "application/json", "X-CSRFToken": getCSRFToken() },
+            body: JSON.stringify({ html: journalElement })
+        });
+
+        const result = await response.json();
+
+        console.log("Base64 Image:", result.image); // ✅ Cek apakah ada data base64 yang valid
+
+        if (result.success && result.image.startsWith("data:image/png;base64,")) {
+            const imgElement = document.getElementById("journal-screenshot");
+            imgElement.src = result.image;
+            imgElement.style.display = "block";
+        } else {
+            alert("Failed to generate screenshot!");
+        }
+    });
+
+</script>
 
 <script>
     // Mapping rating ke emoji yang lebih friendly
@@ -209,24 +278,25 @@
         // Jalankan counter saat pengguna mengetik
         journalTextarea.addEventListener('input', updateCharCount);
 
-        // Hide buttons if no entries
-        if (!journalIdField.value) {
-            actionButtons.classList.add('hidden');
-        }
+        // Definisi mixin toast
+        const Toast = Swal.mixin({
+            toast: true,
+            position: "top-end",
+            showConfirmButton: false,
+            timer: 3000,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+                toast.onmouseenter = Swal.stopTimer;
+                toast.onmouseleave = Swal.resumeTimer;
+            }
+        });
 
-        // Show toast notification
+        // Fungsi untuk menampilkan toast
         function showToast(message, type = 'success') {
-            const toast = document.createElement('div');
-            toast.className = `${type === 'success' ? 'bg-green-500' : 'bg-red-500'} text-white px-4 py-2 rounded shadow-lg mb-2`;
-            toast.textContent = message;
-            toastContainer.appendChild(toast);
-
-            setTimeout(() => {
-                toast.classList.add('opacity-0', 'transition-opacity', 'duration-500');
-                setTimeout(() => {
-                    toast.remove();
-                }, 500);
-            }, 3000);
+            Toast.fire({
+                icon: type, // 'success', 'error', 'warning', 'info', 'question'
+                title: message
+            });
         }
 
         // Mapping rating ke emoji
@@ -357,47 +427,72 @@
 
             const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 
-            if (confirm('Are you sure you want to delete this journal entry?')) {
-                fetch(`/delete_entry/${entryId}`, {
-                    method: 'POST',
-                    headers: {
-                        'X-CSRFToken': csrfToken
-                    }
-                })
-                    .then(response => response.json())
-                    .then(data => {
-                        if (data.success) {
-                            showToast('Journal deleted successfully!');
-
-                            // Remove entry from list
-                            const listItem = document.querySelector(`.journal-item[data-id="${entryId}"]`);
-                            if (listItem) {
-                                const listItemParent = listItem.parentNode;
-                                listItemParent.remove();
-                            }
-
-                            // Clear form
-                            journalForm.reset();
-                            journalIdField.value = '';
-
-                            // Select first entry if available
-                            const firstEntry = document.querySelector('.journal-item');
-                            if (firstEntry) {
-                                firstEntry.click();
-                            } else {
-                                // If no entries left, hide action buttons
-                                actionButtons.classList.add('hidden');
-                            }
-                        } else {
-                            showToast('Error deleting journal', 'error');
-                            console.error('Error deleting entry:', data.message);
+            // Gunakan SweetAlert2 untuk konfirmasi delete
+            Swal.fire({
+                title: 'Are you sure?',
+                text: "Deleted journal entries can't be recovered!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: 'delete it!',
+                cancelButtonText: 'Cancel'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Proses delete jika user mengkonfirmasi
+                    fetch(`/delete_entry/${entryId}`, {
+                        method: 'POST',
+                        headers: {
+                            'X-CSRFToken': csrfToken
                         }
                     })
-                    .catch(error => {
-                        showToast('Error deleting journal', 'error');
-                        console.error('Error:', error);
-                    });
-            }
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.success) {
+                                // Tampilkan toast sukses
+                                Toast.fire({
+                                    icon: 'success',
+                                    title: 'Journal deleted successfully!'
+                                });
+
+                                // Remove entry from list
+                                const listItem = document.querySelector(`.journal-item[data-id="${entryId}"]`);
+                                if (listItem) {
+                                    const listItemParent = listItem.parentNode;
+                                    listItemParent.remove();
+                                }
+
+                                // Clear form
+                                journalForm.reset();
+                                journalIdField.value = '';
+
+                                // Select first entry if available
+                                const firstEntry = document.querySelector('.journal-item');
+                                if (firstEntry) {
+                                    firstEntry.click();
+                                } else {
+                                    // If no entries left, hide action buttons
+                                    actionButtons.classList.add('hidden');
+                                }
+                            } else {
+                                // Tampilkan toast error
+                                Toast.fire({
+                                    icon: 'error',
+                                    title: 'Error deleting journal'
+                                });
+                                console.error('Error deleting entry:', data.message);
+                            }
+                        })
+                        .catch(error => {
+                            // Tampilkan toast error
+                            Toast.fire({
+                                icon: 'error',
+                                title: 'Error deleting journal'
+                            });
+                            console.error('Error:', error);
+                        });
+                }
+            });
         });
 
         // If there's at least one entry, select the first one (newest) by default
