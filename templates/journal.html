@@ -1,4 +1,4 @@
-{% extends "template/base-login.html" %}
+{% extends "template/base-journal.html" %}
 
 {% block content %}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.js"></script>
@@ -34,43 +34,38 @@
     <div class="flex flex-col md:flex-row gap-12 w-full">
         <!-- Left: Journal List -->
         <div class="overflow-hidden md:w-2/5 flex flex-col bg-white shadow-md rounded-lg">
-            <div class="p-4 border-b">
+            <div class="p-4 border-b border-gray-200">
                 <h2 class="text-xl font-medium text-gray-800">Journal Archive</h2>
                 <p class="text-gray-500 text-sm">Explore your past journal entries!</p>
             </div>
-            <div class="overflow-y-auto max-h-[70vh] scrollbar-hide">
-                <ul class="divide-y divide-gray-200" id="journal-list">
-                    {% if journal_entries %}
-                    {% for entry in journal_entries %}
-                    <li>
-                        <button
-                            class="w-full text-left px-4 py-2 hover:bg-gray-100 transition journal-item {% if loop.first %}bg-gray-50{% endif %}"
-                            data-id="{{ entry.id }}">
-                            <div
-                                class="flex items-center justify-between transition-all duration-200 hover:translate-x-1">
-                                <div>
-                                    <div class="font-medium text-gray-700">
-                                        {% if entry.rating == 1 %}Awful{% elif entry.rating == 2 %}Meh{% elif
-                                        entry.rating == 3
-                                        %}Okay{% elif entry.rating == 4 %}Nice{% elif entry.rating == 5 %}Excellent{%
-                                        endif %}
-                                    </div>
-                                    <div class="text-sm text-gray-500">{{ entry.day_of_week }}, {{ entry.formatted_date
-                                        }}</div>
-                                </div>
-                                <div class="text-2xl">
-                                    {% if entry.rating == 1 %}😞{% elif entry.rating == 2 %}☹️{% elif entry.rating == 3
-                                    %}😐{% elif entry.rating == 4 %}🙂{% elif entry.rating == 5 %}😊{% endif %}
-                                </div>
-                            </div>
-                        </button>
-                    </li>
-                    {% endfor %}
-                    {% else %}
-                    <li class="text-gray-500 text-center py-4">No journal entries yet. Start writing your first one!
-                        ✍️😊</li>
-                    {% endif %}
-                </ul>
+            <div class="p-4">
+                <div class="flex justify-between items-center mb-4">
+                    <button id="prevMonth" class="text-gray-400 hover:text-gray-600 p-1">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd"
+                                d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z"
+                                clip-rule="evenodd" />
+                        </svg>
+                    </button>
+                    <h2 class="text-lg font-light text-gray-700" id="monthYear">Maret 2024</h2>
+                    <button id="nextMonth" class="text-gray-400 hover:text-gray-600 p-1">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd"
+                                d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+                                clip-rule="evenodd" />
+                        </svg>
+                    </button>
+                </div>
+                <div class="grid grid-cols-7 gap-1 text-center text-xs text-gray-400 mb-2">
+                    <div>Sun</div>
+                    <div>Mon</div>
+                    <div>Tue</div>
+                    <div>Wed</div>
+                    <div>Thu</div>
+                    <div>Fri</div>
+                    <div>Sat</div>
+                </div>
+                <div id="calendar" class="grid grid-cols-7 gap-1 text-center text-gray-600"></div>
             </div>
         </div>
 
@@ -83,26 +78,6 @@
                     <p class="text-gray-500 text-sm">Check out your daily journal, and feel free to edit if needed!</p>
                 </div>
                 <div class="flex flex-wrap gap-2 justify-center md:justify-start" id="action-buttons">
-                    <!--
-                    <button id="download-journal" class="bg-green-500 text-white px-4 py-2 rounded-lg font-semibold 
-hover:bg-green-600 transition duration-300 ease-in-out flex items-center justify-center">
-                        <span id="download-text">Download Journal Image</span>
-                        <svg id="loading-icon" class="hidden animate-spin h-5 w-5 ml-2 text-white"
-                            xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4">
-                            </circle>
-                            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 0116 0h-2a6 6 0 00-12 0H4z">
-                            </path>
-                        </svg>
-                    </button>-->
-
-                    <!-- Tombol untuk Membuka Halaman Journal Image 
-                    <button id="view-journal" class="bg-blue-500 text-white px-4 py-2 rounded-lg font-semibold 
-    hover:bg-blue-600 transition duration-300 ease-in-out hidden"
-                        data-entry-id="{{ journal_entries[0].id if journal_entries else '' }}">
-                        View Journal Image
-                    </button>-->
-
                     <button id="save-button"
                         class="w-full md:w-auto bg-gray-100 text-gray-700 px-4 py-1.5 rounded-md border border-gray-200 hover:bg-gray-200 transition text-sm font-medium">
                         Save
@@ -114,69 +89,73 @@ hover:bg-green-600 transition duration-300 ease-in-out flex items-center justify
                 </div>
             </div>
 
-            <!-- Content area with more space and better spacing -->
+            <!-- Journal Content area with more space and better spacing -->
             <div class="p-6">
-                <form id="journal-form" class="space-y-6">
-                    <input type="hidden" id="journal-id" name="id"
-                        value="{{ journal_entries[0].id if journal_entries }}">
+                <div id="journal-container" class="hidden">
+                    <form id="journal-form" class="space-y-6">
+                        <input type="hidden" id="journal-id" name="id"
+                            value="{{ journal_entries[0].id if journal_entries }}">
 
-                    <!-- Date information with cleaner layout -->
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <div>
-                            <label class="block text-sm font-medium text-gray-500 mb-1">Date</label>
-                            <div id="date-display"
-                                class="text-gray-800 font-medium text-base border-b border-gray-200 pb-1 pt-1">
-                                {{ journal_entries[0].formatted_date if journal_entries }}
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-500 mb-1">Date</label>
+                                <div id="date-display"
+                                    class="text-gray-800 font-medium text-base border-b border-gray-200 pb-1 pt-1">
+                                    {{ journal_entries[0].formatted_date if journal_entries }}
+                                </div>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-500 mb-1">Day of Week</label>
+                                <div id="day_of_week"
+                                    class="text-gray-800 font-medium text-base border-b border-gray-200 pb-1 pt-1">
+                                    {{ journal_entries[0].day_of_week if journal_entries }}
+                                </div>
                             </div>
                         </div>
-                        <div>
-                            <label class="block text-sm font-medium text-gray-500 mb-1">Day of Week</label>
-                            <div id="day_of_week"
-                                class="text-gray-800 font-medium text-base border-b border-gray-200 pb-1 pt-1">
-                                {{ journal_entries[0].day_of_week if journal_entries }}
+
+                        <div class="my-8">
+                            <label for="rating" class="block text-sm font-medium text-gray-500 mb-2">Mood Rating</label>
+                            <div class="flex justify-between mb-2">
+                                <span class="text-gray-500">😞 Awful</span>
+                                <span class="text-gray-500">😊 Excellent</span>
+                            </div>
+
+                            <input type="range" min="1" max="5"
+                                value="{{ journal_entries[0].rating if journal_entries else 3 }}" id="mood-slider"
+                                class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer transition-all duration-300"
+                                oninput="updateMoodEmoji(this.value)">
+
+                            <div class="text-center mt-2">
+                                <span id="mood-emoji" class="text-5xl">😐</span>
+                                <input type="hidden" name="rating" id="rating"
+                                    value="{{ journal_entries[0].rating if journal_entries else 3 }}">
                             </div>
                         </div>
-                    </div>
 
-                    <!-- Mood rating with simpler design -->
-                    <div class="my-8">
-                        <label for="rating" class="block text-sm font-medium text-gray-500 mb-2">Mood Rating</label>
-
-                        <div class="flex justify-between mb-2">
-                            <span class="text-gray-500">😞 Awful</span>
-                            <span class="text-gray-500">😊 Excellent</span>
-                        </div>
-
-                        <!-- Slider untuk rating -->
-                        <input type="range" min="1" max="5"
-                            value="{{ journal_entries[0].rating if journal_entries else 3 }}" id="mood-slider"
-                            class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer"
-                            oninput="updateMoodEmoji(this.value)">
-
-                        <!-- Emoji dan input hidden -->
-                        <div class="text-center mt-2">
-                            <span id="mood-emoji" class="text-5xl">😐</span>
-                            <input type="hidden" name="rating" id="rating"
-                                value="{{ journal_entries[0].rating if journal_entries else 3 }}">
-                        </div>
-                    </div>
-
-                    <!-- Journal entry with minimalist styling -->
-                    <div class="space-y-2">
-                        <div class="mb-1">
-                            <label for="journal" class="block text-sm font-medium text-gray-500 mb-2">Journal
-                                Entry</label>
-                            <textarea id="journal" name="journal" rows="8" class="journal-textarea w-full p-3 text-sm border border-gray-200 rounded
+                        <div class="space-y-2">
+                            <div class="mb-1">
+                                <label for="journal" class="block text-sm font-medium text-gray-500 mb-2">Journal
+                                    Entry</label>
+                                <textarea id="journal" name="journal" rows="8" class="journal-textarea w-full p-3 text-sm border border-gray-200 rounded
                             bg-gray-50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-blue-500
                             focus:ring-opacity-50 transition-all duration-300"
-                                placeholder="Write your thoughts here...">{{ journal_entries[0].journal if journal_entries }}</textarea>
-                        </div>
+                                    placeholder="Your thoughts will be shown here...">{{ journal_entries[0].journal if journal_entries }}</textarea>
+                            </div>
 
-                        <div class="text-right">
-                            <span id="char-count" class="text-xs text-gray-500">0 characters</span>
+                            <div class="text-right">
+                                <span id="char-count" class="text-xs text-gray-500">0 characters</span>
+                            </div>
                         </div>
-                    </div>
-                </form>
+                    </form>
+                </div>
+                <div class="flex items-center justify-center min-h-[200px] hidden" id="add-journal-container">
+                    <a href="/homepage" class="block w-full md:w-auto max-w-xs mx-auto">
+                        <button id="add-button"
+                            class="w-full bg-green-50 text-green-700 px-6 py-2 rounded-lg border border-green-200 hover:bg-green-100 transition duration-300 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-green-300 text-sm font-medium">
+                            Add Journal
+                        </button>
+                    </a>
+                </div>
             </div>
         </div>
     </div>
@@ -188,6 +167,7 @@ hover:bg-green-600 transition duration-300 ease-in-out flex items-center justify
     {{ journal_entries | tojson | safe }}
 </script>
 
+<!--Generate Journal to Image-->
 <script>
     document.addEventListener("DOMContentLoaded", function () {
         const viewButton = document.getElementById("view-journal");
@@ -205,6 +185,7 @@ hover:bg-green-600 transition duration-300 ease-in-out flex items-center justify
     });
 </script>
 
+<!--Generate Journal to Image-->
 <script>
     function getCSRFToken() {
         return document.querySelector('meta[name="csrf-token"]').getAttribute('content');
@@ -234,6 +215,7 @@ hover:bg-green-600 transition duration-300 ease-in-out flex items-center justify
 
 </script>
 
+<!--Journal-->
 <script>
     // Mapping rating ke emoji yang lebih friendly
     const moodEmojis = {
@@ -255,6 +237,268 @@ hover:bg-green-600 transition duration-300 ease-in-out flex items-center justify
         updateMoodEmoji(moodSlider.value);
     });
 
+    class JournalCalendar {
+        constructor() {
+            this.calendar = document.getElementById('calendar');
+            this.monthYearEl = document.getElementById('monthYear');
+            this.prevMonthBtn = document.getElementById('prevMonth');
+            this.nextMonthBtn = document.getElementById('nextMonth');
+
+            this.currentDate = new Date();
+            this.events = [];
+
+            this.ratingColors = {
+                1: 'bg-red-50 text-yellow-700 border-red-200',       // Sangat sedih/buruk - merah muda pucat, teks merah tua
+                2: 'bg-orange-50 text-yellow-700 border-orange-200', // Sedih - jingga muda pucat, teks jingga tua
+                3: 'bg-yellow-50 text-yellow-700 border-yellow-200', // Netral - kuning muda pucat, teks kuning tua
+                4: 'bg-green-50 text-yellow-700 border-green-200',   // Senang - hijau muda pucat, teks hijau tua
+                5: 'bg-emerald-50 text-yellow-700 border-emerald-200' // Sangat senang - emerald muda pucat, teks emerald tua
+            };
+            this.init();
+        }
+
+        async init() {
+            await this.fetchEvents();
+            this.renderCalendar();
+            this.addEventListeners();
+
+            // Check for journal entry on current date when page loads
+            const today = new Date();
+            await this.loadJournalEntry(today);
+        }
+
+        async fetchEvents() {
+            try {
+                const response = await fetch('/get_calendar');
+                this.events = await response.json();
+            } catch (error) {
+                console.error('Error fetching events:', error);
+            }
+        }
+
+        addEventListeners() {
+            this.prevMonthBtn.addEventListener('click', () => this.changeMonth(-1));
+            this.nextMonthBtn.addEventListener('click', () => this.changeMonth(1));
+
+            document.getElementById('add-button').addEventListener('click', () => {
+                document.getElementById('journal-container').classList.remove('hidden');
+                document.getElementById('journal-form').classList.remove('hidden');
+                document.getElementById('add-button').classList.add('hidden');
+            });
+        }
+
+        changeMonth(direction) {
+            this.currentDate.setMonth(this.currentDate.getMonth() + direction);
+            this.renderCalendar();
+        }
+
+        getEventForDate(date) {
+            const formattedDate = date.toISOString().split('T')[0];
+            return this.events.find(event => event.start.startsWith(formattedDate)) || null;
+        }
+
+        async loadJournalEntry(date) {
+            const formattedDate = date.toISOString().split('T')[0];
+
+            try {
+                const response = await fetch(`/get_entry_by_date/${formattedDate}`);
+                const data = await response.json();
+
+                const journalContainer = document.getElementById('journal-container');
+                const addJournalContainer = document.getElementById('add-journal-container');
+                const actionButtons = document.getElementById('action-buttons');
+
+                if (data.success && data.entry.rating) {
+                    // If there's a rating, show the journal form
+                    const entry = data.entry;
+                    document.getElementById('date-display').textContent = entry.formatted_date;
+                    document.getElementById('day_of_week').textContent = entry.day_of_week;
+
+                    document.getElementById('mood-slider').value = entry.rating;
+                    document.getElementById('rating').value = entry.rating;
+                    document.getElementById('mood-emoji').textContent = entry.mood_emoji;
+
+                    document.getElementById('journal').value = entry.journal || "";
+                    updateCharCount();
+
+                    // Show journal form, hide "Add Journal" button
+                    journalContainer.classList.remove('hidden');
+                    addJournalContainer.classList.add('hidden');
+                    if (actionButtons) actionButtons.classList.remove('hidden');
+                } else {
+                    // If no rating, show "Add Journal" button
+                    this.clearJournalDisplay(formattedDate);
+                }
+            } catch (error) {
+                console.error('Error fetching journal entry:', error);
+                this.clearJournalDisplay(formattedDate);
+            }
+        }
+
+        clearJournalDisplay(date) {
+            // Reset form fields
+            document.getElementById('date-display').textContent = new Date(date).toLocaleDateString('id-ID', {
+                day: 'numeric',
+                month: 'long',
+                year: 'numeric'
+            });
+            document.getElementById('day_of_week').textContent = new Date(date).toLocaleDateString('id-ID', { weekday: 'long' });
+
+            document.getElementById('mood-slider').value = 3;
+            document.getElementById('rating').value = 3;
+            document.getElementById('mood-emoji').textContent = '😐';
+            document.getElementById('journal').value = '';
+
+            updateCharCount();
+
+            // Hide journal form, show "Add Journal" button
+            const journalContainer = document.getElementById('journal-container');
+            const addJournalContainer = document.getElementById('add-journal-container');
+            const actionButtons = document.getElementById('action-buttons');
+
+            journalContainer.classList.add('hidden');
+            addJournalContainer.classList.remove('hidden');
+            if (actionButtons) actionButtons.classList.add('hidden');
+        }
+
+        renderCalendar() {
+            const month = this.currentDate.getMonth();
+            const year = this.currentDate.getFullYear();
+
+            this.monthYearEl.textContent = this.currentDate.toLocaleString('id-ID', {
+                month: 'long',
+                year: 'numeric'
+            });
+
+            this.calendar.innerHTML = '';
+
+            const firstDay = new Date(year, month, 1).getDay();
+            const daysInMonth = new Date(year, month + 1, 0).getDate();
+
+            // Keep track of the last selected date
+            const selectedDate = this.selectedDate || new Date();
+
+            for (let i = 0; i < firstDay; i++) {
+                const emptyCell = document.createElement('div');
+                this.calendar.appendChild(emptyCell);
+            }
+
+            for (let day = 1; day <= daysInMonth; day++) {
+                const dayCell = document.createElement('div');
+                const currentDate = new Date(Date.UTC(year, month, day));
+                const event = this.getEventForDate(currentDate);
+
+                let dayContent = `<span class="text-sm">${day}</span>`;
+                let ratingClasses = '';
+                let ratingEmoji = '';
+
+                if (event) {
+                    const moodEmojis = { "😞": 1, "☹️": 2, "😐": 3, "🙂": 4, "😊": 5 };
+                    const rating = moodEmojis[event.title] || 0;
+
+                    if (rating) {
+                        ratingClasses = this.ratingColors[rating];
+                        ratingEmoji = event.title;
+                        dayContent += `<span class="text-lg">${ratingEmoji}</span>`;
+                    }
+                }
+
+                dayCell.innerHTML = `<div class="flex flex-col items-center">${dayContent}</div>`;
+                dayCell.classList.add('p-1', 'cursor-pointer', 'hover:bg-gray-300', ...(ratingClasses ? ratingClasses.split(' ') : []));
+
+                const today = new Date();
+                if (day === today.getDate() && month === today.getMonth() && year === today.getFullYear()) {
+                    dayCell.classList.add('bg-blue-100');
+                }
+
+                if (day === selectedDate.getDate() &&
+                    month === selectedDate.getMonth() &&
+                    year === selectedDate.getFullYear()) {
+                    dayCell.classList.add('bg-green-200', 'font-bold');
+                }
+
+
+                dayCell.addEventListener('click', () => {
+                    // Remove previous selection highlight
+                    const previousSelected = this.calendar.querySelector('.bg-green-200');
+                    if (previousSelected) {
+                        previousSelected.classList.remove('bg-green-200', 'font-bold');
+                    }
+
+                    // Add new selection highlight
+                    dayCell.classList.add('bg-green-200', 'font-bold');
+
+                    // Store the selected date
+                    this.selectedDate = currentDate;
+
+                    // Load journal entry for the selected date
+                    this.loadJournalEntry(currentDate);
+                });
+
+                this.calendar.appendChild(dayCell);
+            }
+        }
+
+        updateEventForDate(date, emoji) {
+            const formattedDate = date.toISOString().split('T')[0];
+
+            // Mapping emoji ke rating
+            const moodEmojis = { 1: "😞", 2: "☹️", 3: "😐", 4: "🙂", 5: "😊" };
+            const rating = Object.keys(moodEmojis).find(key => moodEmojis[key] === emoji);
+
+            // Cari event yang sudah ada untuk tanggal ini
+            const existingEventIndex = this.events.findIndex(event =>
+                event.start.startsWith(formattedDate)
+            );
+
+            // Jika event sudah ada, update; jika tidak, tambahkan event baru
+            if (existingEventIndex !== -1) {
+                // Update event yang sudah ada
+                this.events[existingEventIndex].title = emoji;
+            } else {
+                // Tambahkan event baru
+                this.events.push({
+                    start: formattedDate,
+                    title: emoji
+                });
+            }
+
+            // Render ulang kalender
+            this.renderCalendar();
+        }
+
+    }
+
+    new JournalCalendar();
+    const calendarApp = new JournalCalendar();
+    calendarApp.init();
+
+    // Character count function
+    function updateCharCount() {
+        const journalTextarea = document.getElementById('journal');
+        const charCount = document.getElementById('char-count');
+
+        const currentLength = journalTextarea.value.length;
+        const maxLength = 500;
+
+        charCount.textContent = `${currentLength}/${maxLength}`;
+
+        // Optional: Add visual feedback for character limit
+        if (currentLength > maxLength) {
+            charCount.classList.add('text-red-500');
+            journalTextarea.value = journalTextarea.value.slice(0, maxLength);
+        } else {
+            charCount.classList.remove('text-red-500');
+        }
+    }
+
+    // Add event listener for character count
+    document.addEventListener("DOMContentLoaded", function () {
+        const journalTextarea = document.getElementById('journal');
+        journalTextarea.addEventListener('input', updateCharCount);
+        updateCharCount(); // Initial count
+    });
+
     document.addEventListener('DOMContentLoaded', function () {
         const journalList = document.getElementById('journal-list');
         const journalForm = document.getElementById('journal-form');
@@ -268,15 +512,6 @@ hover:bg-green-600 transition duration-300 ease-in-out flex items-center justify
 
         // Ambil elemen textarea dan counter karakter
         const journalTextarea = document.getElementById('journal');
-        const charCount = document.getElementById('char-count');
-
-        // Fungsi untuk memperbarui counter karakter
-        function updateCharCount() {
-            charCount.textContent = `${journalTextarea.value.length} characters`;
-        }
-
-        // Jalankan counter saat pengguna mengetik
-        journalTextarea.addEventListener('input', updateCharCount);
 
         // Definisi mixin toast
         const Toast = Swal.mixin({
@@ -308,73 +543,21 @@ hover:bg-green-600 transition duration-300 ease-in-out flex items-center justify
             5: '😊'   // Excellent
         };
 
-        // Load entry when clicking on a journal item
-        journalList.addEventListener('click', function (e) {
-            const item = e.target.closest('.journal-item');
-            if (!item) return;
-
-            // Clear all selections
-            document.querySelectorAll('.journal-item').forEach(el => {
-                el.classList.remove('bg-indigo-50');
-            });
-
-            // Mark this item as selected
-            item.classList.add('bg-indigo-50');
-
-            // Show action buttons
-            actionButtons.classList.remove('hidden');
-
-            // Get entry ID
-            const entryId = item.getAttribute('data-id');
-
-            // Fetch entry details
-            fetch(`/get_entry/${entryId}`)
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        // Populate form with entry data
-                        const entry = data.entry;
-                        journalIdField.value = entry.id;
-
-                        // Update text content untuk tanggal
-                        document.getElementById('date-display').textContent = entry.formatted_date;
-                        document.getElementById('day_of_week').textContent = entry.day_of_week;
-
-                        // Update rating slider, hidden input, dan emoji
-                        const moodSlider = document.getElementById('mood-slider');
-                        const ratingInput = document.getElementById('rating');
-                        const moodEmoji = document.getElementById('mood-emoji');
-
-                        moodSlider.value = entry.rating; // Set slider ke rating entry
-                        ratingInput.value = entry.rating; // Simpan rating di input hidden
-                        moodEmoji.textContent = moodEmojis[entry.rating]; // Update emoji
-
-                        // Update textarea dengan entry yang baru dipilih
-                        journalTextarea.value = entry.journal;
-
-                        // Update counter karakter setelah entry dimuat
-                        updateCharCount();
-                    } else {
-                        console.error('Error fetching entry:', data.message);
-                    }
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                });
-        });
-
         // Handle save button click
         saveButton.addEventListener('click', function () {
             const entryId = journalIdField.value;
             if (!entryId) return;
 
-            const formData = new FormData();
-            formData.append('rating', document.getElementById('rating').value);
-            formData.append('journal', document.getElementById('journal').value);
+            const ratingValue = document.getElementById('rating').value;
+            const journalText = document.getElementById('journal').value;
+            const moodEmojis = { 1: "😞", 2: "☹️", 3: "😐", 4: "🙂", 5: "😊" };
+            const selectedEmoji = moodEmojis[ratingValue];
 
+            const formData = new FormData();
+            formData.append('rating', ratingValue);
+            formData.append('journal', journalText);
             const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 
-            // Add update endpoint
             fetch(`/update_entry/${entryId}`, {
                 method: 'POST',
                 body: formData,
@@ -385,30 +568,22 @@ hover:bg-green-600 transition duration-300 ease-in-out flex items-center justify
                 .then(response => response.json())
                 .then(data => {
                     if (data.success) {
-                        showToast('Journal updated successfully!');
-
-                        // Update the entry in the list
+                        // Update list item
                         const listItem = document.querySelector(`.journal-item[data-id="${entryId}"]`);
                         if (listItem) {
-                            const ratingValue = document.getElementById('rating').value;
                             const emojiEl = listItem.querySelector('.text-2xl');
-                            const ratingTextEl = listItem.querySelector('.font-medium');
+                            const textEl = listItem.querySelector('.journal-text');
 
-                            // Perbarui emoji dan teks rating
-                            if (emojiEl) {
-                                emojiEl.textContent = moodEmojis[ratingValue];
-                            }
-                            if (ratingTextEl) {
-                                const ratingTexts = {
-                                    1: 'Awful',
-                                    2: 'Meh',
-                                    3: 'Okay',
-                                    4: 'Nice',
-                                    5: 'Excellent'
-                                };
-                                ratingTextEl.textContent = ratingTexts[ratingValue];
-                            }
+                            if (emojiEl) emojiEl.textContent = selectedEmoji;
+                            if (textEl) textEl.textContent = journalText;
                         }
+
+                        // Perbarui event di kalender
+                        if (calendarApp.selectedDate) {
+                            calendarApp.updateEventForDate(calendarApp.selectedDate, selectedEmoji);
+                        }
+
+                        showToast('Journal updated successfully!');
                     } else {
                         showToast('Error updating journal', 'error');
                         console.error('Error updating entry:', data.message);
@@ -424,10 +599,8 @@ hover:bg-green-600 transition duration-300 ease-in-out flex items-center justify
         deleteButton.addEventListener('click', function () {
             const entryId = journalIdField.value;
             if (!entryId) return;
-
             const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 
-            // Gunakan SweetAlert2 untuk konfirmasi delete
             Swal.fire({
                 title: 'Are you sure?',
                 text: "Deleted journal entries can't be recovered!",
@@ -435,76 +608,69 @@ hover:bg-green-600 transition duration-300 ease-in-out flex items-center justify
                 showCancelButton: true,
                 confirmButtonColor: '#d33',
                 cancelButtonColor: '#3085d6',
-                confirmButtonText: 'delete it!',
+                confirmButtonText: 'Delete it!',
                 cancelButtonText: 'Cancel'
             }).then((result) => {
                 if (result.isConfirmed) {
-                    // Proses delete jika user mengkonfirmasi
                     fetch(`/delete_entry/${entryId}`, {
                         method: 'POST',
                         headers: {
                             'X-CSRFToken': csrfToken
                         }
                     })
-                        .then(response => response.json())
+                        .then(response => {
+                            if (!response.ok) {
+                                throw new Error('Network response was not ok');
+                            }
+                            return response.json();
+                        })
                         .then(data => {
                             if (data.success) {
+                                // Hapus elemen dari daftar jurnal
+                                const listItem = document.querySelector(`.journal-item[data-id="${entryId}"]`);
+                                if (listItem) listItem.remove();
+
+                                // Hapus event dari kalender jika ada tanggal terpilih
+                                if (calendarApp.selectedDate) {
+                                    const formattedDate = calendarApp.selectedDate.toISOString().split('T')[0];
+
+                                    // Hapus event dari array events
+                                    calendarApp.events = calendarApp.events.filter(
+                                        event => !event.start.startsWith(formattedDate)
+                                    );
+
+                                    // Render ulang kalender
+                                    calendarApp.renderCalendar();
+                                }
+
+                                // Reset form
+                                journalForm.reset();
+                                journalIdField.value = '';
+
                                 // Tampilkan toast sukses
                                 Toast.fire({
                                     icon: 'success',
                                     title: 'Journal deleted successfully!'
                                 });
-
-                                // Remove entry from list
-                                const listItem = document.querySelector(`.journal-item[data-id="${entryId}"]`);
-                                if (listItem) {
-                                    const listItemParent = listItem.parentNode;
-                                    listItemParent.remove();
-                                }
-
-                                // Clear form
-                                journalForm.reset();
-                                journalIdField.value = '';
-
-                                // Select first entry if available
-                                const firstEntry = document.querySelector('.journal-item');
-                                if (firstEntry) {
-                                    firstEntry.click();
-                                } else {
-                                    // If no entries left, hide action buttons
-                                    actionButtons.classList.add('hidden');
-                                }
                             } else {
-                                // Tampilkan toast error
                                 Toast.fire({
                                     icon: 'error',
                                     title: 'Error deleting journal'
                                 });
-                                console.error('Error deleting entry:', data.message);
                             }
                         })
                         .catch(error => {
-                            // Tampilkan toast error
+                            console.error('Error:', error);
                             Toast.fire({
                                 icon: 'error',
                                 title: 'Error deleting journal'
                             });
-                            console.error('Error:', error);
                         });
                 }
             });
         });
-
-        // If there's at least one entry, select the first one (newest) by default
-        const firstEntry = document.querySelector('.journal-item');
-        if (firstEntry) {
-            // Form is already populated with the first entry from server-side
-            actionButtons.classList.remove('hidden');
-
-            // Perbarui jumlah karakter dari jurnal pertama yang ditampilkan
-            updateCharCount();
-        }
     });
+
 </script>
 
 

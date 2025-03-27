@@ -618,7 +618,6 @@ def get_rating():
     else:
         return jsonify({"success": False, "message": "No data found for this date."})
 
-
 @app.route("/journal", methods=["GET", "POST"])
 @login_required
 def journal():
@@ -648,6 +647,31 @@ def journal():
     
     given_name = current_user.given_name or current_user.name
     return render_template("journal.html", data=data, journal_entries=journal_entries, given_name=given_name, user=current_user)
+
+@app.route("/get_calendar")
+@login_required
+def get_calendar():
+    user_id = current_user.id  # Pastikan user sudah login
+    conn = get_db_connection()
+    cursor = conn.cursor(dictionary=True)
+
+    cursor.execute("""
+        SELECT date, rating FROM ratings WHERE user_id = %s
+    """, (user_id,))
+    
+    entries = cursor.fetchall()
+    conn.close()
+
+    events = []
+    mood_emojis = {1: "😞", 2: "☹️", 3: "😐", 4: "🙂", 5: "😊"}
+
+    for entry in entries:
+        events.append({
+            "title": mood_emojis.get(entry["rating"], "❓"),
+            "start": entry["date"].isoformat()  # Format tanggal ISO
+        })
+
+    return jsonify(events)
 
 @app.route("/delete_entry/<int:entry_id>", methods=["POST"])
 @login_required
@@ -744,9 +768,9 @@ def generate_screenshot():
     except Exception as e:
         return jsonify({"success": False, "message": str(e)}), 500
 
-@app.route("/get_entry/<int:entry_id>", methods=["GET"])
+@app.route("/get_entry_by_date/<string:date>", methods=["GET"])
 @login_required
-def get_entry(entry_id):
+def get_entry_by_date(date):
     user_id = current_user.id
     
     conn = get_db_connection()
@@ -757,17 +781,22 @@ def get_entry(entry_id):
                DATE_FORMAT(date, '%W') AS day_of_week,
                DATE_FORMAT(date, '%d %M %Y') AS formatted_date
         FROM ratings 
-        WHERE id = %s AND user_id = %s
-    """, (entry_id, user_id))
+        WHERE date = %s AND user_id = %s
+    """, (date, user_id))
     
     entry = cursor.fetchone()
     conn.close()
     
     if not entry:
-        return jsonify({"success": False, "message": "Entry not found"}), 404
-    
+        return jsonify({"success": False, "message": "No journal entry for this date"}), 404
+
+    # Mood Emoji Mapping
+    mood_emojis = {1: "😞", 2: "☹️", 3: "😐", 4: "🙂", 5: "😊"}
+    entry["mood_emoji"] = mood_emojis.get(entry["rating"], "😐")
+
     return jsonify({"success": True, "entry": entry})
- 
+
+
 def format_date(date_str):
     bulan_mapping = {
         1: "Jan", 2: "Feb", 3: "Mar", 4: "Apr", 5: "May", 6: "Jun",
