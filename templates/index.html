@@ -1,4 +1,4 @@
-{% extends "template/base-homepage.html" %}
+{% extends "template/base-login.html" %}
 
 {% block content %}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.js"></script>
@@ -29,7 +29,7 @@
 </style>
 
 <!--Konten utama-->
-<div class="grid grid-cols-1 md:grid-cols-3 gap-6 py-8 px-3 md:p-8 w-full">
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6 w-full">
     <div class="md:col-span-2">
         <div class="p-4 rounded">
             <!--Grafik rating-->
@@ -58,12 +58,12 @@
                 {% endwith %}
 
                 <div class="text-center md:text-left space-y-2">
-                    <h1 class="text-xl font-semibold text-gray-800">Track Your Day with Charts! </h1>
+                    <h2 class="text-xl font-medium text-gray-800">Track Your Day with Charts! </h2>
                     <p class="text-gray-500 text-sm">View your daily ratings in bar and line charts.</p>
                 </div>
 
                 <!--Filter Chart-->
-                <div class="flex items-center gap-4">
+                <div class="flex items-center gap-4 z-0">
                     <label for="filter" class="text-gray-700 font-medium text-sm">Show chart for:</label>
                     <div class="relative">
                         <select id="filter"
@@ -93,7 +93,7 @@
             <!--Form rating-->
             <div class="space-y-6">
                 <div class="text-center md:text-left space-y-2">
-                    <h1 class="text-xl font-semibold text-gray-800">How's Your Day?</h1>
+                    <h2 class="text-xl font-medium text-gray-800">How's Your Day?</h2>
                     <p class="text-gray-500 text-sm">Take a moment to reflect on your day</p>
                 </div>
 
@@ -235,7 +235,7 @@
             toast: true,
             position: "top-end",
             showConfirmButton: false,
-            timer: 3000,
+            timer: 1000,
             timerProgressBar: true,
             didOpen: (toast) => {
                 toast.onmouseenter = Swal.stopTimer;
@@ -464,7 +464,7 @@
                         },
                         font: {
                             family: "Inter, sans-serif",
-                            size: 30
+                            size: 25
                         }
                     },
                     grid: {

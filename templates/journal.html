@@ -1,4 +1,4 @@
-{% extends "template/base-journal.html" %}
+{% extends "template/base-login.html" %}
 
 {% block content %}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.js"></script>
@@ -28,192 +28,140 @@
     }
 </style>
 
-<!--Konten utama-->
-<!-- Main Container -->
-<div class="container mx-auto p-4 md:px-4 md:py-8 w-full">
-    <div class="flex flex-col md:flex-row gap-12 w-full">
-        <!-- Left: Journal List -->
-        <div class="overflow-hidden md:w-2/5 flex flex-col bg-white shadow-md rounded-lg">
-            <div class="p-4 border-b border-gray-200">
-                <h2 class="text-xl font-medium text-gray-800">Journal Archive</h2>
-                <p class="text-gray-500 text-sm">Explore your past journal entries!</p>
-            </div>
-            <div class="p-4">
-                <div class="flex justify-between items-center mb-4">
-                    <button id="prevMonth" class="text-gray-400 hover:text-gray-600 p-1">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                            <path fill-rule="evenodd"
-                                d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z"
-                                clip-rule="evenodd" />
-                        </svg>
-                    </button>
-                    <h2 class="text-lg font-light text-gray-700" id="monthYear">Maret 2024</h2>
-                    <button id="nextMonth" class="text-gray-400 hover:text-gray-600 p-1">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                            <path fill-rule="evenodd"
-                                d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
-                                clip-rule="evenodd" />
-                        </svg>
-                    </button>
-                </div>
-                <div class="grid grid-cols-7 gap-1 text-center text-xs text-gray-400 mb-2">
-                    <div>Sun</div>
-                    <div>Mon</div>
-                    <div>Tue</div>
-                    <div>Wed</div>
-                    <div>Thu</div>
-                    <div>Fri</div>
-                    <div>Sat</div>
-                </div>
-                <div id="calendar" class="grid grid-cols-7 gap-1 text-center text-gray-600"></div>
+<!-- Left: Journal List -->
+<div class="overflow-hidden md:w-2/5 flex flex-col bg-white">
+    <div class="p-4 border-b border-gray-200">
+        <h2 class="text-xl font-medium text-gray-800">Journal Archive</h2>
+        <p class="text-gray-500 text-sm">Explore your past journal entries!</p>
+    </div>
+    <div class="p-4">
+        <div class="flex justify-between items-center mb-4">
+            <span class="text-lg font-light text-gray-700 p-2" id="monthYear">Maret 2024</span>
+            <div class="flex items-center space-x-2">
+                <button id="today"
+                    class="text-sm font-medium text-gray-600 bg-gray-100 hover:bg-gray-200 px-3 py-1 rounded-md transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-gray-300">
+                    Today
+                </button>
+                <button id="prevMonth" class="text-gray-400 hover:text-gray-600 p-1">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd"
+                            d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z"
+                            clip-rule="evenodd" />
+                    </svg>
+                </button>
+                <button id="nextMonth" class="text-gray-400 hover:text-gray-600 p-1">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd"
+                            d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+                            clip-rule="evenodd" />
+                    </svg>
+                </button>
             </div>
         </div>
+        <div class="grid grid-cols-7 gap-1 text-center text-xs text-gray-400 mb-2">
+            <div>Sun</div>
+            <div>Mon</div>
+            <div>Tue</div>
+            <div>Wed</div>
+            <div>Thu</div>
+            <div>Fri</div>
+            <div>Sat</div>
+        </div>
+        <div id="calendar" class="grid grid-cols-7 gap-1 text-center text-gray-600"></div>
+    </div>
+</div>
+<!-- Right: Journal Entry -->
+<div class="bg-white w-full mx-auto">
+    <div class="p-4 border-b flex justify-between items-center">
+        <div>
+            <h2 class="text-xl font-medium text-gray-800">Journal Entry</h2>
+            <p class="text-gray-500 text-sm">Check out your daily journal, and feel free to edit if
+                needed!
+            </p>
+        </div>
+        <div class="flex flex-wrap gap-2 justify-center md:justify-start" id="action-buttons">
+            <button id="save-button"
+                class="w-full md:w-auto bg-gray-100 text-gray-700 px-4 py-1.5 rounded-md border border-gray-200 hover:bg-gray-200 transition text-sm font-medium">
+                Save
+            </button>
+            <button id="delete-button"
+                class="w-full md:w-auto text-gray-700 px-4 py-1.5 rounded-md border border-gray-200 hover:bg-gray-200 transition text-sm font-medium">
+                Delete
+            </button>
+        </div>
+    </div>
 
-        <!-- Right: Journal Entry -->
-        <div class="bg-white shadow-md rounded-lg w-full mx-auto">
-            <!-- Header with subtle border instead of dark background -->
-            <div class="p-4 border-b flex justify-between items-center">
-                <div>
-                    <h2 class="text-xl font-medium text-gray-800">Journal Entry</h2>
-                    <p class="text-gray-500 text-sm">Check out your daily journal, and feel free to edit if needed!</p>
-                </div>
-                <div class="flex flex-wrap gap-2 justify-center md:justify-start" id="action-buttons">
-                    <button id="save-button"
-                        class="w-full md:w-auto bg-gray-100 text-gray-700 px-4 py-1.5 rounded-md border border-gray-200 hover:bg-gray-200 transition text-sm font-medium">
-                        Save
-                    </button>
-                    <button id="delete-button"
-                        class="w-full md:w-auto text-gray-700 px-4 py-1.5 rounded-md border border-gray-200 hover:bg-gray-200 transition text-sm font-medium">
-                        Delete
-                    </button>
-                </div>
-            </div>
+    <!-- Journal Content area with more space and better spacing -->
+    <div class="p-6">
+        <div id="journal-container" class="hidden">
+            <form id="journal-form" class="space-y-6">
+                <input type="hidden" id="journal-id" name="id" value="{{ journal_entries[0].id if journal_entries }}">
 
-            <!-- Journal Content area with more space and better spacing -->
-            <div class="p-6">
-                <div id="journal-container" class="hidden">
-                    <form id="journal-form" class="space-y-6">
-                        <input type="hidden" id="journal-id" name="id"
-                            value="{{ journal_entries[0].id if journal_entries }}">
-
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                            <div>
-                                <label class="block text-sm font-medium text-gray-500 mb-1">Date</label>
-                                <div id="date-display"
-                                    class="text-gray-800 font-medium text-base border-b border-gray-200 pb-1 pt-1">
-                                    {{ journal_entries[0].formatted_date if journal_entries }}
-                                </div>
-                            </div>
-                            <div>
-                                <label class="block text-sm font-medium text-gray-500 mb-1">Day of Week</label>
-                                <div id="day_of_week"
-                                    class="text-gray-800 font-medium text-base border-b border-gray-200 pb-1 pt-1">
-                                    {{ journal_entries[0].day_of_week if journal_entries }}
-                                </div>
-                            </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-500 mb-1">Date</label>
+                        <div id="date-display"
+                            class="text-gray-800 font-medium text-base border-b border-gray-200 pb-1 pt-1">
+                            {{ journal_entries[0].formatted_date if journal_entries }}
                         </div>
-
-                        <div class="my-8">
-                            <label for="rating" class="block text-sm font-medium text-gray-500 mb-2">Mood Rating</label>
-                            <div class="flex justify-between mb-2">
-                                <span class="text-gray-500">😞 Awful</span>
-                                <span class="text-gray-500">😊 Excellent</span>
-                            </div>
-
-                            <input type="range" min="1" max="5"
-                                value="{{ journal_entries[0].rating if journal_entries else 3 }}" id="mood-slider"
-                                class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer transition-all duration-300"
-                                oninput="updateMoodEmoji(this.value)">
-
-                            <div class="text-center mt-2">
-                                <span id="mood-emoji" class="text-5xl">😐</span>
-                                <input type="hidden" name="rating" id="rating"
-                                    value="{{ journal_entries[0].rating if journal_entries else 3 }}">
-                            </div>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-500 mb-1">Day of
+                            Week</label>
+                        <div id="day_of_week"
+                            class="text-gray-800 font-medium text-base border-b border-gray-200 pb-1 pt-1">
+                            {{ journal_entries[0].day_of_week if journal_entries }}
                         </div>
-
-                        <div class="space-y-2">
-                            <div class="mb-1">
-                                <label for="journal" class="block text-sm font-medium text-gray-500 mb-2">Journal
-                                    Entry</label>
-                                <textarea id="journal" name="journal" rows="8" class="journal-textarea w-full p-3 text-sm border border-gray-200 rounded
-                            bg-gray-50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-blue-500
-                            focus:ring-opacity-50 transition-all duration-300"
-                                    placeholder="Your thoughts will be shown here...">{{ journal_entries[0].journal if journal_entries }}</textarea>
-                            </div>
-
-                            <div class="text-right">
-                                <span id="char-count" class="text-xs text-gray-500">0 characters</span>
-                            </div>
-                        </div>
-                    </form>
+                    </div>
                 </div>
-                <div class="flex items-center justify-center min-h-[200px] hidden" id="add-journal-container">
-                    <a href="/homepage" class="block w-full md:w-auto max-w-xs mx-auto">
-                        <button id="add-button"
-                            class="w-full bg-green-50 text-green-700 px-6 py-2 rounded-lg border border-green-200 hover:bg-green-100 transition duration-300 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-green-300 text-sm font-medium">
-                            Add Journal
-                        </button>
-                    </a>
+
+                <div class="my-8">
+                    <label for="rating" class="block text-sm font-medium text-gray-500 mb-2">Mood
+                        Rating</label>
+                    <div class="flex justify-between mb-2">
+                        <span class="text-gray-500">😞 Awful</span>
+                        <span class="text-gray-500">😊 Excellent</span>
+                    </div>
+
+                    <input type="range" min="1" max="5"
+                        value="{{ journal_entries[0].rating if journal_entries else 3 }}" id="mood-slider"
+                        class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer transition-all duration-300"
+                        oninput="updateMoodEmoji(this.value)">
+
+                    <div class="text-center mt-2">
+                        <span id="mood-emoji" class="text-5xl">😐</span>
+                        <input type="hidden" name="rating" id="rating"
+                            value="{{ journal_entries[0].rating if journal_entries else 3 }}">
+                    </div>
                 </div>
-            </div>
+
+                <div class="space-y-2">
+                    <div class="mb-1">
+                        <label for="journal" class="block text-sm font-medium text-gray-500 mb-2">Journal
+                            Entry</label>
+                        <textarea id="journal" name="journal" rows="8" class="journal-textarea w-full p-3 text-sm border border-gray-200 rounded
+        bg-gray-50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-blue-500
+        focus:ring-opacity-50 transition-all duration-300"
+                            placeholder="Your thoughts will be shown here...">{{ journal_entries[0].journal if journal_entries }}</textarea>
+                    </div>
+
+                    <div class="text-right">
+                        <span id="char-count" class="text-xs text-gray-500">0 characters</span>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="flex items-center justify-center min-h-[200px] hidden border rounded-lg border-gray-200"
+            id="add-journal-container">
+            <a href="/homepage" class="inline-block">
+                <button id="add-button"
+                    class="bg-green-50 text-green-700 px-6 py-2 rounded-lg border border-green-200 hover:bg-green-100 transition duration-300 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-green-300 text-sm font-medium">
+                    Add Journal
+                </button>
+            </a>
         </div>
     </div>
 </div>
-
-<img id="journal-screenshot" style="display: none; margin-top: 20px; width: 100%;" alt="Journal Screenshot">
-
-<script id="journal-data" type="application/json">
-    {{ journal_entries | tojson | safe }}
-</script>
-
-<!--Generate Journal to Image-->
-<script>
-    document.addEventListener("DOMContentLoaded", function () {
-        const viewButton = document.getElementById("view-journal");
-        const entryId = viewButton.getAttribute("data-entry-id");
-
-        if (entryId) {
-            // Tampilkan tombol jika ada jurnal
-            viewButton.classList.remove("hidden");
-
-            // Arahkan ke halaman journal_image berdasarkan entry_id
-            viewButton.addEventListener("click", function () {
-                window.open(`/journal_image/${entryId}`, "_blank");
-            });
-        }
-    });
-</script>
-
-<!--Generate Journal to Image-->
-<script>
-    function getCSRFToken() {
-        return document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-    }
-
-    document.getElementById("download-journal").addEventListener("click", async () => {
-        const journalElement = document.getElementById("journal-form").outerHTML;
-
-        const response = await fetch("/generate_screenshot", {
-            method: "POST",
-            headers: { "Content-Type": "application/json", "X-CSRFToken": getCSRFToken() },
-            body: JSON.stringify({ html: journalElement })
-        });
-
-        const result = await response.json();
-
-        console.log("Base64 Image:", result.image); // ✅ Cek apakah ada data base64 yang valid
-
-        if (result.success && result.image.startsWith("data:image/png;base64,")) {
-            const imgElement = document.getElementById("journal-screenshot");
-            imgElement.src = result.image;
-            imgElement.style.display = "block";
-        } else {
-            alert("Failed to generate screenshot!");
-        }
-    });
-
-</script>
 
 <!--Journal-->
 <script>
@@ -261,6 +209,7 @@
             await this.fetchEvents();
             this.renderCalendar();
             this.addEventListeners();
+            this.addTodayButtonListener();
 
             // Check for journal entry on current date when page loads
             const today = new Date();
@@ -277,8 +226,16 @@
         }
 
         addEventListeners() {
-            this.prevMonthBtn.addEventListener('click', () => this.changeMonth(-1));
-            this.nextMonthBtn.addEventListener('click', () => this.changeMonth(1));
+            //console.log("Menambahkan event listener untuk tombol navigasi bulan");
+
+            this.prevMonthBtn.removeEventListener('click', this.prevMonthHandler);
+            this.nextMonthBtn.removeEventListener('click', this.nextMonthHandler);
+
+            this.prevMonthHandler = () => this.changeMonth(-1);
+            this.nextMonthHandler = () => this.changeMonth(1);
+
+            this.prevMonthBtn.addEventListener('click', this.prevMonthHandler);
+            this.nextMonthBtn.addEventListener('click', this.nextMonthHandler);
 
             document.getElementById('add-button').addEventListener('click', () => {
                 document.getElementById('journal-container').classList.remove('hidden');
@@ -288,8 +245,58 @@
         }
 
         changeMonth(direction) {
-            this.currentDate.setMonth(this.currentDate.getMonth() + direction);
+            //console.log(`Klik tombol, arah: ${direction}`);
+
+            let currentMonth = this.currentDate.getMonth();
+            let currentYear = this.currentDate.getFullYear();
+
+            let newMonth = currentMonth + direction;
+            let newYear = currentYear;
+
+            if (newMonth < 0) {
+                newMonth = 11;
+                newYear--;
+            } else if (newMonth > 11) {
+                newMonth = 0;
+                newYear++;
+            }
+
+            this.currentDate = new Date(newYear, newMonth, 1);
+
+            //console.log(`Bulan setelah perubahan: ${this.currentDate.toDateString()}`);
+
             this.renderCalendar();
+            this.updateTodayButtonStyle();
+        }
+
+        addTodayButtonListener() {
+            const todayButton = document.getElementById('today');
+
+            todayButton.addEventListener('click', () => {
+                this.currentDate = new Date(); // Kembali ke bulan sekarang
+                this.renderCalendar();
+                this.updateTodayButtonStyle(); // Perbarui warna tombol setelah kembali ke bulan ini
+            });
+
+            this.updateTodayButtonStyle(); // Perbarui warna saat halaman dimuat
+        }
+
+        updateTodayButtonStyle() {
+            const todayButton = document.getElementById('today');
+            const now = new Date();
+
+            if (
+                this.currentDate.getMonth() === now.getMonth() &&
+                this.currentDate.getFullYear() === now.getFullYear()
+            ) {
+                // Jika berada di bulan saat ini, gunakan warna default (abu-abu)
+                todayButton.classList.remove('bg-blue-500', 'text-white', 'hover:bg-blue-600');
+                todayButton.classList.add('bg-gray-100', 'text-gray-600', 'hover:bg-gray-200');
+            } else {
+                // Jika berada di bulan lain, ubah warna menjadi biru
+                todayButton.classList.remove('bg-gray-100', 'text-gray-600', 'hover:bg-gray-200');
+                todayButton.classList.add('bg-blue-500', 'text-white', 'hover:bg-blue-600');
+            }
         }
 
         getEventForDate(date) {
@@ -365,58 +372,78 @@
             const month = this.currentDate.getMonth();
             const year = this.currentDate.getFullYear();
 
+            // Update month and year display
             this.monthYearEl.textContent = this.currentDate.toLocaleString('id-ID', {
                 month: 'long',
                 year: 'numeric'
             });
 
+            // Clear previous calendar
             this.calendar.innerHTML = '';
 
+            // Determine first day and days in month
             const firstDay = new Date(year, month, 1).getDay();
             const daysInMonth = new Date(year, month + 1, 0).getDate();
 
-            // Keep track of the last selected date
-            const selectedDate = this.selectedDate || new Date();
+            // Preserve selected date logic
+            const selectedDate = this.selectedDate ? new Date(this.selectedDate) : new Date();
 
+            // Add empty cells for days before the first day of the month
             for (let i = 0; i < firstDay; i++) {
                 const emptyCell = document.createElement('div');
+                emptyCell.classList.add('empty-cell');
                 this.calendar.appendChild(emptyCell);
             }
 
+            // Render days of the month
             for (let day = 1; day <= daysInMonth; day++) {
                 const dayCell = document.createElement('div');
-                const currentDate = new Date(Date.UTC(year, month, day));
+
+                // Set tanggal dengan jam 12 siang untuk mencegah pergeseran karena zona waktu
+                const currentDate = new Date(year, month, day);
+                currentDate.setHours(12, 0, 0, 0);
+
                 const event = this.getEventForDate(currentDate);
 
-                let dayContent = `<span class="text-sm">${day}</span>`;
-                let ratingClasses = '';
-                let ratingEmoji = '';
+                // Create consistent height container
+                dayCell.innerHTML = `
+                    <div class="flex flex-col items-center justify-center h-14 w-full">
+                        <div class="flex flex-col items-center">
+                            <span class="text-sm">${day}</span>
+                            ${event && event.title ? `<span class="text-lg">${event.title}</span>` : '<div class="h-4"></div>'}
+                        </div>
+                    </div>
+                `;
 
+                // Apply rating classes
+                let ratingClasses = '';
                 if (event) {
                     const moodEmojis = { "😞": 1, "☹️": 2, "😐": 3, "🙂": 4, "😊": 5 };
                     const rating = moodEmojis[event.title] || 0;
-
                     if (rating) {
                         ratingClasses = this.ratingColors[rating];
-                        ratingEmoji = event.title;
-                        dayContent += `<span class="text-lg">${ratingEmoji}</span>`;
                     }
                 }
 
-                dayCell.innerHTML = `<div class="flex flex-col items-center">${dayContent}</div>`;
-                dayCell.classList.add('p-1', 'cursor-pointer', 'hover:bg-gray-300', ...(ratingClasses ? ratingClasses.split(' ') : []));
+                dayCell.classList.add(
+                    'cursor-pointer',
+                    'rounded',
+                    'hover:bg-gray-300',
+                    ...(ratingClasses ? ratingClasses.split(' ') : [])
+                );
 
+                // Today's date highlight
                 const today = new Date();
-                if (day === today.getDate() && month === today.getMonth() && year === today.getFullYear()) {
+                today.setHours(12, 0, 0, 0); // Pastikan hari ini juga diatur ke tengah hari
+
+                if (currentDate.getTime() === today.getTime()) {
                     dayCell.classList.add('bg-blue-100');
                 }
 
-                if (day === selectedDate.getDate() &&
-                    month === selectedDate.getMonth() &&
-                    year === selectedDate.getFullYear()) {
+                // Selected date highlight
+                if (selectedDate && currentDate.getTime() === selectedDate.getTime()) {
                     dayCell.classList.add('bg-green-200', 'font-bold');
                 }
-
 
                 dayCell.addEventListener('click', () => {
                     // Remove previous selection highlight
@@ -429,7 +456,8 @@
                     dayCell.classList.add('bg-green-200', 'font-bold');
 
                     // Store the selected date
-                    this.selectedDate = currentDate;
+                    this.selectedDate = new Date(currentDate);
+                    this.selectedDate.setHours(12, 0, 0, 0);
 
                     // Load journal entry for the selected date
                     this.loadJournalEntry(currentDate);
@@ -518,7 +546,7 @@
             toast: true,
             position: "top-end",
             showConfirmButton: false,
-            timer: 3000,
+            timer: 1000,
             timerProgressBar: true,
             didOpen: (toast) => {
                 toast.onmouseenter = Swal.stopTimer;
@@ -558,6 +586,10 @@
             formData.append('journal', journalText);
             const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 
+            // Ubah teks tombol menjadi "Saving..." dan nonaktifkan
+            saveButton.textContent = 'Saving...';
+            saveButton.disabled = true;
+
             fetch(`/update_entry/${entryId}`, {
                 method: 'POST',
                 body: formData,
@@ -592,6 +624,11 @@
                 .catch(error => {
                     showToast('Error updating journal', 'error');
                     console.error('Error:', error);
+                })
+                .finally(() => {
+                    // Kembalikan teks tombol dan aktifkan kembali
+                    saveButton.textContent = 'Save';
+                    saveButton.disabled = false;
                 });
         });
 
