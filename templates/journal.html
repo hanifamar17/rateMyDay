@@ -28,137 +28,157 @@
     }
 </style>
 
-<!-- Left: Journal List -->
-<div class="overflow-hidden md:w-2/5 flex flex-col bg-white">
-    <div class="p-4 border-b border-gray-200">
-        <h2 class="text-xl font-medium text-gray-800">Journal Archive</h2>
-        <p class="text-gray-500 text-sm">Explore your past journal entries!</p>
+<div class="flex flex-col md:flex-row w-full min-h-screen gap-4 md:gap-8">
+    <!-- Left: Journal List -->
+    <div class="w-full md:w-2/5 lg:w-1/3 xl:w-1/4 flex flex-col bg-white">
+        <div class="p-4 border-b border-gray-200">
+            <h2 class="text-xl font-medium text-gray-800">Journal Archive</h2>
+            <p class="text-gray-500 text-sm">Explore your past journal entries!</p>
+        </div>
+        <div class="p-4">
+            <div class="flex justify-between items-center mb-4">
+                <span class="text-lg font-light text-gray-700 p-2" id="monthYear">Maret 2024</span>
+                <div class="flex items-center space-x-2">
+                    <button id="today"
+                        class="text-sm font-medium text-gray-600 bg-gray-100 hover:bg-gray-200 px-3 py-1 rounded-md transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-gray-300">
+                        Today
+                    </button>
+                    <button id="prevMonth" class="text-gray-400 hover:text-gray-600 p-1">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd"
+                                d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z"
+                                clip-rule="evenodd" />
+                        </svg>
+                    </button>
+                    <button id="nextMonth" class="text-gray-400 hover:text-gray-600 p-1">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd"
+                                d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+                                clip-rule="evenodd" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+            <div class="grid grid-cols-7 gap-1 text-center text-xs text-gray-400 mb-2">
+                <div>Sun</div>
+                <div>Mon</div>
+                <div>Tue</div>
+                <div>Wed</div>
+                <div>Thu</div>
+                <div>Fri</div>
+                <div>Sat</div>
+            </div>
+            <div id="calendar" class="grid grid-cols-7 gap-1 text-center text-gray-600"></div>
+        </div>
     </div>
-    <div class="p-4">
-        <div class="flex justify-between items-center mb-4">
-            <span class="text-lg font-light text-gray-700 p-2" id="monthYear">Maret 2024</span>
-            <div class="flex items-center space-x-2">
-                <button id="today"
-                    class="text-sm font-medium text-gray-600 bg-gray-100 hover:bg-gray-200 px-3 py-1 rounded-md transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-gray-300">
-                    Today
-                </button>
-                <button id="prevMonth" class="text-gray-400 hover:text-gray-600 p-1">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                        <path fill-rule="evenodd"
-                            d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z"
-                            clip-rule="evenodd" />
+    <!-- Right: Journal Entry -->
+    <div class="w-full md:w-3/5 lg:w-2/3 xl:w-3/4 flex flex-col bg-white">
+        <div class="p-4 border-b flex justify-between items-center">
+            <!-- Journal Info -->
+            <div>
+                <h2 class="text-xl font-medium text-gray-800">Journal Entry</h2>
+                <p class="text-gray-500 text-sm">Check out your daily journal, and feel free to edit if needed!</p>
+            </div>
+            <!-- Action Buttons -->
+            <div class="flex items-center gap-2" id="action-buttons">
+                <!-- Save Button -->
+                <button id="save-button"
+                    class="flex items-center justify-center w-10 h-10 lg:w-auto lg:px-4 lg:py-1.5 bg-gray-100 text-gray-700 rounded-md border border-gray-200 hover:bg-gray-200 transition text-sm font-medium">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 lg:hidden" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2Z"></path>
+                        <polyline points="17 21 17 13 7 13 7 21"></polyline>
+                        <polyline points="7 3 7 8 15 8"></polyline>
                     </svg>
+                    <span class="hidden lg:inline">Save</span>
                 </button>
-                <button id="nextMonth" class="text-gray-400 hover:text-gray-600 p-1">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                        <path fill-rule="evenodd"
-                            d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
-                            clip-rule="evenodd" />
+                <!-- Delete Button -->
+                <button id="delete-button"
+                    class="flex items-center justify-center w-10 h-10 lg:w-auto lg:px-4 lg:py-1.5 text-gray-700 rounded-md border border-gray-200 hover:bg-gray-200 transition text-sm font-medium">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 lg:hidden" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="3 6 5 6 21 6"></polyline>
+                        <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"></path>
+                        <path d="M10 11v6"></path>
+                        <path d="M14 11v6"></path>
+                        <path d="M9 6V3h6v3"></path>
                     </svg>
+                    <span class="hidden lg:inline">Delete</span>
                 </button>
             </div>
         </div>
-        <div class="grid grid-cols-7 gap-1 text-center text-xs text-gray-400 mb-2">
-            <div>Sun</div>
-            <div>Mon</div>
-            <div>Tue</div>
-            <div>Wed</div>
-            <div>Thu</div>
-            <div>Fri</div>
-            <div>Sat</div>
-        </div>
-        <div id="calendar" class="grid grid-cols-7 gap-1 text-center text-gray-600"></div>
-    </div>
-</div>
-<!-- Right: Journal Entry -->
-<div class="bg-white w-full mx-auto">
-    <div class="p-4 border-b flex justify-between items-center">
-        <div>
-            <h2 class="text-xl font-medium text-gray-800">Journal Entry</h2>
-            <p class="text-gray-500 text-sm">Check out your daily journal, and feel free to edit if
-                needed!
-            </p>
-        </div>
-        <div class="flex flex-wrap gap-2 justify-center md:justify-start" id="action-buttons">
-            <button id="save-button"
-                class="w-full md:w-auto bg-gray-100 text-gray-700 px-4 py-1.5 rounded-md border border-gray-200 hover:bg-gray-200 transition text-sm font-medium">
-                Save
-            </button>
-            <button id="delete-button"
-                class="w-full md:w-auto text-gray-700 px-4 py-1.5 rounded-md border border-gray-200 hover:bg-gray-200 transition text-sm font-medium">
-                Delete
-            </button>
-        </div>
-    </div>
+        
 
-    <!-- Journal Content area with more space and better spacing -->
-    <div class="p-6">
-        <div id="journal-container" class="hidden">
-            <form id="journal-form" class="space-y-6">
-                <input type="hidden" id="journal-id" name="id" value="{{ journal_entries[0].id if journal_entries }}">
+        <!-- Journal Content area with more space and better spacing -->
+        <div class="p-6">
+            <div id="journal-container" class="hidden">
+                <form id="journal-form" class="space-y-6">
+                    <input type="hidden" id="journal-id" name="id"
+                        value="{{ journal_entries[0].id if journal_entries }}">
 
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div>
-                        <label class="block text-sm font-medium text-gray-500 mb-1">Date</label>
-                        <div id="date-display"
-                            class="text-gray-800 font-medium text-base border-b border-gray-200 pb-1 pt-1">
-                            {{ journal_entries[0].formatted_date if journal_entries }}
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-500 mb-1">Date</label>
+                            <div id="date-display"
+                                class="text-gray-800 font-medium text-base border-b border-gray-200 pb-1 pt-1">
+                                {{ journal_entries[0].formatted_date if journal_entries }}
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-500 mb-1">Day of
+                                Week</label>
+                            <div id="day_of_week"
+                                class="text-gray-800 font-medium text-base border-b border-gray-200 pb-1 pt-1">
+                                {{ journal_entries[0].day_of_week if journal_entries }}
+                            </div>
                         </div>
                     </div>
-                    <div>
-                        <label class="block text-sm font-medium text-gray-500 mb-1">Day of
-                            Week</label>
-                        <div id="day_of_week"
-                            class="text-gray-800 font-medium text-base border-b border-gray-200 pb-1 pt-1">
-                            {{ journal_entries[0].day_of_week if journal_entries }}
+
+                    <div class="my-8">
+                        <label for="rating" class="block text-sm font-medium text-gray-500 mb-2">Mood
+                            Rating</label>
+                        <div class="flex justify-between mb-2">
+                            <span class="text-gray-500">😞 Awful</span>
+                            <span class="text-gray-500">😊 Excellent</span>
+                        </div>
+
+                        <input type="range" min="1" max="5"
+                            value="{{ journal_entries[0].rating if journal_entries else 3 }}" id="mood-slider"
+                            class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer transition-all duration-300"
+                            oninput="updateMoodEmoji(this.value)">
+
+                        <div class="text-center mt-2">
+                            <span id="mood-emoji" class="text-5xl">😐</span>
+                            <input type="hidden" name="rating" id="rating"
+                                value="{{ journal_entries[0].rating if journal_entries else 3 }}">
                         </div>
                     </div>
-                </div>
 
-                <div class="my-8">
-                    <label for="rating" class="block text-sm font-medium text-gray-500 mb-2">Mood
-                        Rating</label>
-                    <div class="flex justify-between mb-2">
-                        <span class="text-gray-500">😞 Awful</span>
-                        <span class="text-gray-500">😊 Excellent</span>
-                    </div>
-
-                    <input type="range" min="1" max="5"
-                        value="{{ journal_entries[0].rating if journal_entries else 3 }}" id="mood-slider"
-                        class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer transition-all duration-300"
-                        oninput="updateMoodEmoji(this.value)">
-
-                    <div class="text-center mt-2">
-                        <span id="mood-emoji" class="text-5xl">😐</span>
-                        <input type="hidden" name="rating" id="rating"
-                            value="{{ journal_entries[0].rating if journal_entries else 3 }}">
-                    </div>
-                </div>
-
-                <div class="space-y-2">
-                    <div class="mb-1">
-                        <label for="journal" class="block text-sm font-medium text-gray-500 mb-2">Journal
-                            Entry</label>
-                        <textarea id="journal" name="journal" rows="8" class="journal-textarea w-full p-3 text-sm border border-gray-200 rounded
+                    <div class="space-y-2">
+                        <div class="mb-1">
+                            <label for="journal" class="block text-sm font-medium text-gray-500 mb-2">Journal
+                                Entry</label>
+                            <textarea id="journal" name="journal" rows="8" class="journal-textarea w-full p-3 text-sm border border-gray-200 rounded
         bg-gray-50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-blue-500
         focus:ring-opacity-50 transition-all duration-300"
-                            placeholder="Your thoughts will be shown here...">{{ journal_entries[0].journal if journal_entries }}</textarea>
-                    </div>
+                                placeholder="Your thoughts will be shown here...">{{ journal_entries[0].journal if journal_entries }}</textarea>
+                        </div>
 
-                    <div class="text-right">
-                        <span id="char-count" class="text-xs text-gray-500">0 characters</span>
+                        <div class="text-right">
+                            <span id="char-count" class="text-xs text-gray-500">0 characters</span>
+                        </div>
                     </div>
-                </div>
-            </form>
-        </div>
-        <div class="flex items-center justify-center min-h-[200px] hidden border rounded-lg border-gray-200"
-            id="add-journal-container">
-            <a href="/homepage" class="inline-block">
-                <button id="add-button"
-                    class="bg-green-50 text-green-700 px-6 py-2 rounded-lg border border-green-200 hover:bg-green-100 transition duration-300 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-green-300 text-sm font-medium">
-                    Add Journal
-                </button>
-            </a>
+                </form>
+            </div>
+            <div class="flex items-center justify-center min-h-[200px] hidden border rounded-lg border-gray-200"
+                id="add-journal-container">
+                <a href="/homepage" class="inline-block">
+                    <button id="add-button"
+                        class="bg-green-50 text-green-700 px-6 py-2 rounded-lg border border-green-200 hover:bg-green-100 transition duration-300 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-green-300 text-sm font-medium">
+                        Add Journal
+                    </button>
+                </a>
+            </div>
         </div>
     </div>
 </div>
