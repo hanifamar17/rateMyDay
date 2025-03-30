@@ -11,13 +11,70 @@
 </head>
 
 <body class="bg-gray-50 min-h-screen flex items-center justify-center p-4">
-    <div class="w-full max-w-[400px] aspect-[4/5] bg-white rounded-lg overflow-hidden flex flex-col justify-between shadow-md backdrop-blur-sm transition-all duration-300 hover:shadow-2xl">
+    <div
+        class="w-full max-w-[400px] min-h-[400px] sm:min-h-[500px] bg-white rounded-lg overflow-hidden flex flex-col justify-between shadow-md backdrop-blur-sm transition-all duration-300 hover:shadow-2xl">
         <!-- Header: Date & Mood -->
-        <div class="px-8 pt-8 pb-6 border-b border-gray-100">
-            <h2 class="text-xl font-semibold text-gray-900">Today's Vibes</h2>
-            <p class="text-sm text-gray-500 mt-1">{{ entry.formatted_date }}</p>
-            <p class="text-xs text-gray-400">{{ entry.day_of_week }}</p>
-            
+        <div class="px-8 pt-8 pb-2 flex items-start justify-between relative">
+            <!-- Bagian Kiri: Teks -->
+            <div>
+                <h2 class="text-xl font-semibold text-gray-900">Today's Vibes</h2>
+                <p class="text-sm text-gray-500 mt-1">{{ entry.formatted_date }}</p>
+                <p class="text-xs text-gray-400">{{ entry.day_of_week }}</p>
+            </div>
+        
+            <!-- Button Titik Tiga -->
+            <div class="relative">
+                <button id="menu-button" type="button"
+                    class="p-2 rounded-full bg-gray-100 hover:bg-gray-200 focus:outline-none transition duration-200 flex items-center justify-center z-10">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-600" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="6" r="1.5"></circle>
+                        <circle cx="12" cy="12" r="1.5"></circle>
+                        <circle cx="12" cy="18" r="1.5"></circle>
+                    </svg>
+                </button>
+        
+                <!-- Dropdown Menu -->
+                <div id="dropdown-menu"
+                    class="absolute right-0 top-full mt-2 w-40 bg-white border border-gray-200 shadow-lg rounded-lg transform origin-top-right transition-all duration-200 opacity-0 scale-95 invisible z-20">
+                    <button
+                        class="share-button w-full flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded-t-lg"
+                        data-entry-id="{{ entry.id }}">
+                        <svg class="w-4 h-4 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                            stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z">
+                            </path>
+                        </svg>
+                        Share
+                    </button>
+                    <button
+                        class="copy-button w-full flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                        data-entry-id="{{ entry.id }}">
+                        <svg class="w-4 h-4 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                            stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z">
+                            </path>
+                        </svg>
+                        Copy
+                    </button>
+                    <button
+                        class="download-button w-full flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded-b-lg"
+                        data-entry-id="{{ entry.id }}">
+                        <svg class="w-4 h-4 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                            stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path>
+                        </svg>
+                        Download
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="px-8 pb-6 border-b border-gray-100">
             <div class="flex justify-between items-center">
                 <div class="text-amber-400 text-lg font-medium">
                     {{ "★" * entry.rating }}{{ "☆" * (5 - entry.rating) }}
@@ -26,22 +83,22 @@
                     {% if entry.rating == 1 %} 😞
                     {% elif entry.rating == 2 %} ☹️
                     {% elif entry.rating == 3 %} 😐
-                    {% elif entry.rating == 4 %} 🙂 
+                    {% elif entry.rating == 4 %} 🙂
                     {% elif entry.rating == 5 %} 😊
                     {% endif %}
                 </div>
             </div>
         </div>
-    
+
         <!-- Main Content: Journal Entry -->
         <div class="p-8 flex-1">
             <p class="text-gray-800 text-base leading-relaxed tracking-wide whitespace-pre-line">
                 {{ entry.journal }}
             </p>
         </div>
-    
+
         <!-- Footer: Branding & Tagline -->
-        <div class="px-8 py-3 bg-gradient-to-r from-indigo-50 to-purple-50 border-t border-gray-100 relative">
+        <div class="px-8 py-4 bg-gradient-to-r from-indigo-50 to-purple-50 border-t border-gray-100 relative">
             <div class="flex items-center justify-between">
                 <div class="items-center">
                     <p class="text-sm font-medium text-indigo-500">RateMyDay</p>
@@ -50,6 +107,171 @@
             </div>
         </div>
     </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            // Toggle Dropdown
+            const menuButton = document.getElementById("menu-button");
+            const dropdownMenu = document.getElementById("dropdown-menu");
+
+            if (menuButton && dropdownMenu) {
+                menuButton.addEventListener("click", function (e) {
+                    e.stopPropagation();
+                    dropdownMenu.classList.toggle("opacity-0");
+                    dropdownMenu.classList.toggle("scale-95");
+                    dropdownMenu.classList.toggle("invisible");
+                });
+
+                // Close dropdown saat klik di luar
+                document.addEventListener("click", function (e) {
+                    if (!e.target.closest("#menu-button") && !e.target.closest("#dropdown-menu")) {
+                        dropdownMenu.classList.add("opacity-0", "scale-95", "invisible");
+                    }
+                });
+            }
+
+            // Share Button Functionality (Menggunakan Event Delegation)
+            document.querySelectorAll(".share-button").forEach(button => {
+                button.addEventListener("click", function () {
+                    const entryId = this.getAttribute("data-entry-id");
+                    if (!entryId) {
+                        console.warn("⚠️ No journal entry ID found.");
+                        return;
+                    }
+
+                    // Generate the shareable link
+                    const shareUrl = `${window.location.origin}/journal/${entryId}`;
+
+                    // Check if Web Share API is available
+                    if (navigator.share) {
+                        navigator.share({
+                            title: "Check out my journal entry!",
+                            text: "Here's my journal entry. Take a look!",
+                            url: shareUrl,
+                        }).then(() => {
+                            console.log("✅ Successfully shared!");
+                        }).catch(err => {
+                            console.error("❌ Error sharing:", err);
+                        });
+                    } else {
+                        // Fallback: Copy to clipboard
+                        navigator.clipboard.writeText(shareUrl).then(() => {
+                            alert("🔗 Link copied to clipboard!");
+                        }).catch(err => {
+                            console.error("❌ Failed to copy:", err);
+                        });
+                    }
+                });
+            });
+
+            // Copy Button Functionality (Menggunakan Event Delegation)
+            document.addEventListener("click", function (e) {
+                if (e.target.closest(".copy-button")) {
+                    const button = e.target.closest(".copy-button");
+                    const entryId = button.getAttribute("data-entry-id");
+
+                    console.log("Button Clicked:", button);  // Debug: Pastikan tombol terdeteksi
+                    console.log("Entry ID:", entryId);       // Debug: Pastikan ID ditemukan
+
+                    if (entryId) {
+                        const journalImageUrl = `${window.location.origin}/journal_image/${entryId}`;
+                        navigator.clipboard.writeText(journalImageUrl)
+                            .then(() => {
+                                const oldText = button.innerHTML;
+                                button.innerHTML = '<svg class="w-4 h-4 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg> Copied!';
+                                setTimeout(() => { button.innerHTML = oldText; }, 2000);
+                            })
+                            .catch(err => console.error("Error copying URL: ", err));
+                    } else {
+                        console.warn("⚠️ No journal entry to copy. Check if 'data-entry-id' is missing.");
+                    }
+                }
+            });
+
+            // Download Button Functionality
+            document.querySelectorAll(".download-button").forEach(button => {
+                button.addEventListener("click", function () {
+                    const entryId = this.getAttribute("data-entry-id");
+
+                    if (!entryId) {
+                        console.warn("⚠️ No journal entry ID found.");
+                        return;
+                    }
+
+                    const downloadButton = this;
+                    const journalImageUrl = `${window.location.origin}/journal_image/${entryId}`;
+                    const oldText = downloadButton.innerHTML; // Simpan teks asli tombol
+
+                    // Tampilkan indikator loading di tombol
+                    downloadButton.innerHTML = `
+                    <svg class="w-4 h-4 mr-2 animate-spin" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 12l1.5-1.5L9 14.5l5-5 4.5 4.5L20 12"></path>
+                    </svg> Downloading...
+                `;
+
+                    // Fetch halaman dari Flask route
+                    fetch(journalImageUrl)
+                        .then(response => response.text())
+                        .then(html => {
+                            // Buat iframe untuk memuat halaman
+                            const iframe = document.createElement('iframe');
+                            iframe.style.position = 'fixed';
+                            iframe.style.top = '-9999px';
+                            iframe.style.left = '-9999px';
+                            iframe.style.width = '500px';  // Sesuaikan dengan ukuran card
+                            iframe.style.height = '600px'; // Sesuaikan dengan ukuran card
+                            document.body.appendChild(iframe);
+
+                            // Tunggu iframe dimuat
+                            iframe.onload = function () {
+                                const cardElement = iframe.contentDocument.querySelector('.bg-white');
+
+                                if (cardElement) {
+                                    setTimeout(() => {
+                                        html2canvas(cardElement, {
+                                            scale: 2, // Untuk resolusi lebih baik
+                                            backgroundColor: null
+                                        }).then(canvas => {
+                                            const imageUrl = canvas.toDataURL('image/png');
+
+                                            // Buat elemen a untuk download
+                                            const downloadLink = document.createElement('a');
+                                            downloadLink.href = imageUrl;
+                                            downloadLink.download = `journal-ratemyday.png`;
+                                            document.body.appendChild(downloadLink);
+                                            downloadLink.click();
+
+                                            // Bersihkan elemen sementara
+                                            document.body.removeChild(downloadLink);
+                                            document.body.removeChild(iframe);
+
+                                            // Kembalikan tombol ke teks asli
+                                            setTimeout(() => {
+                                                downloadButton.innerHTML = oldText;
+                                            }, 1000);
+                                        });
+                                    }, 500);
+                                } else {
+                                    console.error("Card element not found in iframe");
+                                    document.body.removeChild(iframe);
+                                    downloadButton.innerHTML = oldText;
+                                }
+                            };
+
+                            // Tulis HTML ke iframe
+                            iframe.contentDocument.open();
+                            iframe.contentDocument.write(html);
+                            iframe.contentDocument.close();
+                        })
+                        .catch(error => {
+                            console.error('Error generating image:', error);
+                            downloadButton.innerHTML = oldText;
+                        });
+                });
+            });
+        });
+    </script>
+
 </body>
 
 </html>

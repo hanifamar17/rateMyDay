@@ -726,7 +726,7 @@ def journal_image(entry_id):
     cursor = conn.cursor(dictionary=True)
 
     cursor.execute("""
-        SELECT date, rating, journal, 
+        SELECT id, date, rating, journal, 
                DATE_FORMAT(date, '%W') AS day_of_week,
                DATE_FORMAT(date, '%d %M %Y') AS formatted_date
         FROM ratings 

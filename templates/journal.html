@@ -97,7 +97,16 @@
 
                     <!-- Dropdown Menu -->
                     <div id="dropdown-menu"
-                        class="absolute right-0 top-full mt-2 w-36 bg-white border border-gray-200 shadow-lg rounded-lg transform origin-top-right transition-all duration-200 ease-out z-10 hidden">
+                        class="absolute right-0 top-full mt-2 w-40 bg-white border border-gray-200 shadow-lg rounded-lg transform origin-top-right transition-all duration-200 ease-out z-10 hidden">
+                        <button id="open-card-button"
+                            class="w-full flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded-t-lg">
+                            <svg class="w-4 h-4 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M9 5l7 7-7 7" />
+                            </svg>
+                            Open Card
+                        </button>
                         <button id="share-button"
                             class="w-full flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded-t-lg">
                             <svg class="w-4 h-4 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
@@ -390,6 +399,7 @@
                 const shareButton = document.getElementById('share-button'); // Button Share
                 const copyButton = document.getElementById('copy-button');
                 const downloadButton = document.getElementById('download-button');
+                const opencardButton = document.getElementById('open-card-button');
 
                 if (data.success && data.entry.rating) {
                     const entry = data.entry;
@@ -412,6 +422,9 @@
                     }
                     if (downloadButton) {
                         downloadButton.setAttribute('data-entry-id', entry.id);
+                    }
+                    if (opencardButton) {
+                        opencardButton.setAttribute('data-entry-id', entry.id);
                     }
 
                     // Show journal form, hide "Add Journal" button
@@ -865,36 +878,45 @@
 </script>
 
 <script>
-    document.addEventListener('DOMContentLoaded', function () {
-        const menuButton = document.getElementById('menu-button');
-        const dropdownMenu = document.getElementById('dropdown-menu');
+    document.addEventListener("DOMContentLoaded", function () {
+        const menuButton = document.getElementById("menu-button");
+        const dropdownMenu = document.getElementById("dropdown-menu");
 
-        // Toggle dropdown menu visibility when clicking on menu button
-        menuButton.addEventListener('click', function (e) {
-            e.stopPropagation();
-            dropdownMenu.classList.toggle('hidden');
+        if (menuButton && dropdownMenu) {
+            menuButton.addEventListener("click", function (e) {
+                e.stopPropagation();
 
-            if (!dropdownMenu.classList.contains('hidden')) {
-                // Show animation
-                dropdownMenu.style.opacity = '1';
-                dropdownMenu.style.transform = 'translateY(0) scale(1)';
-            } else {
-                // Hide animation
-                dropdownMenu.style.opacity = '0';
-                dropdownMenu.style.transform = 'translateY(-10px) scale(0.95)';
-            }
-        });
+                // Jika dropdown tersembunyi, tampilkan dengan animasi
+                if (dropdownMenu.classList.contains("hidden")) {
+                    dropdownMenu.classList.remove("hidden");
+                    setTimeout(() => {
+                        dropdownMenu.classList.remove("opacity-0", "scale-95");
+                        dropdownMenu.classList.add("opacity-100", "scale-100");
+                    }, 10);
+                } else {
+                    // Tutup dengan animasi sebelum menghapus elemen
+                    dropdownMenu.classList.remove("opacity-100", "scale-100");
+                    dropdownMenu.classList.add("opacity-0", "scale-95");
 
-        // Close dropdown when clicking anywhere else on the page
-        document.addEventListener('click', function (e) {
-            if (!menuButton.contains(e.target) && !dropdownMenu.contains(e.target)) {
-                dropdownMenu.classList.add('hidden');
-                dropdownMenu.style.opacity = '0';
-                dropdownMenu.style.transform = 'translateY(-10px) scale(0.95)';
-            }
-        });
+                    setTimeout(() => {
+                        dropdownMenu.classList.add("hidden");
+                    }, 200); // Sesuai dengan durasi animasi CSS
+                }
+            });
 
-        //copy button
+            // Tutup dropdown saat klik di luar
+            document.addEventListener("click", function (e) {
+                if (!menuButton.contains(e.target) && !dropdownMenu.contains(e.target)) {
+                    dropdownMenu.classList.remove("opacity-100", "scale-100");
+                    dropdownMenu.classList.add("opacity-0", "scale-95");
+
+                    setTimeout(() => {
+                        dropdownMenu.classList.add("hidden");
+                    }, 200);
+                }
+            });
+        }
+
         // Copy button functionality
         const copyButton = document.getElementById("copy-button");
         if (copyButton) {
@@ -930,9 +952,15 @@
                 // Mendapatkan URL gambar journal dari route yang sudah Anda buat
                 const journalImageUrl = `${window.location.origin}/journal_image/${entryId}`;
 
-                // Menunjukkan feedback ke pengguna
+                // Simpan teks asli tombol sebelum diubah
                 const oldText = downloadButton.innerHTML;
-                downloadButton.innerHTML = '<svg class="w-4 h-4 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg> Downloading...';
+
+                // Menampilkan ikon loading dengan animasi
+                downloadButton.innerHTML = `
+            <svg class="w-5 h-5 mr-2 animate-spin text-gray-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 12l1.5-1.5L9 14.5l5-5 4.5 4.5L20 12"></path>
+            </svg> Downloading...
+        `;
 
                 // Menggunakan html2canvas untuk mengubah halaman di URL tersebut menjadi gambar
                 fetch(journalImageUrl)
@@ -969,20 +997,20 @@
                                         document.body.appendChild(downloadLink);
                                         downloadLink.click();
 
-                                        // Bersihkan
+                                        // Bersihkan elemen sementara
                                         document.body.removeChild(downloadLink);
                                         document.body.removeChild(iframe);
 
-                                        // Kembalikan tombol ke kondisi semula
+                                        // Kembalikan tombol ke kondisi semula dengan transisi halus
                                         setTimeout(() => {
-                                            downloadButton.innerHTML = oldText; // Gunakan referensi yang disimpan
-                                        }, 1000);
+                                            downloadButton.innerHTML = oldText;
+                                        }, 500);
                                     });
                                 }, 500);
                             } else {
-                                console.error("Card element not found in iframe");
+                                console.error("❌ Card element not found in iframe");
                                 document.body.removeChild(iframe);
-                                downloadButton.innerHTML = oldText; // Gunakan referensi yang disimpan
+                                downloadButton.innerHTML = oldText;
                             }
                         };
 
@@ -992,13 +1020,27 @@
                         iframe.contentDocument.close();
                     })
                     .catch(error => {
-                        console.error('Error generating image:', error);
-                        downloadButton.innerHTML = oldText; // Gunakan referensi yang disimpan
+                        console.error('❌ Error generating image:', error);
+                        downloadButton.innerHTML = oldText;
                     });
             } else {
-                console.warn("No journal entry to download.");
+                console.warn("⚠️ No journal entry to download.");
             }
         });
+
+        const openCardButton = document.getElementById("open-card-button");
+        if (openCardButton) {
+            openCardButton.addEventListener("click", function () {
+                const entryId = this.getAttribute("data-entry-id");
+
+                if (entryId) {
+                    const cardUrl = `${window.location.origin}/journal_image/${entryId}`;
+                    window.open(cardUrl, "_blank");
+                } else {
+                    console.warn("No journal entry ID found.");
+                }
+            });
+        }
     });
 </script>
 
