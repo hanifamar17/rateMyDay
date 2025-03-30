@@ -3,6 +3,7 @@
 {% block content %}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
 <style>
     .journal-textarea {
         min-height: 150px;
@@ -73,41 +74,64 @@
     </div>
     <!-- Right: Journal Entry -->
     <div class="w-full md:w-3/5 lg:w-2/3 xl:w-3/4 flex flex-col bg-white">
-        <div class="p-4 border-b flex justify-between items-center">
+        <div class="p-4 border-b flex justify-between gap-2 items-center">
             <!-- Journal Info -->
             <div>
                 <h2 class="text-xl font-medium text-gray-800">Journal Entry</h2>
                 <p class="text-gray-500 text-sm">Check out your daily journal, and feel free to edit if needed!</p>
             </div>
             <!-- Action Buttons -->
-            <div class="flex items-center gap-2" id="action-buttons">
-                <!-- Save Button -->
-                <button id="save-button"
-                    class="flex items-center justify-center w-10 h-10 lg:w-auto lg:px-4 lg:py-1.5 bg-gray-100 text-gray-700 rounded-md border border-gray-200 hover:bg-gray-200 transition text-sm font-medium">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 lg:hidden" viewBox="0 0 24 24" fill="none"
-                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2Z"></path>
-                        <polyline points="17 21 17 13 7 13 7 21"></polyline>
-                        <polyline points="7 3 7 8 15 8"></polyline>
-                    </svg>
-                    <span class="hidden lg:inline">Save</span>
-                </button>
-                <!-- Delete Button -->
-                <button id="delete-button"
-                    class="flex items-center justify-center w-10 h-10 lg:w-auto lg:px-4 lg:py-1.5 text-gray-700 rounded-md border border-gray-200 hover:bg-gray-200 transition text-sm font-medium">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 lg:hidden" viewBox="0 0 24 24" fill="none"
-                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <polyline points="3 6 5 6 21 6"></polyline>
-                        <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"></path>
-                        <path d="M10 11v6"></path>
-                        <path d="M14 11v6"></path>
-                        <path d="M9 6V3h6v3"></path>
-                    </svg>
-                    <span class="hidden lg:inline">Delete</span>
-                </button>
+            <div class="flex items-center gap-2">
+                <div class="flex justify-end items-end pb-1 md:col-span-1 relative">
+                    <!-- Button Titik Tiga -->
+                    <button id="menu-button" type="button"
+                        class="p-2 rounded-full bg-gray-100 hover:bg-gray-200 focus:outline-none transition duration-200 flex items-center justify-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-600" viewBox="0 0 24 24"
+                            fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                            stroke-linejoin="round">
+                            <circle cx="12" cy="6" r="1.5"></circle>
+                            <circle cx="12" cy="12" r="1.5"></circle>
+                            <circle cx="12" cy="18" r="1.5"></circle>
+                        </svg>
+                    </button>
+
+                    <!-- Dropdown Menu -->
+                    <div id="dropdown-menu"
+                        class="absolute right-0 top-full mt-2 w-36 bg-white border border-gray-200 shadow-lg rounded-lg transform origin-top-right transition-all duration-200 ease-out z-10 hidden">
+                        <button id="share-button"
+                            class="w-full flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded-t-lg">
+                            <svg class="w-4 h-4 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z">
+                                </path>
+                            </svg>
+                            Share
+                        </button>
+                        <button id="copy-button"
+                            class="w-full flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                            <svg class="w-4 h-4 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z">
+                                </path>
+                            </svg>
+                            Copy
+                        </button>
+                        <button id="download-button"
+                            class="w-full flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded-b-lg">
+                            <svg class="w-4 h-4 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path>
+                            </svg>
+                            Download
+                        </button>
+                    </div>
+                </div>
             </div>
         </div>
-        
+
 
         <!-- Journal Content area with more space and better spacing -->
         <div class="p-6">
@@ -116,17 +140,16 @@
                     <input type="hidden" id="journal-id" name="id"
                         value="{{ journal_entries[0].id if journal_entries }}">
 
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <div>
+                    <div class="grid grid-cols-1 md:grid-cols-5 gap-6">
+                        <div class="md:col-span-2">
                             <label class="block text-sm font-medium text-gray-500 mb-1">Date</label>
                             <div id="date-display"
                                 class="text-gray-800 font-medium text-base border-b border-gray-200 pb-1 pt-1">
                                 {{ journal_entries[0].formatted_date if journal_entries }}
                             </div>
                         </div>
-                        <div>
-                            <label class="block text-sm font-medium text-gray-500 mb-1">Day of
-                                Week</label>
+                        <div class="md:col-span-2">
+                            <label class="block text-sm font-medium text-gray-500 mb-1">Day of Week</label>
                             <div id="day_of_week"
                                 class="text-gray-800 font-medium text-base border-b border-gray-200 pb-1 pt-1">
                                 {{ journal_entries[0].day_of_week if journal_entries }}
@@ -169,6 +192,36 @@
                         </div>
                     </div>
                 </form>
+            </div>
+            <div class="flex mt-4">
+                <div class="flex ml-auto items-center gap-2" id="action-buttons">
+                    <!-- Save Button -->
+                    <button id="save-button"
+                        class="flex items-center justify-center w-10 h-10 lg:w-auto lg:px-4 lg:py-1.5 bg-gray-100 text-gray-700 rounded-md border border-gray-200 hover:bg-gray-200 transition text-sm font-medium">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 lg:hidden" viewBox="0 0 24 24"
+                            fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                            stroke-linejoin="round">
+                            <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2Z"></path>
+                            <polyline points="17 21 17 13 7 13 7 21"></polyline>
+                            <polyline points="7 3 7 8 15 8"></polyline>
+                        </svg>
+                        <span class="hidden lg:inline">Save</span>
+                    </button>
+                    <!-- Delete Button -->
+                    <button id="delete-button"
+                        class="flex items-center justify-center w-10 h-10 lg:w-auto lg:px-4 lg:py-1.5 text-gray-700 rounded-md border border-gray-200 hover:bg-gray-200 transition text-sm font-medium">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 lg:hidden" viewBox="0 0 24 24"
+                            fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                            stroke-linejoin="round">
+                            <polyline points="3 6 5 6 21 6"></polyline>
+                            <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"></path>
+                            <path d="M10 11v6"></path>
+                            <path d="M14 11v6"></path>
+                            <path d="M9 6V3h6v3"></path>
+                        </svg>
+                        <span class="hidden lg:inline">Delete</span>
+                    </button>
+                </div>
             </div>
             <div class="flex items-center justify-center min-h-[200px] hidden border rounded-lg border-gray-200"
                 id="add-journal-container">
@@ -334,9 +387,11 @@
                 const journalContainer = document.getElementById('journal-container');
                 const addJournalContainer = document.getElementById('add-journal-container');
                 const actionButtons = document.getElementById('action-buttons');
+                const shareButton = document.getElementById('share-button'); // Button Share
+                const copyButton = document.getElementById('copy-button');
+                const downloadButton = document.getElementById('download-button');
 
                 if (data.success && data.entry.rating) {
-                    // If there's a rating, show the journal form
                     const entry = data.entry;
                     document.getElementById('date-display').textContent = entry.formatted_date;
                     document.getElementById('day_of_week').textContent = entry.day_of_week;
@@ -348,13 +403,28 @@
                     document.getElementById('journal').value = entry.journal || "";
                     updateCharCount();
 
+                    // Set ID journal pada button share
+                    if (shareButton) {
+                        shareButton.setAttribute('data-entry-id', entry.id);
+                    }
+                    if (copyButton) {
+                        copyButton.setAttribute('data-entry-id', entry.id);
+                    }
+                    if (downloadButton) {
+                        downloadButton.setAttribute('data-entry-id', entry.id);
+                    }
+
                     // Show journal form, hide "Add Journal" button
                     journalContainer.classList.remove('hidden');
                     addJournalContainer.classList.add('hidden');
                     if (actionButtons) actionButtons.classList.remove('hidden');
                 } else {
-                    // If no rating, show "Add Journal" button
                     this.clearJournalDisplay(formattedDate);
+
+                    // Reset data-entry-id jika tidak ada jurnal
+                    if (shareButton) {
+                        shareButton.removeAttribute('data-entry-id');
+                    }
                 }
             } catch (error) {
                 console.error('Error fetching journal entry:', error);
@@ -730,6 +800,206 @@
 
 </script>
 
+<!-- Share Button Script -->
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const shareButton = document.getElementById("share-button");
 
+        document.body.addEventListener("click", function (event) {
+            if (event.target.closest("#share-button")) {
+                const entryId = shareButton.getAttribute("data-entry-id");
+                if (entryId) {
+                    shareJournal(entryId);
+                } else {
+                    console.warn("Entry ID is missing.");
+                }
+            }
+        });
+    });
+
+    function shareJournal(entryId) {
+        const journalUrl = `${window.location.origin}/journal_image/${entryId}`;
+
+        if (navigator.share) {
+            navigator.share({
+                title: 'My Journal Entry',
+                text: 'Check out my journal entry!',
+                url: journalUrl,
+            })
+                .then(() => console.log('Shared successfully'))
+                .catch((error) => console.log('Sharing failed:', error));
+        } else {
+            navigator.clipboard.writeText(journalUrl)
+                .then(() => {
+                    showNotification('✅ Link copied to clipboard!');
+                })
+                .catch((error) => console.error('Failed to copy:', error));
+        }
+    }
+
+    function showNotification(message) {
+        const notification = document.createElement('div');
+        notification.textContent = message;
+        Object.assign(notification.style, {
+            position: 'fixed',
+            bottom: '20px',
+            left: '50%',
+            transform: 'translateX(-50%)',
+            padding: '12px 18px',
+            backgroundColor: '#4CAF50',
+            color: 'white',
+            borderRadius: '8px',
+            fontSize: '14px',
+            fontWeight: 'bold',
+            zIndex: '1000',
+            opacity: '1',
+            transition: 'opacity 0.5s ease',
+        });
+        document.body.appendChild(notification);
+
+        setTimeout(() => {
+            notification.style.opacity = '0';
+            setTimeout(() => document.body.removeChild(notification), 500);
+        }, 2500);
+    }
+</script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const menuButton = document.getElementById('menu-button');
+        const dropdownMenu = document.getElementById('dropdown-menu');
+
+        // Toggle dropdown menu visibility when clicking on menu button
+        menuButton.addEventListener('click', function (e) {
+            e.stopPropagation();
+            dropdownMenu.classList.toggle('hidden');
+
+            if (!dropdownMenu.classList.contains('hidden')) {
+                // Show animation
+                dropdownMenu.style.opacity = '1';
+                dropdownMenu.style.transform = 'translateY(0) scale(1)';
+            } else {
+                // Hide animation
+                dropdownMenu.style.opacity = '0';
+                dropdownMenu.style.transform = 'translateY(-10px) scale(0.95)';
+            }
+        });
+
+        // Close dropdown when clicking anywhere else on the page
+        document.addEventListener('click', function (e) {
+            if (!menuButton.contains(e.target) && !dropdownMenu.contains(e.target)) {
+                dropdownMenu.classList.add('hidden');
+                dropdownMenu.style.opacity = '0';
+                dropdownMenu.style.transform = 'translateY(-10px) scale(0.95)';
+            }
+        });
+
+        //copy button
+        // Copy button functionality
+        const copyButton = document.getElementById("copy-button");
+        if (copyButton) {
+            copyButton.addEventListener("click", function () {
+                const entryId = this.getAttribute("data-entry-id");
+
+                if (entryId) {
+                    const journalImageUrl = `${window.location.origin}/journal_image/${entryId}`;
+                    navigator.clipboard.writeText(journalImageUrl)
+                        .then(() => {
+                            const oldText = this.innerHTML;
+                            this.innerHTML = '<svg class="w-4 h-4 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg> Copied!';
+
+                            const self = this;
+                            setTimeout(() => {
+                                self.innerHTML = oldText;
+                            }, 2000);
+                        })
+                        .catch(err => {
+                            console.error('Error copying journal image URL: ', err);
+                        });
+                } else {
+                    console.warn("No journal entry to copy link for.");
+                }
+            });
+        }
+
+        document.getElementById('download-button').addEventListener('click', function () {
+            const downloadButton = this; // Simpan referensi tombol download
+            const entryId = this.getAttribute('data-entry-id');
+
+            if (entryId) {
+                // Mendapatkan URL gambar journal dari route yang sudah Anda buat
+                const journalImageUrl = `${window.location.origin}/journal_image/${entryId}`;
+
+                // Menunjukkan feedback ke pengguna
+                const oldText = downloadButton.innerHTML;
+                downloadButton.innerHTML = '<svg class="w-4 h-4 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg> Downloading...';
+
+                // Menggunakan html2canvas untuk mengubah halaman di URL tersebut menjadi gambar
+                fetch(journalImageUrl)
+                    .then(response => response.text())
+                    .then(html => {
+                        // Buat iframe untuk memuat halaman
+                        const iframe = document.createElement('iframe');
+                        iframe.style.position = 'fixed';
+                        iframe.style.top = '-9999px';
+                        iframe.style.left = '-9999px';
+                        iframe.style.width = '500px';  // Sesuaikan dengan ukuran card
+                        iframe.style.height = '600px'; // Sesuaikan dengan ukuran card
+                        document.body.appendChild(iframe);
+
+                        // Tunggu iframe dimuat
+                        iframe.onload = function () {
+                            // Menggunakan html2canvas untuk mengubah konten iframe menjadi canvas
+                            const cardElement = iframe.contentDocument.querySelector('.bg-white');
+
+                            if (cardElement) {
+                                // Menggunakan setTimeout untuk memastikan semua gaya sudah dimuat
+                                setTimeout(() => {
+                                    html2canvas(cardElement, {
+                                        scale: 2, // Untuk kualitas yang lebih baik
+                                        backgroundColor: null
+                                    }).then(canvas => {
+                                        // Konversi canvas ke URL gambar
+                                        const imageUrl = canvas.toDataURL('image/png');
+
+                                        // Buat elemen a untuk download
+                                        const downloadLink = document.createElement('a');
+                                        downloadLink.href = imageUrl;
+                                        downloadLink.download = 'journal-ratemyday.png';
+                                        document.body.appendChild(downloadLink);
+                                        downloadLink.click();
+
+                                        // Bersihkan
+                                        document.body.removeChild(downloadLink);
+                                        document.body.removeChild(iframe);
+
+                                        // Kembalikan tombol ke kondisi semula
+                                        setTimeout(() => {
+                                            downloadButton.innerHTML = oldText; // Gunakan referensi yang disimpan
+                                        }, 1000);
+                                    });
+                                }, 500);
+                            } else {
+                                console.error("Card element not found in iframe");
+                                document.body.removeChild(iframe);
+                                downloadButton.innerHTML = oldText; // Gunakan referensi yang disimpan
+                            }
+                        };
+
+                        // Tulis HTML ke iframe
+                        iframe.contentDocument.open();
+                        iframe.contentDocument.write(html);
+                        iframe.contentDocument.close();
+                    })
+                    .catch(error => {
+                        console.error('Error generating image:', error);
+                        downloadButton.innerHTML = oldText; // Gunakan referensi yang disimpan
+                    });
+            } else {
+                console.warn("No journal entry to download.");
+            }
+        });
+    });
+</script>
 
 {% endblock %}

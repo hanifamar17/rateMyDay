@@ -721,7 +721,6 @@ def update_entry(entry_id):
         return jsonify({"success": False, "message": str(e)}), 500
 
 @app.route("/journal_image/<int:entry_id>")
-@login_required
 def journal_image(entry_id):
     conn = get_db_connection()
     cursor = conn.cursor(dictionary=True)
@@ -731,8 +730,8 @@ def journal_image(entry_id):
                DATE_FORMAT(date, '%W') AS day_of_week,
                DATE_FORMAT(date, '%d %M %Y') AS formatted_date
         FROM ratings 
-        WHERE id = %s AND user_id = %s
-    """, (entry_id, current_user.id))
+        WHERE id = %s
+    """, (entry_id,))
 
     entry = cursor.fetchone()
     conn.close()

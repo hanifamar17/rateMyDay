@@ -1,0 +1,133 @@
+<!-- journal_image.html -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Journal Entry</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+</head>
+
+<body class="bg-gray-50 min-h-screen flex items-center justify-center p-4">
+    <div class="bg-white rounded-xl shadow-md overflow-hidden w-full max-w-md transition-shadow hover:shadow-lg">
+        <!-- Header with date info and rating -->
+        <div class="px-6 pt-6 pb-4 border-b border-gray-100">
+            <div class="flex justify-between items-start">
+                <div>
+                    <h2 class="text-xl font-semibold text-gray-800">Today's Vibes</h2>
+                    <p class="text-sm text-gray-500 mt-1">{{ entry.formatted_date }}</p>
+                    <p class="text-xs text-gray-400 mt-0.5">{{ entry.day_of_week }}</p>
+                </div>
+                <div class="flex flex-col items-end">
+                    <div class="text-amber-400 text-lg">
+                        {{ "★" * entry.rating }}{{ "☆" * (5 - entry.rating) }}
+                    </div>
+                    <div class="text-4xl mt-1">
+                        {% if entry.rating == 1 %}
+                        😞
+                        {% elif entry.rating == 2 %}
+                        ☹️
+                        {% elif entry.rating == 3 %}
+                        😐
+                        {% elif entry.rating == 4 %}
+                        🙂
+                        {% elif entry.rating == 5 %}
+                        😊
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Journal content -->
+        <div class="p-6">
+            <div class="prose max-w-none">
+                <p class="text-gray-700 leading-relaxed whitespace-pre-line">{{ entry.journal }}</p>
+            </div>
+        </div>
+
+        <!-- Casual footer -->
+        <div class="px-6 py-4 bg-gradient-to-r from-indigo-50 to-purple-50 border-t border-gray-100 relative">
+            <div class="flex items-center justify-between">
+                <div class="items-center">
+                    <p class="text-sm font-medium text-indigo-500">RateMyDay</p>
+                    <p class="text-xs text-purple-400">reflect your day</p>
+                </div>
+                <div class="relative inline-block">
+                    <!-- Button Copy -->
+                    <button id="copy-url-button" type="button" 
+                        class="shrink-0 z-10 inline-flex p-2 rounded-full bg-white hover:bg-gray-200 text-gray-600 hover:text-gray-800 focus:outline-none transition-colors duration-200 flex items-center justify-center border border-gray-200 relative">
+                        
+                        <!-- Default Icon -->
+                        <span id="default-icon">
+                            <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 20">
+                                <path d="M16 1h-3.278A1.992 1.992 0 0 0 11 0H7a1.993 1.993 0 0 0-1.722 1H2a2 2 0 0 0-2 2v15a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2Zm-3 14H5a1 1 0 0 1 0-2h8a1 1 0 0 1 0 2Zm0-4H5a1 1 0 0 1 0-2h8a1 1 0 1 1 0 2Zm0-5H5a1 1 0 0 1 0-2h2V2h4v2h2a1 1 0 1 1 0 2Z"/>
+                            </svg>
+                        </span>
+                
+                        <!-- Success Icon -->
+                        <span id="success-icon" class="hidden">
+                            <svg class="w-4 h-4 text-gray-800" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 16 12">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5.917 5.724 10.5 15 1.5"/>
+                            </svg>
+                        </span>
+                    </button>
+                
+                    <!-- Tooltip -->
+                    <div id="tooltip-copy" role="tooltip" 
+                        class="absolute z-50 bottom-full mb-2 left-1/2 -translate-x-1/2 px-3 py-2 text-sm font-medium text-white bg-gray-800 rounded-md opacity-0 scale-90 transition-all duration-300 whitespace-nowrap shadow-lg invisible group-hover:visible group-hover:opacity-100">
+                        <span id="default-tooltip-message">Copy link</span>
+                        <span id="success-tooltip-message" class="hidden">Copied!</span>
+                        <div class="tooltip-arrow" data-popper-arrow></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const copyButton = document.getElementById("copy-url-button");
+        const defaultIcon = document.getElementById("default-icon");
+        const successIcon = document.getElementById("success-icon");
+        const defaultTooltip = document.getElementById("default-tooltip-message");
+        const successTooltip = document.getElementById("success-tooltip-message");
+        const tooltip = document.getElementById("tooltip-copy");
+    
+        copyButton.addEventListener("mouseenter", () => {
+            tooltip.classList.remove("opacity-0", "scale-90", "invisible");
+            tooltip.classList.add("opacity-100", "scale-100");
+        });
+    
+        copyButton.addEventListener("mouseleave", () => {
+            tooltip.classList.add("opacity-0", "scale-90", "invisible");
+            tooltip.classList.remove("opacity-100", "scale-100");
+        });
+    
+        copyButton.addEventListener("click", function () {
+            const url = window.location.href;
+            navigator.clipboard.writeText(url).then(() => {
+                // Ganti ikon dan teks tooltip
+                defaultIcon.classList.add("hidden");
+                successIcon.classList.remove("hidden");
+                defaultTooltip.classList.add("hidden");
+                successTooltip.classList.remove("hidden");
+    
+                // Tampilkan teks "Copied!"
+                tooltip.classList.remove("opacity-0", "scale-90", "invisible");
+                tooltip.classList.add("opacity-100", "scale-100");
+    
+                // Reset setelah 2 detik
+                setTimeout(() => {
+                    defaultIcon.classList.remove("hidden");
+                    successIcon.classList.add("hidden");
+                    defaultTooltip.classList.remove("hidden");
+                    successTooltip.classList.add("hidden");
+                }, 2000);
+            }).catch(err => console.error("Failed to copy:", err));
+        });
+    </script>
+</body>
+
+</html>
