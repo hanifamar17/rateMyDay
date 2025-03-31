@@ -676,22 +676,31 @@ def get_calendar():
 @app.route("/delete_entry/<int:entry_id>", methods=["POST"])
 @login_required
 def delete_entry(entry_id):
-    user_id = current_user.id
+    user_id = current_user.id  # Ambil user ID dari sesi login
     
-    conn = get_db_connection()
-    cursor = conn.cursor()
+    try:
+        conn = get_db_connection()
+        cursor = conn.cursor()
 
-    # Periksa apakah entri ini milik pengguna yang login
-    cursor.execute("SELECT COUNT(*) FROM ratings WHERE id = %s AND user_id = %s", (entry_id, user_id))
-    if cursor.fetchone()[0] == 0:
+        # Cek apakah entry dengan ID tersebut milik user yang login
+        cursor.execute("SELECT COUNT(*) FROM ratings WHERE id = %s AND user_id = %s", (entry_id, user_id))
+        entry_count = cursor.fetchone()[0]
+
+        #print(f"Trying to delete entry: ID={entry_id}, User={user_id}, Found={entry_count}")  # Debugging log
+
+        if entry_count == 0:
+            conn.close()
+            return jsonify({"success": False, "message": "Entry not found or unauthorized"}), 403
+
+        # Hapus entry berdasarkan ID dan user_id
+        cursor.execute("DELETE FROM ratings WHERE id = %s AND user_id = %s", (entry_id, user_id))
+        conn.commit()
         conn.close()
-        return jsonify({"success": False, "message": "Entry not found or unauthorized"}), 403
+
+        return jsonify({"success": True, "message": "Entry deleted successfully!"})
     
-    cursor.execute("DELETE FROM ratings WHERE id = %s", (entry_id,))
-    conn.commit()
-    conn.close()
-    
-    return jsonify({"success": True, "message": "Entry deleted successfully"})
+    except Exception as e:
+        return jsonify({"success": False, "message": str(e)}), 500
 
 @app.route("/update_entry/<int:entry_id>", methods=["POST"])
 @login_required
@@ -714,11 +723,16 @@ def update_entry(entry_id):
             WHERE id = %s AND user_id = %s
         """, (rating, journal, entry_id, current_user.id))
         conn.commit()
-        conn.close()
 
+        # Cek apakah ada perubahan data
+        if cursor.rowcount == 0:
+            return jsonify({"success": False, "message": "No data updated, check entry ID"}), 400
+
+        conn.close()
         return jsonify({"success": True, "message": "Entry updated successfully!"})
     except Exception as e:
         return jsonify({"success": False, "message": str(e)}), 500
+
 
 @app.route("/journal_image/<int:entry_id>")
 def journal_image(entry_id):
