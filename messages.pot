@@ -1,0 +1,281 @@
+# Translations template for PROJECT.
+# Copyright (C) 2025 ORGANIZATION
+# This file is distributed under the same license as the PROJECT project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2025.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2025-04-02 22:52+0700\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.16.0\n"
+
+#: templates/home.html:13
+msgid "Track Your Daily Mood!"
+msgstr ""
+
+#: templates/home.html:14
+msgid "Discover Your Happiness Patterns!"
+msgstr ""
+
+#: templates/home.html:16
+msgid ""
+"Reflect on your day with just one click. Rate your daily mood and add a "
+"short note to capture every precious moment. 😊"
+msgstr ""
+
+#: templates/home.html:144
+msgid "Features"
+msgstr ""
+
+#: templates/home.html:147
+msgid ""
+"is a simple app to record and reflect on your day. With an intuitive\n"
+"                        interface, you\n"
+"                        can easily rate your day, add notes, and track "
+"your mood trends."
+msgstr ""
+
+#: templates/home.html:164
+msgid "Record Your Day"
+msgstr ""
+
+#: templates/home.html:166
+msgid "Give your day a rating and add a quick note."
+msgstr ""
+
+#: templates/home.html:182
+msgid "Track Your Progress"
+msgstr ""
+
+#: templates/home.html:183
+msgid "Interactive charts to visualize your mood trends."
+msgstr ""
+
+#: templates/home.html:198
+msgid "Quick & Easy"
+msgstr ""
+
+#: templates/home.html:199
+msgid "Takes just seconds to note down your day."
+msgstr ""
+
+#: templates/home.html:205
+msgid "Start recording and reflecting on your days now!"
+msgstr ""
+
+#: templates/home.html:209
+msgid "Get Started"
+msgstr ""
+
+#: templates/home.html:241
+msgid "More Emotionally Aware"
+msgstr ""
+
+#: templates/home.html:242
+msgid "Recognize patterns and understand your feelings."
+msgstr ""
+
+#: templates/home.html:256
+msgid "Build Positive Habits"
+msgstr ""
+
+#: templates/home.html:257
+msgid "Identify good and bad patterns through daily journaling."
+msgstr ""
+
+#: templates/home.html:272
+msgid "Express Yourself Freely"
+msgstr ""
+
+#: templates/home.html:273
+msgid "Keep a personal journal as a reflection of your journey."
+msgstr ""
+
+#: templates/home.html:286
+msgid "About Us"
+msgstr ""
+
+#: templates/home.html:290
+msgid ""
+"Hey there! We believe that every day has its own unique story. That’s why"
+" we created\n"
+"                        <strong>RateMyDay</strong>—a simple platform to "
+"reflect on your day quickly and effortlessly."
+msgstr ""
+
+#: templates/home.html:294
+msgid ""
+"Each day is a canvas waiting to be filled with the colors of your "
+"experiences. Through\n"
+"                        reflection, we can recognize patterns, understand"
+" ourselves better, and find meaning in every\n"
+"                        moment. We hope <strong>RateMyDay</strong> "
+"becomes a helpful tool in your journey, guiding you\n"
+"                        toward peace and\n"
+"                        happiness every day."
+msgstr ""
+
+#: templates/home.html:301
+msgid "Warm regards,"
+msgstr ""
+
+#: templates/home.html:302
+msgid "RateMyDay Team"
+msgstr ""
+
+#: templates/home.html:316
+msgid "Support Us"
+msgstr ""
+
+#: templates/home.html:318
+msgid ""
+"Hey there! At RateMyDay, we believe that tracking your mood daily can "
+"help you be more aware of\n"
+"                        your feelings, understand emotional patterns, and"
+" ultimately, have better days. We want to keep\n"
+"                        this platform free, simple, and useful for "
+"everyone."
+msgstr ""
+
+#: templates/home.html:325
+msgid ""
+"Why Your Support\n"
+"                        Matters"
+msgstr ""
+
+#: templates/home.html:328
+msgid "Even a little support from you helps us:"
+msgstr ""
+
+#: templates/home.html:338
+msgid "Add awesome new features"
+msgstr ""
+
+#: templates/home.html:338
+msgid ""
+"like interactive\n"
+"                                charts, smarter mood insights, and an "
+"even smoother experience."
+msgstr ""
+
+#: templates/home.html:350
+msgid "Keep your data safe & private"
+msgstr ""
+
+#: templates/home.html:350
+msgid ""
+"because we\n"
+"                                believe self-reflection should stay yours."
+msgstr ""
+
+#: templates/home.html:362
+msgid "Build a better mobile version"
+msgstr ""
+
+#: templates/home.html:362
+msgid ""
+"so you can\n"
+"                                record your mood anytime, anywhere."
+msgstr ""
+
+#: templates/home.html:374
+msgid "Keep RateMyDay free"
+msgstr ""
+
+#: templates/home.html:374
+msgid ""
+"for everyone who\n"
+"                                needs a space to express themselves."
+msgstr ""
+
+#: templates/home.html:383
+msgid "Ways You Can Help"
+msgstr ""
+
+#: templates/home.html:390
+msgid "Share RateMyDay"
+msgstr ""
+
+#: templates/home.html:391
+msgid "Share with a friend or anyone who might find it helpful."
+msgstr ""
+
+#: templates/home.html:488
+msgid "Share now"
+msgstr ""
+
+#: templates/home.html:503
+msgid "Buy us a coffee"
+msgstr ""
+
+#: templates/home.html:504
+msgid "A small donation goes a long way!"
+msgstr ""
+
+#: templates/home.html:507
+msgid "Donate now"
+msgstr ""
+
+#: templates/home.html:522
+msgid "Give feedback"
+msgstr ""
+
+#: templates/home.html:523
+msgid "What features would you love to see?"
+msgstr ""
+
+#: templates/home.html:526
+msgid "Send feedback"
+msgstr ""
+
+#: templates/home.html:552
+msgid "We’d Love to Hear From You!"
+msgstr ""
+
+#: templates/home.html:554
+msgid ""
+"Help us improve by sharing your thoughts\n"
+"                            and ideas. Thank you for being part of\n"
+"                            this journey!"
+msgstr ""
+
+#: templates/home.html:564
+msgid "Give Your Feedback"
+msgstr ""
+
+#: templates/home.html:566
+msgid ""
+"Just enter your name, email, and feedback below.\n"
+"                                We appreciate your time!"
+msgstr ""
+
+#: templates/home.html:574
+msgid "Name"
+msgstr ""
+
+#: templates/home.html:591
+msgid ""
+"Your\n"
+"                                    Feedback"
+msgstr ""
+
+#: templates/home.html:602
+msgid "Send Feedback"
+msgstr ""
+
+#: templates/template/header.html:32
+msgid "EN"
+msgstr ""
+
+#: templates/template/header.html:32
+msgid "ID"
+msgstr ""
+

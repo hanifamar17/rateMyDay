@@ -198,7 +198,6 @@
         dateInput.dispatchEvent(new Event("change"));
     });
 
-
     // Form submission
     document.getElementById('ratingForm').addEventListener('submit', function (event) {
         event.preventDefault();
@@ -326,15 +325,26 @@
     const journalTextarea = document.querySelector('.journal-textarea');
     const charCount = document.getElementById('char-count');
 
-    // Fungsi untuk memperbarui counter karakter
     function updateCharCount() {
-        charCount.textContent = `${journalTextarea.value.length} characters`;
+        const currentLength = journalTextarea.value.length;
+        const maxLength = 1000;
+
+        if (currentLength > maxLength) {
+            journalTextarea.value = journalTextarea.value.slice(0, maxLength);
+        }
+
+        charCount.textContent = `${journalTextarea.value.length}/${maxLength}`;
+
+        // Optional: Tambahkan feedback visual jika mencapai batas
+        if (journalTextarea.value.length >= maxLength) {
+            charCount.classList.add('text-red-500');
+        } else {
+            charCount.classList.remove('text-red-500');
+        }
     }
 
-    // Jalankan counter saat pengguna mengetik
     journalTextarea.addEventListener('input', updateCharCount);
 
-    // 🔹 Perbarui char count setelah data dari server dimuat
     document.getElementById('date').addEventListener('change', function () {
         const selectedDate = this.value;
         if (!selectedDate) return;
@@ -348,19 +358,16 @@
                     document.getElementById('mood-emoji').innerHTML = getEmoji(data.rating);
                     journalTextarea.value = data.journal;
                 } else {
-                    // Reset form jika tidak ada data
                     document.getElementById('mood-slider').value = 3;
                     document.getElementById('rating').value = 3;
                     document.getElementById('mood-emoji').innerHTML = "😐";
                     journalTextarea.value = "";
                 }
-                // 🔹 Perbarui char count setelah data dimuat
                 updateCharCount();
             })
             .catch(error => console.error("Error fetching rating:", error));
     });
 
-    // 🔹 Jalankan update awal saat halaman dimuat
     updateCharCount();
 
     // Set default date ke hari ini, lalu trigger event change untuk cek apakah ada data

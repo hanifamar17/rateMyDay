@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, jsonify, session, redirect, url_for, flash, make_response
+from flask import Flask, render_template, request, jsonify, session, redirect, url_for, flash, make_response, g
 import requests
 import json
 from datetime import datetime, timedelta, date
@@ -14,11 +14,32 @@ from flask_wtf.csrf import CSRFProtect
 from forms import RatingForm, RegisterForm, FeedbackForm
 import subprocess
 import os
+from flask_babel import Babel, gettext as _
 
 
 app = Flask(__name__)
 app.config.from_object(Config)
+app.config['BABEL_DEFAULT_LOCALE'] = 'en'  # Bahasa default: Inggris
+app.config['BABEL_SUPPORTED_LOCALES'] = ['en', 'id']  # Bahasa yang didukung
 csrf = CSRFProtect(app) 
+
+# 🔹 Setup Flask-Babel
+# Fungsi untuk menentukan locale (bahasa)
+def get_locale():
+    # Prioritas: 1. Parameter URL, 2. Sesi, 3. Preferensi browser, 4. Default
+    locale = request.args.get('lang')
+    if locale and locale in app.config['BABEL_SUPPORTED_LOCALES']:
+        session['lang'] = locale
+        return locale
+    
+    if 'lang' in session and session['lang'] in app.config['BABEL_SUPPORTED_LOCALES']:
+        return session['lang']
+    
+    # Deteksi bahasa browser
+    return request.accept_languages.best_match(app.config['BABEL_SUPPORTED_LOCALES'])
+
+# Inisialisasi Babel dengan fungsi locale_selector
+babel = Babel(app, locale_selector=get_locale)
 
 # 🔹 Konfigurasi Gmail SMTP using GOOGLE APP PASSWORD
 app.config["MAIL_SERVER"] = "smtp.gmail.com"
@@ -723,11 +744,10 @@ def update_entry(entry_id):
             WHERE id = %s AND user_id = %s
         """, (rating, journal, entry_id, current_user.id))
         conn.commit()
-
-        # Cek apakah ada perubahan data
-        if cursor.rowcount == 0:
-            return jsonify({"success": False, "message": "No data updated, check entry ID"}), 400
-
+        
+        # Removing rowcount check to ensure data is always saved
+        # even when there are no actual changes
+        
         conn.close()
         return jsonify({"success": True, "message": "Entry updated successfully!"})
     except Exception as e:
@@ -754,32 +774,6 @@ def journal_image(entry_id):
         return "Journal entry not found", 404
 
     return render_template("journal_image.html", entry=entry)
-
-@app.route("/generate_screenshot", methods=["POST"])
-def generate_screenshot():
-    data = request.json
-    html_content = data.get("html")
-
-    if not html_content:
-        return jsonify({"success": False, "message": "Missing HTML content"}), 400
-
-    try:
-        # Panggil Puppeteer melalui Node.js
-        result = subprocess.run(
-            ["node", "static/js/screenshot.js"],
-            input=json.dumps({"html": html_content}),
-            text=True,
-            capture_output=True
-        )
-
-        if result.returncode != 0:
-            return jsonify({"success": False, "message": "Puppeteer error"}), 500
-
-        screenshot_base64 = result.stdout.strip()
-        return jsonify({"success": True, "image": f"data:image/png;base64,{screenshot_base64}"})
-
-    except Exception as e:
-        return jsonify({"success": False, "message": str(e)}), 500
 
 @app.route("/get_entry_by_date/<string:date>", methods=["GET"])
 @login_required
@@ -808,6 +802,7 @@ def get_entry_by_date(date):
     entry["mood_emoji"] = mood_emojis.get(entry["rating"], "😐")
 
     return jsonify({"success": True, "entry": entry})
+
 
 
 def format_date(date_str):

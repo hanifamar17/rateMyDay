@@ -614,7 +614,7 @@
         const charCount = document.getElementById('char-count');
 
         const currentLength = journalTextarea.value.length;
-        const maxLength = 500;
+        const maxLength = 1000;
 
         charCount.textContent = `${currentLength}/${maxLength}`;
 
@@ -678,8 +678,40 @@
             5: '😊'   // Excellent
         };
 
+        // Timer untuk mengatur kembali status tombol
+        let resetButtonTimer;
+
+        // Automatically load today's entry when page loads
+        loadTodayEntry();
+
+        // Function to load today's entry
+        function loadTodayEntry() {
+            // Set today's date in the calendar
+            const today = new Date();
+            if (calendarApp) {
+                // Set today in calendar
+                if (calendarApp.setSelectedDate) {
+                    calendarApp.setSelectedDate(today);
+                } else {
+                    calendarApp.selectedDate = today;
+                    // Trigger necessary calendar updates if there's a method for that
+                    if (calendarApp.renderCalendar) {
+                        calendarApp.renderCalendar();
+                    }
+                }
+
+                // Use the existing loadJournalEntry method to load today's entry
+                calendarApp.loadJournalEntry(today);
+            }
+        }
+
         // Handle save button click
         saveButton.addEventListener('click', function () {
+            saveJournalEntry();
+        });
+
+        // Function to save journal entry
+        function saveJournalEntry() {
             const entryId = journalIdField.value;
             //console.log("Saving Journal ID:", entryId);
             if (!entryId) return;
@@ -688,7 +720,18 @@
             const journalText = document.getElementById('journal').value;
             const moodEmojis = { 1: "😞", 2: "☹️", 3: "😐", 4: "🙂", 5: "😊" };
             const selectedEmoji = moodEmojis[ratingValue];
-            const selectedDate = calendarApp.selectedDate.toISOString().split('T')[0];
+
+            // Ensure selectedDate exists before calling toISOString
+            let selectedDate = '';
+            if (calendarApp.selectedDate) {
+                selectedDate = calendarApp.selectedDate.toISOString().split('T')[0];
+            } else {
+                // Handle case where selectedDate is undefined
+                console.error('No date selected');
+                showToast('Please select a date before saving.', 'error');
+                return;
+            }
+
             const formData = new FormData();
             const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 
@@ -696,9 +739,35 @@
             formData.append('rating', ratingValue);
             formData.append('journal', journalText);
 
-            // Ubah teks tombol menjadi "Saving..." dan nonaktifkan
-            saveButton.textContent = 'Saving...';
+            // Show loading state based on device size
+            const isMobileOrTablet = window.innerWidth < 1024; // lg breakpoint in Tailwind
+
+            // Save reference to original button content
+            const originalButtonHTML = saveButton.innerHTML;
+
+            // Disable button
             saveButton.disabled = true;
+
+            if (isMobileOrTablet) {
+                // On mobile/tablet, show only loading icon
+                saveButton.innerHTML = `
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 animate-spin" viewBox="0 0 24 24" 
+                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" 
+                    stroke-linejoin="round">
+                    <path d="M21 12a9 9 0 1 1-6.219-8.56"></path>
+                </svg>`;
+            } else {
+                // On desktop, show "Saving..." text
+                saveButton.innerHTML = `
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 lg:hidden" viewBox="0 0 24 24"
+                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                    stroke-linejoin="round">
+                    <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2Z"></path>
+                    <polyline points="17 21 17 13 7 13 7 21"></polyline>
+                    <polyline points="7 3 7 8 15 8"></polyline>
+                </svg>
+                <span class="hidden lg:inline">Saving...</span>`;
+            }
 
             fetch(`/update_entry/${entryId}`, {
                 method: 'POST',
@@ -725,24 +794,140 @@
                             calendarApp.updateEventForDate(calendarApp.selectedDate, selectedEmoji);
                         }
 
-                        showToast('Journal updated successfully!');
+                        // Tampilkan indikator Saved di tombol (bukan toast)
+                        if (isMobileOrTablet) {
+                            // Pada mobile/tablet, tampilkan icon centang
+                            saveButton.innerHTML = `
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-green-500" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round">
+                                <polyline points="20 6 9 17 4 12"></polyline>
+                            </svg>`;
+                        } else {
+                            // Pada desktop, tampilkan teks "Saved"
+                            saveButton.innerHTML = `
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 lg:hidden text-green-500" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round">
+                                <polyline points="20 6 9 17 4 12"></polyline>
+                            </svg>
+                            <span class="hidden lg:inline text-green-500">Saved</span>`;
+                        }
+
+                        // Hapus timer yang sudah ada jika masih berjalan
+                        if (resetButtonTimer) {
+                            clearTimeout(resetButtonTimer);
+                        }
+
+                        // Set timer untuk kembalikan tombol ke normal setelah 2 detik
+                        resetButtonTimer = setTimeout(() => {
+                            saveButton.innerHTML = originalButtonHTML;
+                            saveButton.disabled = false;
+                        }, 2000);
                     } else {
+                        // Tetap tampilkan toast untuk error
                         showToast('Error updating journal', 'error');
                         console.error('Error updating entry:', data.message);
+
+                        // Kembalikan tombol ke keadaan semula
+                        saveButton.innerHTML = originalButtonHTML;
+                        saveButton.disabled = false;
                     }
                 })
                 .catch(error => {
+                    // Tetap tampilkan toast untuk error
                     showToast('Error updating journal', 'error');
                     console.error('Error:', error);
-                })
-                .finally(() => {
-                    // Kembalikan teks tombol dan aktifkan kembali
-                    saveButton.textContent = 'Save';
+
+                    // Kembalikan tombol ke keadaan semula
+                    saveButton.innerHTML = originalButtonHTML;
                     saveButton.disabled = false;
                 });
-        });
+        }
 
-        // Handle delete button click
+        // Add auto-save functionality (saves even without changes)
+        setInterval(function () {
+            if (journalIdField.value) {
+                saveJournalEntry();
+            }
+        }, 120000); // Auto-save every 2 minutes
+
+        // Handle save button click
+        //saveButton.addEventListener('click', function () {
+        //    const entryId = journalIdField.value;
+        //    //console.log("Saving Journal ID:", entryId);
+        //    if (!entryId) return;
+        //
+        //    const ratingValue = document.getElementById('rating').value;
+        //    const journalText = document.getElementById('journal').value;
+        //    const moodEmojis = { 1: "😞", 2: "☹️", 3: "😐", 4: "🙂", 5: "😊" };
+        //    const selectedEmoji = moodEmojis[ratingValue];
+        //
+        //    // Ensure selectedDate exists before calling toISOString
+        //    let selectedDate = '';
+        //    if (calendarApp.selectedDate) {
+        //        selectedDate = calendarApp.selectedDate.toISOString().split('T')[0];
+        //    } else {
+        //        // Handle case where selectedDate is undefined
+        //        console.error('No date selected');
+        //        showToast('Please select a date before saving.', 'error');
+        //        return;
+        //    }
+        //
+        //    const formData = new FormData();
+        //    const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+        //
+        //    formData.append('date', selectedDate);
+        //    formData.append('rating', ratingValue);
+        //    formData.append('journal', journalText);
+        //
+        //    // Ubah teks tombol menjadi "Saving..." dan nonaktifkan
+        //    saveButton.textContent = 'Saving...';
+        //    saveButton.disabled = true;
+        //
+        //    fetch(`/update_entry/${entryId}`, {
+        //        method: 'POST',
+        //        body: formData,
+        //        headers: {
+        //            'X-CSRFToken': csrfToken
+        //        }
+        //    })
+        //        .then(response => response.json())
+        //        .then(data => {
+        //            if (data.success) {
+        //                // Update list item
+        //                const listItem = document.querySelector(`.journal-item[data-id="${entryId}"]`);
+        //                if (listItem) {
+        //                    const emojiEl = listItem.querySelector('.text-2xl');
+        //                    const textEl = listItem.querySelector('.journal-text');
+        //
+        //                    if (emojiEl) emojiEl.textContent = selectedEmoji;
+        //                    if (textEl) textEl.textContent = journalText;
+        //                }
+        //
+        //                // Perbarui event di kalender
+        //                if (calendarApp.selectedDate) {
+        //                    calendarApp.updateEventForDate(calendarApp.selectedDate, selectedEmoji);
+        //                }
+        //
+        //                showToast('Journal updated successfully!');
+        //            } else {
+        //                showToast('Error updating journal', 'error');
+        //                console.error('Error updating entry:', data.message);
+        //            }
+        //        })
+        //        .catch(error => {
+        //            showToast('Error updating journal', 'error');
+        //            console.error('Error:', error);
+        //        })
+        //        .finally(() => {
+        //            // Kembalikan teks tombol dan aktifkan kembali
+        //            saveButton.textContent = 'Save';
+        //            saveButton.disabled = false;
+        //        });
+        //});
+        //
+        //// Handle delete button click
         deleteButton.addEventListener('click', function () {
             const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
             const entryId = journalIdField.value;

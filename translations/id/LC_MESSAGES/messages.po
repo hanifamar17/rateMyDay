@@ -1,0 +1,300 @@
+# Indonesian translations for PROJECT.
+# Copyright (C) 2025 ORGANIZATION
+# This file is distributed under the same license as the PROJECT project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2025.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2025-04-02 22:52+0700\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: id\n"
+"Language-Team: id <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.16.0\n"
+
+#: templates/home.html:13
+msgid "Track Your Daily Mood!"
+msgstr "Lacak Mood Harianmu!"
+
+#: templates/home.html:14
+msgid "Discover Your Happiness Patterns!"
+msgstr "Temukan Pola Kebahagiaanmu!"
+
+#: templates/home.html:16
+msgid ""
+"Reflect on your day with just one click. Rate your daily mood and add a "
+"short note to capture every precious moment. 😊"
+msgstr ""
+"Refleksiin harimu dengan sekali klik aja. Beri rating untuk mood kamu "
+"hari ini &\n"
+"tambahin catatan singkat biar momen-momen berharga nggak kelewat. 😊"
+
+#: templates/home.html:144
+msgid "Features"
+msgstr "Fitur-fitur"
+
+#: templates/home.html:147
+msgid ""
+"is a simple app to record and reflect on your day. With an intuitive\n"
+"                        interface, you\n"
+"                        can easily rate your day, add notes, and track "
+"your mood trends."
+msgstr ""
+"Day adalah aplikasi sederhana untuk mencatat dan merefleksikan hari Anda."
+" Dengan antarmuka \n"
+"yang intuitif, Anda dapat dengan mudah memberikan rating, menambahkan "
+"catatan, dan melihat tren suasana hati Anda."
+
+#: templates/home.html:164
+msgid "Record Your Day"
+msgstr "Catat Harimu"
+
+#: templates/home.html:166
+msgid "Give your day a rating and add a quick note."
+msgstr "Beri rating dan tambahkan catatan singkat tentang hari Anda."
+
+#: templates/home.html:182
+msgid "Track Your Progress"
+msgstr "Lihat Perkembangan"
+
+#: templates/home.html:183
+msgid "Interactive charts to visualize your mood trends."
+msgstr "Grafik interaktif untuk melihat tren suasana hati Anda."
+
+#: templates/home.html:198
+msgid "Quick & Easy"
+msgstr "Cepat & Mudah"
+
+#: templates/home.html:199
+msgid "Takes just seconds to note down your day."
+msgstr "Cukup beberapa detik untuk mencatat hari Anda."
+
+#: templates/home.html:205
+msgid "Start recording and reflecting on your days now!"
+msgstr "Mulai catat dan refleksikan hari Anda sekarang!"
+
+#: templates/home.html:209
+msgid "Get Started"
+msgstr "Mulai"
+
+#: templates/home.html:241
+msgid "More Emotionally Aware"
+msgstr "Lebih Sadar Emosi"
+
+#: templates/home.html:242
+msgid "Recognize patterns and understand your feelings."
+msgstr "Melihat pola dan memahami perasaan Anda."
+
+#: templates/home.html:256
+msgid "Build Positive Habits"
+msgstr "Membentuk Kebiasaan Positif"
+
+#: templates/home.html:257
+msgid "Identify good and bad patterns through daily journaling."
+msgstr "Mengenali pola baik dan buruk melalui pencatatan harian."
+
+#: templates/home.html:272
+msgid "Express Yourself Freely"
+msgstr "Bebas Ekspresikan Diri"
+
+#: templates/home.html:273
+msgid "Keep a personal journal as a reflection of your journey."
+msgstr "Simpan catatan harian sebagai refleksi pribadi."
+
+#: templates/home.html:286
+msgid "About Us"
+msgstr "Tentang Kami"
+
+#: templates/home.html:290
+msgid ""
+"Hey there! We believe that every day has its own unique story. That’s why"
+" we created\n"
+"                        <strong>RateMyDay</strong>—a simple platform to "
+"reflect on your day quickly and effortlessly."
+msgstr ""
+"Hai! Kami percaya bahwa setiap hari memiliki cerita uniknya sendiri. "
+"Itulah mengapa kami menciptakan <strong>RateMyDay</strong>—platform "
+"sederhana untuk merefleksikan harimu dengan cepat dan mudah."
+
+#: templates/home.html:294
+msgid ""
+"Each day is a canvas waiting to be filled with the colors of your "
+"experiences. Through\n"
+"                        reflection, we can recognize patterns, understand"
+" ourselves better, and find meaning in every\n"
+"                        moment. We hope <strong>RateMyDay</strong> "
+"becomes a helpful tool in your journey, guiding you\n"
+"                        toward peace and\n"
+"                        happiness every day."
+msgstr ""
+"Setiap hari adalah kanvas yang menunggu untuk diisi dengan warna-warni "
+"pengalaman. Melalui refleksi, kita bisa melihat pola, memahami diri "
+"sendiri, dan menemukan makna dalam setiap momen. Kami berharap "
+"<strong>RateMyDay</strong> bisa menjadi alat yang membantu dalam "
+"perjalanan refleksi ini, membimbing untuk menemukan kedamaian dan "
+"kebahagiaan di setiap hari."
+
+#: templates/home.html:301
+msgid "Warm regards,"
+msgstr "Salam Hangat"
+
+#: templates/home.html:302
+msgid "RateMyDay Team"
+msgstr "Tim RateMyDay"
+
+#: templates/home.html:316
+msgid "Support Us"
+msgstr "Dukung Kami"
+
+#: templates/home.html:318
+msgid ""
+"Hey there! At RateMyDay, we believe that tracking your mood daily can "
+"help you be more aware of\n"
+"                        your feelings, understand emotional patterns, and"
+" ultimately, have better days. We want to keep\n"
+"                        this platform free, simple, and useful for "
+"everyone."
+msgstr "Hai! Kami di RateMyDay percaya bahwa mencatat suasana hati setiap hari bisa membantu kita lebih sadar dengan perasaan sendiri, memahami pola emosional, dan pada akhirnya, menjalani hari-hari dengan lebih baik. Kami ingin menjaga platform ini tetap gratis, simpel, dan bermanfaat untuk semua orang."
+
+#: templates/home.html:325
+msgid ""
+"Why Your Support\n"
+"                        Matters"
+msgstr "Kenapa Dukungan Kamu Penting"
+
+#: templates/home.html:328
+msgid "Even a little support from you helps us:"
+msgstr "Dukungan kecil dari kamu bisa membantu kami:"
+
+#: templates/home.html:338
+msgid "Add awesome new features"
+msgstr "Menambahkan fitur keren"
+
+#: templates/home.html:338
+msgid ""
+"like interactive\n"
+"                                charts, smarter mood insights, and an "
+"even smoother experience."
+msgstr "seperti grafik lebih interaktif, analisis suasana hati yang lebih cerdas, dan pengalaman pengguna yang lebih nyaman."
+
+#: templates/home.html:350
+msgid "Keep your data safe & private"
+msgstr "Menjaga privasi dan keamanan data kamu"
+
+#: templates/home.html:350
+msgid ""
+"because we\n"
+"                                believe self-reflection should stay yours."
+msgstr "karena kami percaya refleksi pribadi harus tetap jadi milikmu."
+
+#: templates/home.html:362
+msgid "Build a better mobile version"
+msgstr "Mengembangkan versi mobile yang lebih nyaman"
+
+#: templates/home.html:362
+msgid ""
+"so you can\n"
+"                                record your mood anytime, anywhere."
+msgstr "supaya kamu bisa mencatat kapan saja, di mana saja"
+
+#: templates/home.html:374
+
+msgid "Keep RateMyDay free"
+msgstr "Menjaga RateMyDay tetap gratis"
+
+#: templates/home.html:374
+msgid ""
+"for everyone who\n"
+"                                needs a space to express themselves."
+msgstr "dan bisa diakses siapa saja yang butuh ruang untuk mencatat perasaannya."
+
+#: templates/home.html:383
+msgid "Ways You Can Help"
+msgstr "Cara Kamu Bisa Membantu"
+
+#: templates/home.html:390
+
+msgid "Share RateMyDay"
+msgstr "Bagikan RateMyDay "
+
+#: templates/home.html:391
+msgid "Share with a friend or anyone who might find it helpful."
+msgstr "Bagikan ke teman atau siapapun yang mungkin membutuhkannya."
+
+#: templates/home.html:488
+msgid "Share now"
+msgstr "Bagikan sekarang"
+
+#: templates/home.html:503
+msgid "Buy us a coffee"
+msgstr "Belikan kami secangkir kopi "
+
+#: templates/home.html:504
+msgid "A small donation goes a long way!"
+msgstr "dengan donasi kecil – setiap dukungan berarti banget!"
+
+#: templates/home.html:507
+msgid "Donate now"
+msgstr "Donasi sekarang"
+
+#: templates/home.html:522
+msgid "Give feedback"
+msgstr "Kasih masukan"
+
+#: templates/home.html:523
+msgid "What features would you love to see?"
+msgstr "fitur apa yang ingin kamu lihat?"
+
+#: templates/home.html:526
+msgid "Send feedback"
+msgstr "Kirim masukan"
+
+#: templates/home.html:552
+msgid "We’d Love to Hear From You!"
+msgstr "Kami ingin mendengar pendapatmu!"
+
+#: templates/home.html:554
+msgid ""
+"Help us improve by sharing your thoughts\n"
+"                            and ideas. Thank you for being part of\n"
+"                            this journey!"
+msgstr "Bantu kami jadi lebih baik dengan berbagi pendapat dan ide kamu. Terima kasih sudah jadi bagian dari perjalanan ini!"
+
+#: templates/home.html:564
+msgid "Give Your Feedback"
+msgstr "Berikan Masukanmu"
+
+#: templates/home.html:566
+msgid ""
+"Just enter your name, email, and feedback below.\n"
+"                                We appreciate your time!"
+msgstr "Cukup isi nama, email, dan feedback di bawah ini. Kami sangat menghargai waktumu!"
+
+#: templates/home.html:574
+msgid "Name"
+msgstr "Nama"
+
+#: templates/home.html:591
+msgid ""
+"Your\n"
+"                                    Feedback"
+msgstr "Masukanmu"
+
+#: templates/home.html:602
+msgid "Send Feedback"
+msgstr "Kirim Masukan"
+
+#: templates/template/header.html:32
+msgid "EN"
+msgstr ""
+
+#: templates/template/header.html:32
+msgid "ID"
+msgstr ""
+
