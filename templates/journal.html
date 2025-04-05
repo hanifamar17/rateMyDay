@@ -33,8 +33,8 @@
     <!-- Left: Journal List -->
     <div class="w-full md:w-2/5 lg:w-1/3 xl:w-1/4 flex flex-col bg-white">
         <div class="p-4 border-b border-gray-200">
-            <h2 class="text-xl font-medium text-gray-800">Journal Archive</h2>
-            <p class="text-gray-500 text-sm">Explore your past journal entries!</p>
+            <h2 class="text-xl font-medium text-gray-800">{{_("Journal Archive")}}</h2>
+            <p class="text-gray-500 text-sm">{{_("Explore your past journal entries!")}}</p>
         </div>
         <div class="p-4">
             <div class="flex justify-between items-center mb-4">
@@ -42,7 +42,7 @@
                 <div class="flex items-center space-x-2">
                     <button id="today"
                         class="text-sm font-medium text-gray-600 bg-gray-100 hover:bg-gray-200 px-3 py-1 rounded-md transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-gray-300">
-                        Today
+                        {{_("Today")}}
                     </button>
                     <button id="prevMonth" class="text-gray-400 hover:text-gray-600 p-1">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
@@ -61,13 +61,13 @@
                 </div>
             </div>
             <div class="grid grid-cols-7 gap-1 text-center text-xs text-gray-400 mb-2">
-                <div>Sun</div>
-                <div>Mon</div>
-                <div>Tue</div>
-                <div>Wed</div>
-                <div>Thu</div>
-                <div>Fri</div>
-                <div>Sat</div>
+                <div>{{_("Sun")}}</div>
+                <div>{{_("Mon")}}</div>
+                <div>{{_("Tue")}}</div>
+                <div>{{_("Wed")}}</div>
+                <div>{{_("Thu")}}</div>
+                <div>{{_("Fri")}}</div>
+                <div>{{_("Sat")}}</div>
             </div>
             <div id="calendar" class="grid grid-cols-7 gap-1 text-center text-gray-600"></div>
         </div>
@@ -77,13 +77,12 @@
         <div class="p-4 border-b flex justify-between gap-2 items-center">
             <!-- Journal Info -->
             <div>
-                <h2 class="text-xl font-medium text-gray-800">Journal Entry</h2>
-                <p class="text-gray-500 text-sm">Check your journal & edit anytime!</p>
+                <h2 class="text-xl font-medium text-gray-800">{{_("Journal Entry")}}</h2>
+                <p class="text-gray-500 text-sm">{{_("Check your journal & edit anytime!")}}</p>
             </div>
             <!-- Action Buttons -->
-            <div class="flex items-center gap-2">
-
-                <div class="flex ml-auto items-center gap-2" id="action-buttons">
+            <div class="flex items-center gap-2" id="action-buttons">
+                <div class="flex ml-auto items-center gap-2">
                     <!-- Save Button -->
                     <button id="save-button"
                         class="flex items-center justify-center w-10 h-10 lg:w-auto lg:px-4 lg:py-1.5 bg-gray-100 text-gray-700 rounded-md border border-gray-200 hover:bg-gray-200 transition text-sm font-medium">
@@ -94,7 +93,7 @@
                             <polyline points="17 21 17 13 7 13 7 21"></polyline>
                             <polyline points="7 3 7 8 15 8"></polyline>
                         </svg>
-                        <span class="hidden lg:inline">Save</span>
+                        <span class="hidden lg:inline">{{_("Save")}}</span>
                     </button>
                     <!-- Delete Button -->
                     <button id="delete-button"
@@ -108,7 +107,7 @@
                             <path d="M14 11v6"></path>
                             <path d="M9 6V3h6v3"></path>
                         </svg>
-                        <span class="hidden lg:inline">Delete</span>
+                        <span class="hidden lg:inline">{{_("Delete")}}</span>
                     </button>
                 </div>
                 <div class="flex justify-end items-end pb-1 md:col-span-1 relative">
@@ -134,7 +133,7 @@
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                     d="M9 5l7 7-7 7" />
                             </svg>
-                            Open Card
+                            {{_("Open Card")}}
                         </button>
                         <button id="share-button"
                             class="w-full flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded-t-lg">
@@ -144,7 +143,7 @@
                                     d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z">
                                 </path>
                             </svg>
-                            Share
+                            {{_("Share")}}
                         </button>
                         <button id="copy-button"
                             class="w-full flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
@@ -154,7 +153,7 @@
                                     d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z">
                                 </path>
                             </svg>
-                            Copy
+                            {{_("Copy")}}
                         </button>
                         <button id="download-button"
                             class="w-full flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded-b-lg">
@@ -163,7 +162,7 @@
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                     d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path>
                             </svg>
-                            Download
+                            {{_("Download")}}
                         </button>
                     </div>
                 </div>
@@ -180,14 +179,14 @@
 
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div class="md:col-span-1">
-                            <label class="block text-sm font-medium text-gray-500 mb-1">Date</label>
+                            <label class="block text-sm font-medium text-gray-500 mb-1">{{_("Date")}}</label>
                             <div id="date-display"
                                 class="text-gray-800 font-medium text-base border-b border-gray-200 pb-1 pt-1">
                                 {{ journal_entries[0].formatted_date if journal_entries }}
                             </div>
                         </div>
                         <div class="md:col-span-1">
-                            <label class="block text-sm font-medium text-gray-500 mb-1">Day of Week</label>
+                            <label class="block text-sm font-medium text-gray-500 mb-1">{{_("Day of Week")}}</label>
                             <div id="day_of_week"
                                 class="text-gray-800 font-medium text-base border-b border-gray-200 pb-1 pt-1">
                                 {{ journal_entries[0].day_of_week if journal_entries }}
@@ -196,11 +195,11 @@
                     </div>
 
                     <div class="my-8">
-                        <label for="rating" class="block text-sm font-medium text-gray-500 mb-2">Mood
-                            Rating</label>
+                        <label for="rating" class="block text-sm font-medium text-gray-500 mb-2">{{_("Mood
+                            Rating")}}</label>
                         <div class="flex justify-between mb-2">
-                            <span class="text-gray-500">😞 Awful</span>
-                            <span class="text-gray-500">😊 Excellent</span>
+                            <span class="text-gray-500">😞 {{_("Awful")}}</span>
+                            <span class="text-gray-500">😊 {{_("Excellent")}}</span>
                         </div>
 
                         <input type="range" min="1" max="5"
@@ -217,8 +216,8 @@
 
                     <div class="space-y-2">
                         <div class="mb-1">
-                            <label for="journal" class="block text-sm font-medium text-gray-500 mb-2">Journal
-                                Entry</label>
+                            <label for="journal" class="block text-sm font-medium text-gray-500 mb-2">{{_("Journal
+                                Entry")}}</label>
                             <textarea id="journal" name="journal" rows="8" class="journal-textarea w-full p-3 text-sm border border-gray-200 rounded
         bg-gray-50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-blue-500
         focus:ring-opacity-50 transition-all duration-300"
@@ -236,13 +235,26 @@
                 <a href="/homepage" class="inline-block">
                     <button id="add-button"
                         class="bg-green-50 text-green-700 px-6 py-2 rounded-lg border border-green-200 hover:bg-green-100 transition duration-300 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-green-300 text-sm font-medium">
-                        Add Journal
+                        {{_("Add Journal")}}
                     </button>
                 </a>
             </div>
         </div>
     </div>
 </div>
+
+<script>
+    // Inject translations from Flask for JavaScript use
+    window.appTranslations = {
+        // Previous translations...
+        delete_confirm_title: "{{ _('Are you sure?') }}",
+        delete_confirm_text: "{{ _('Deleted journal entries can\'t be recovered!') }}",
+        delete_button: "{{ _('Delete it!') }}",
+        cancel_button: "{{ _('Cancel') }}",
+        delete_success: "{{ _('Journal deleted successfully!') }}",
+        delete_error: "{{ _('Error deleting journal') }}"
+    };
+</script>
 
 <!--Journal-->
 <script>
@@ -940,15 +952,16 @@
                 return;
             }
 
+            const t = window.appTranslations;
             Swal.fire({
-                title: 'Are you sure?',
-                text: "Deleted journal entries can't be recovered!",
+                title: t.delete_confirm_title,
+                text: t.delete_confirm_text,
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#d33',
                 cancelButtonColor: '#3085d6',
-                confirmButtonText: 'Delete it!',
-                cancelButtonText: 'Cancel'
+                confirmButtonText: t.delete_button,
+                cancelButtonText: t.cancel_button
             }).then((result) => {
                 if (result.isConfirmed) {
                     fetch(`/delete_entry/${entryId}`, {
@@ -991,12 +1004,12 @@
                                 // Tampilkan toast sukses
                                 Toast.fire({
                                     icon: 'success',
-                                    title: 'Journal deleted successfully!'
+                                    title: t.delete_success
                                 });
                             } else {
                                 Toast.fire({
                                     icon: 'error',
-                                    title: 'Error deleting journal'
+                                    title: t.delete_error
                                 });
                             }
                         })
@@ -1004,7 +1017,7 @@
                             console.error('Error:', error);
                             Toast.fire({
                                 icon: 'error',
-                                title: 'Error deleting journal'
+                                title: t.delete_error
                             });
                         });
                 }

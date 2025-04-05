@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2025-04-02 22:52+0700\n"
+"POT-Creation-Date: 2025-04-06 02:59+0700\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -28,82 +28,123 @@ msgstr ""
 #: templates/home.html:16
 msgid ""
 "Reflect on your day with just one click. Rate your daily mood and add a "
-"short note to capture every precious moment. 😊"
+"short note to capture every precious moment."
 msgstr ""
 
-#: templates/home.html:144
+#: templates/home.html:48
+msgid "Log In to RateMyDay"
+msgstr ""
+
+#: templates/auth/sign-up.html:33 templates/home.html:49
+msgid "Start your journey with us today!"
+msgstr ""
+
+#: templates/home.html:64
+msgid "Password"
+msgstr ""
+
+#: templates/home.html:74
+msgid "Remember me"
+msgstr ""
+
+#: templates/home.html:79
+msgid "Forgot your password?"
+msgstr ""
+
+#: templates/auth/sign-up.html:107 templates/home.html:91
+msgid "Login"
+msgstr ""
+
+#: templates/auth/sign-up.html:77 templates/home.html:101
+msgid "Or continue with"
+msgstr ""
+
+#: templates/home.html:123
+msgid "Sign In with Google"
+msgstr ""
+
+#: templates/home.html:129
+msgid "Don't have an account?"
+msgstr ""
+
+#: templates/home.html:130
+msgid "Sign Up"
+msgstr ""
+
+#: templates/home.html:143 templates/template/footer.html:11
+#: templates/template/header.html:12 templates/template/header.html:73
 msgid "Features"
 msgstr ""
 
-#: templates/home.html:147
+#: templates/home.html:146
 msgid ""
-"is a simple app to record and reflect on your day. With an intuitive\n"
-"                        interface, you\n"
-"                        can easily rate your day, add notes, and track "
-"your mood trends."
+"is a simple app to record and reflect on your day. With an intuitive "
+"interface, you can easily rate your day, add notes, and track your mood "
+"trends."
 msgstr ""
 
-#: templates/home.html:164
+#: templates/home.html:161
 msgid "Record Your Day"
 msgstr ""
 
-#: templates/home.html:166
+#: templates/home.html:163
 msgid "Give your day a rating and add a quick note."
 msgstr ""
 
-#: templates/home.html:182
+#: templates/home.html:179
 msgid "Track Your Progress"
 msgstr ""
 
-#: templates/home.html:183
+#: templates/home.html:180
 msgid "Interactive charts to visualize your mood trends."
 msgstr ""
 
-#: templates/home.html:198
+#: templates/home.html:195
 msgid "Quick & Easy"
 msgstr ""
 
-#: templates/home.html:199
+#: templates/home.html:196
 msgid "Takes just seconds to note down your day."
 msgstr ""
 
-#: templates/home.html:205
+#: templates/home.html:202
 msgid "Start recording and reflecting on your days now!"
 msgstr ""
 
-#: templates/home.html:209
+#: templates/home.html:206 templates/template/header.html:54
 msgid "Get Started"
 msgstr ""
 
-#: templates/home.html:241
+#: templates/home.html:238
 msgid "More Emotionally Aware"
 msgstr ""
 
-#: templates/home.html:242
+#: templates/home.html:239
 msgid "Recognize patterns and understand your feelings."
 msgstr ""
 
-#: templates/home.html:256
+#: templates/home.html:253
 msgid "Build Positive Habits"
 msgstr ""
 
-#: templates/home.html:257
+#: templates/home.html:254
 msgid "Identify good and bad patterns through daily journaling."
 msgstr ""
 
-#: templates/home.html:272
+#: templates/home.html:269
 msgid "Express Yourself Freely"
 msgstr ""
 
-#: templates/home.html:273
+#: templates/home.html:270
 msgid "Keep a personal journal as a reflection of your journey."
 msgstr ""
 
-#: templates/home.html:286
+#: templates/home.html:283 templates/template/footer.html:10
+#: templates/template/header.html:17 templates/template/header.html:75
 msgid "About Us"
 msgstr ""
 
-#: templates/home.html:290
+#: templates/home.html:287
 msgid ""
 "Hey there! We believe that every day has its own unique story. That’s why"
 " we created\n"
@@ -111,7 +152,7 @@ msgid ""
 "reflect on your day quickly and effortlessly."
 msgstr ""
 
-#: templates/home.html:294
+#: templates/home.html:291
 msgid ""
 "Each day is a canvas waiting to be filled with the colors of your "
 "experiences. Through\n"
@@ -123,19 +164,20 @@ msgid ""
 "                        happiness every day."
 msgstr ""
 
-#: templates/home.html:301
+#: templates/home.html:298
 msgid "Warm regards,"
 msgstr ""
 
-#: templates/home.html:302
+#: templates/home.html:299
 msgid "RateMyDay Team"
 msgstr ""
 
-#: templates/home.html:316
+#: templates/home.html:313 templates/template/footer.html:12
+#: templates/template/header.html:22
 msgid "Support Us"
 msgstr ""
 
-#: templates/home.html:318
+#: templates/home.html:315
 msgid ""
 "Hey there! At RateMyDay, we believe that tracking your mood daily can "
 "help you be more aware of\n"
@@ -145,137 +187,451 @@ msgid ""
 "everyone."
 msgstr ""
 
-#: templates/home.html:325
-msgid ""
-"Why Your Support\n"
-"                        Matters"
+#: templates/home.html:322
+msgid "Why Your Support Matters?"
 msgstr ""
 
-#: templates/home.html:328
+#: templates/home.html:324
 msgid "Even a little support from you helps us:"
 msgstr ""
 
-#: templates/home.html:338
+#: templates/home.html:334
 msgid "Add awesome new features"
 msgstr ""
 
-#: templates/home.html:338
+#: templates/home.html:334
 msgid ""
 "like interactive\n"
 "                                charts, smarter mood insights, and an "
 "even smoother experience."
 msgstr ""
 
-#: templates/home.html:350
+#: templates/home.html:346
 msgid "Keep your data safe & private"
 msgstr ""
 
-#: templates/home.html:350
+#: templates/home.html:346
 msgid ""
 "because we\n"
 "                                believe self-reflection should stay yours."
 msgstr ""
 
-#: templates/home.html:362
+#: templates/home.html:358
 msgid "Build a better mobile version"
 msgstr ""
 
-#: templates/home.html:362
+#: templates/home.html:358
 msgid ""
 "so you can\n"
 "                                record your mood anytime, anywhere."
 msgstr ""
 
-#: templates/home.html:374
+#: templates/home.html:370
 msgid "Keep RateMyDay free"
 msgstr ""
 
-#: templates/home.html:374
+#: templates/home.html:370
 msgid ""
 "for everyone who\n"
 "                                needs a space to express themselves."
 msgstr ""
 
-#: templates/home.html:383
+#: templates/home.html:379
 msgid "Ways You Can Help"
 msgstr ""
 
-#: templates/home.html:390
+#: templates/home.html:386 templates/home.html:395
 msgid "Share RateMyDay"
 msgstr ""
 
-#: templates/home.html:391
+#: templates/home.html:387
 msgid "Share with a friend or anyone who might find it helpful."
 msgstr ""
 
-#: templates/home.html:488
+#: templates/home.html:484
 msgid "Share now"
 msgstr ""
 
-#: templates/home.html:503
+#: templates/home.html:499
 msgid "Buy us a coffee"
 msgstr ""
 
-#: templates/home.html:504
+#: templates/home.html:500
 msgid "A small donation goes a long way!"
 msgstr ""
 
-#: templates/home.html:507
+#: templates/home.html:503
 msgid "Donate now"
 msgstr ""
 
-#: templates/home.html:522
+#: templates/home.html:518
 msgid "Give feedback"
 msgstr ""
 
-#: templates/home.html:523
+#: templates/home.html:519
 msgid "What features would you love to see?"
 msgstr ""
 
-#: templates/home.html:526
+#: templates/home.html:522
 msgid "Send feedback"
 msgstr ""
 
-#: templates/home.html:552
+#: templates/home.html:548
 msgid "We’d Love to Hear From You!"
 msgstr ""
 
-#: templates/home.html:554
+#: templates/home.html:550
 msgid ""
 "Help us improve by sharing your thoughts\n"
 "                            and ideas. Thank you for being part of\n"
 "                            this journey!"
 msgstr ""
 
-#: templates/home.html:564
+#: templates/home.html:560
 msgid "Give Your Feedback"
 msgstr ""
 
-#: templates/home.html:566
+#: templates/home.html:562
 msgid ""
 "Just enter your name, email, and feedback below.\n"
 "                                We appreciate your time!"
 msgstr ""
 
-#: templates/home.html:574
+#: templates/home.html:570
 msgid "Name"
 msgstr ""
 
-#: templates/home.html:591
-msgid ""
-"Your\n"
-"                                    Feedback"
+#: templates/home.html:587
+msgid "Your Feedback"
 msgstr ""
 
-#: templates/home.html:602
+#: templates/home.html:597
 msgid "Send Feedback"
 msgstr ""
 
-#: templates/template/header.html:32
+#: templates/index.html:61
+msgid "Track Your Day with Charts!"
+msgstr ""
+
+#: templates/index.html:62
+msgid "View your daily ratings in bar and line charts."
+msgstr ""
+
+#: templates/index.html:67
+msgid "Show chart for:"
+msgstr ""
+
+#: templates/index.html:71
+msgid "Range Date"
+msgstr ""
+
+#: templates/index.html:72
+msgid "1 Week"
+msgstr ""
+
+#: templates/index.html:73
+msgid "2 Weeks"
+msgstr ""
+
+#: templates/index.html:74
+msgid "1 Month"
+msgstr ""
+
+#: templates/index.html:75
+msgid "Pick a Month"
+msgstr ""
+
+#: templates/index.html:96
+msgid "How's Your Day?"
+msgstr ""
+
+#: templates/index.html:97
+msgid "Take a moment to reflect on your day"
+msgstr ""
+
+#: templates/index.html:105 templates/journal.html:182
+msgid "Date"
+msgstr ""
+
+#: templates/index.html:106
+msgid ""
+"Pick a date, or I'll default to\n"
+"                                today!"
+msgstr ""
+
+#: templates/index.html:116
+msgid "Mood Rating"
+msgstr ""
+
+#: templates/index.html:117
+msgid "How are you feeling today?"
+msgstr ""
+
+#: templates/index.html:120 templates/journal.html:201
+msgid "Awful"
+msgstr ""
+
+#: templates/index.html:121 templates/journal.html:202
+msgid "Excellent"
+msgstr ""
+
+#: templates/index.html:134 templates/journal.html:80
+msgid "Journal Entry"
+msgstr ""
+
+#: templates/index.html:135
+msgid ""
+"Create your card. Express your thoughts\n"
+"                                and\n"
+"                                feelings..."
+msgstr ""
+
+#: templates/index.html:149
+msgid "Submit Rating"
+msgstr ""
+
+#: templates/index.html:162
+msgid "Hey, this looks familiar!"
+msgstr ""
+
+#: templates/index.html:163
+msgid "We already have this entry in our records. Would you like to update it?"
+msgstr ""
+
+#: templates/index.html:164
+msgid "Yes, update it"
+msgstr ""
+
+#: templates/index.html:165
+msgid "Nevermind"
+msgstr ""
+
+#: templates/index.html:166
+msgid "All updated! Your changes have been saved."
+msgstr ""
+
+#: templates/index.html:167
+msgid "Great job! Your data has been saved successfully."
+msgstr ""
+
+#: templates/index.html:168
+msgid "Oops! Something went wrong. Give it another try?"
+msgstr ""
+
+#: templates/journal.html:36
+msgid "Journal Archive"
+msgstr ""
+
+#: templates/journal.html:37
+msgid "Explore your past journal entries!"
+msgstr ""
+
+#: templates/journal.html:45
+msgid "Today"
+msgstr ""
+
+#: templates/journal.html:64
+msgid "Sun"
+msgstr ""
+
+#: templates/journal.html:65
+msgid "Mon"
+msgstr ""
+
+#: templates/journal.html:66
+msgid "Tue"
+msgstr ""
+
+#: templates/journal.html:67
+msgid "Wed"
+msgstr ""
+
+#: templates/journal.html:68
+msgid "Thu"
+msgstr ""
+
+#: templates/journal.html:69
+msgid "Fri"
+msgstr ""
+
+#: templates/journal.html:70
+msgid "Sat"
+msgstr ""
+
+#: templates/journal.html:81
+msgid "Check your journal & edit anytime!"
+msgstr ""
+
+#: templates/journal.html:96
+msgid "Save"
+msgstr ""
+
+#: templates/journal.html:110
+msgid "Delete"
+msgstr ""
+
+#: templates/journal.html:136
+msgid "Open Card"
+msgstr ""
+
+#: templates/journal.html:146
+msgid "Share"
+msgstr ""
+
+#: templates/journal.html:156
+msgid "Copy"
+msgstr ""
+
+#: templates/journal.html:165
+msgid "Download"
+msgstr ""
+
+#: templates/journal.html:189
+msgid "Day of Week"
+msgstr ""
+
+#: templates/journal.html:198
+msgid ""
+"Mood\n"
+"                            Rating"
+msgstr ""
+
+#: templates/journal.html:219
+msgid ""
+"Journal\n"
+"                                Entry"
+msgstr ""
+
+#: templates/journal.html:238
+msgid "Add Journal"
+msgstr ""
+
+#: templates/journal.html:250
+msgid "Are you sure?"
+msgstr ""
+
+#: templates/journal.html:251
+msgid "Deleted journal entries can't be recovered!"
+msgstr ""
+
+#: templates/journal.html:252
+msgid "Delete it!"
+msgstr ""
+
+#: templates/journal.html:253
+msgid "Cancel"
+msgstr ""
+
+#: templates/journal.html:254
+msgid "Journal deleted successfully!"
+msgstr ""
+
+#: templates/journal.html:255
+msgid "Error deleting journal"
+msgstr ""
+
+#: templates/auth/forgot-password.html:41
+msgid "Reset Password"
+msgstr ""
+
+#: templates/auth/forgot-password.html:42
+msgid "Enter your email and we'll send you a reset link"
+msgstr ""
+
+#: templates/auth/forgot-password.html:54
+msgid "Send Reset Link"
+msgstr ""
+
+#: templates/auth/sign-up.html:32
+msgid "Sign Up to RateMyDay"
+msgstr ""
+
+#: templates/auth/sign-up.html:66
+msgid "Create Account"
+msgstr ""
+
+#: templates/auth/sign-up.html:99
+msgid "Sign Up with Google"
+msgstr ""
+
+#: templates/auth/sign-up.html:106
+msgid "Already have an account?"
+msgstr ""
+
+#: templates/template/base-login.html:46 templates/template/header.html:33
 msgid "EN"
 msgstr ""
 
-#: templates/template/header.html:32
+#: templates/template/base-login.html:46 templates/template/header.html:33
 msgid "ID"
+msgstr ""
+
+#: templates/template/base-login.html:81
+msgid "Good Morning"
+msgstr ""
+
+#: templates/template/base-login.html:82
+msgid "Good Afternoon"
+msgstr ""
+
+#: templates/template/base-login.html:83
+msgid "Good Evening"
+msgstr ""
+
+#: templates/template/base-login.html:83
+msgid "Hi"
+msgstr ""
+
+#: templates/template/base-login.html:102
+#: templates/template/base-login.html:152
+msgid "Home"
+msgstr ""
+
+#: templates/template/base-login.html:105
+#: templates/template/base-login.html:168
+msgid "My Journal"
+msgstr ""
+
+#: templates/template/base-login.html:109
+#: templates/template/base-login.html:188
+msgid "Logout"
+msgstr ""
+
+#: templates/template/footer.html:8
+msgid "Navigation"
+msgstr ""
+
+#: templates/template/footer.html:18
+msgid "Help & Support"
+msgstr ""
+
+#: templates/template/footer.html:20
+msgid "How to Use"
+msgstr ""
+
+#: templates/template/footer.html:21
+msgid "Privacy Policy"
+msgstr ""
+
+#: templates/template/footer.html:22
+msgid "FAQs"
+msgstr ""
+
+#: templates/template/footer.html:28
+msgid "Contact Info"
+msgstr ""
+
+#: templates/template/footer.html:54
+msgid "Social Media"
+msgstr ""
+
+#: templates/template/footer.html:79
+msgid "All rights reserved."
+msgstr ""
+
+#: templates/template/header.html:77
+msgid ""
+"Support\n"
+"                Us"
 msgstr ""
 

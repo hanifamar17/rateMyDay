@@ -40,12 +40,47 @@
                 <div class="relative self-center">
                     <!-- Dropdown Trigger Button -->
                     <div class="flex flex-row space-x-3">
+                        <div class="relative inline-block text-left group">
+                            <button id="language-menu-button" type="button"
+                                class="flex items-center text-sm text-gray-900 hover:text-blue-600 transition-colors duration-200">
+                                <span class="mr-1">{{ _("EN") if g.get("lang_code", "en") == "en" else _("ID") }}</span>
+                                <svg class="w-3 h-3 transform transition-transform duration-200 group-hover:rotate-180"
+                                    fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M19 9l-7 7-7-7"></path>
+                                </svg>
+                            </button>
+
+                            <div id="language-menu"
+                                class="hidden opacity-0 absolute right-0 z-10 mt-1 w-24 origin-top-right rounded-md bg-gray-800 shadow-lg ring-1 ring-black/5 focus:outline-none transition-all duration-200">
+                                <div class="py-1">
+                                    {% if request.endpoint == 'index' %}
+                                    <a href="{{ url_for('index', lang='en') }}"
+                                        class="block px-3 py-1.5 text-sm text-gray-200 hover:bg-gray-700 transition-colors duration-150">English</a>
+                                    <a href="{{ url_for('index', lang='id') }}"
+                                        class="block px-3 py-1.5 text-sm text-gray-200 hover:bg-gray-700 transition-colors duration-150">Indonesia</a>
+                                    {% elif request.endpoint == 'journal' %}
+                                    <a href="{{ url_for('journal', lang='en') }}"
+                                        class="block px-3 py-1.5 text-sm text-gray-200 hover:bg-gray-700 transition-colors duration-150">English</a>
+                                    <a href="{{ url_for('journal', lang='id') }}"
+                                        class="block px-3 py-1.5 text-sm text-gray-200 hover:bg-gray-700 transition-colors duration-150">Indonesia</a>
+                                    {% else %}
+                                    <a href="{{ url_for(request.endpoint, lang='en', **request.view_args) }}"
+                                        class="block px-3 py-1.5 text-sm text-gray-200 hover:bg-gray-700 transition-colors duration-150">English</a>
+                                    <a href="{{ url_for(request.endpoint, lang='id', **request.view_args) }}"
+                                        class="block px-3 py-1.5 text-sm text-gray-200 hover:bg-gray-700 transition-colors duration-150">Indonesia</a>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
                         <span class="hidden sm:inline text-sm text-gray-900">RateMyDay</span>
                         <span class="hidden sm:inline text-sm text-gray-900">|</span>
                         <button id="userDropdownButton"
                             class="flex items-center text-sm text-gray-700 hover:text-blue-600 focus:outline-none"
                             type="button">
-                            <span id="timeGreeting">Halo</span>,
+                            <span id="timeGreeting" data-morning-text="{{ _('Good Morning') }}"
+                                data-afternoon-text="{{ _('Good Afternoon') }}"
+                                data-evening-text="{{ _('Good Evening') }}">{{_("Hi")}}</span>,
                             <strong class="ml-1 capitalize font-bold">{{ given_name if given_name else name }}</strong>
                             <svg class="w-4 h-4 ml-1 md:hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"
                                 xmlns="http://www.w3.org/2000/svg">
@@ -64,14 +99,14 @@
                                 {{ given_name if given_name else name }}</span>
                         </div>
                         <a href="/homepage" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
-                            Home
+                            {{_("Home")}}
                         </a>
                         <a href="/journal" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
-                            My Journal
+                            {{_("My Journal")}}
                         </a>
                         <div class="border-t border-gray-200 my-1"></div>
                         <a href="/logout" class="block px-4 py-2 text-sm text-red-600 hover:bg-gray-100">
-                            Log out
+                            {{_("Logout")}}
                         </a>
                     </div>
                 </div>
@@ -114,7 +149,7 @@
                     <span class="whitespace-nowrap text-gray-700
                     transition-all duration-300 
                     overflow-hidden" :class="open ? 'opacity-100 w-full' : 'opacity-0 w-0'">
-                        Home
+                        {{_("Home")}}
                     </span>
                 </a>
 
@@ -130,7 +165,7 @@
                     <span class="whitespace-nowrap text-gray-700
                     transition-all duration-300 
                     overflow-hidden" :class="open ? 'opacity-100 w-full' : 'opacity-0 w-0'">
-                        Journal
+                        {{_("My Journal")}}
                     </span>
                 </a>
 
@@ -150,7 +185,7 @@
                     <span class="whitespace-nowrap text-red-700
                     transition-all duration-300 
                     overflow-hidden" :class="open ? 'opacity-100 w-full' : 'opacity-0 w-0'">
-                        Logout
+                        {{_("Logout")}}
                     </span>
                 </a>
             </nav>
@@ -169,18 +204,56 @@
         </div>
     </div>
 
+    <!-- Script untuk dropdown language switcher -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const menuButton = document.getElementById('language-menu-button');
+            const menu = document.getElementById('language-menu');
+
+            // Toggle dropdown with animation
+            menuButton.addEventListener('click', (e) => {
+                e.stopPropagation();
+
+                if (menu.classList.contains('hidden')) {
+                    menu.classList.remove('hidden');
+                    setTimeout(() => {
+                        menu.classList.remove('opacity-0');
+                    }, 10);
+                } else {
+                    menu.classList.add('opacity-0');
+                    setTimeout(() => {
+                        menu.classList.add('hidden');
+                    }, 200);
+                }
+            });
+
+            // Close dropdown when clicking outside
+            document.addEventListener('click', () => {
+                menu.classList.add('opacity-0');
+                setTimeout(() => {
+                    menu.classList.add('hidden');
+                }, 200);
+            });
+        });
+    </script>
+
     <script>
         // Time Greeting
         document.addEventListener('DOMContentLoaded', function () {
             const greetingElement = document.getElementById('timeGreeting');
             const currentHour = new Date().getHours();
 
+            // Get translations from data attributes set by Flask
+            const morningText = greetingElement.dataset.morningText;
+            const afternoonText = greetingElement.dataset.afternoonText;
+            const eveningText = greetingElement.dataset.eveningText;
+
             if (currentHour < 12) {
-                greetingElement.textContent = 'Good Morning';
+                greetingElement.textContent = morningText;
             } else if (currentHour < 18) {
-                greetingElement.textContent = 'Good Afternoon';
+                greetingElement.textContent = afternoonText;
             } else {
-                greetingElement.textContent = 'Good Evening';
+                greetingElement.textContent = eveningText;
             }
 
             // Dropdown Toggle

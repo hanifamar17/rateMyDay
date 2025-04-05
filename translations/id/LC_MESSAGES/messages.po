@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2025-04-02 22:52+0700\n"
+"POT-Creation-Date: 2025-04-06 02:59+0700\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: id\n"
@@ -29,89 +29,129 @@ msgstr "Temukan Pola Kebahagiaanmu!"
 #: templates/home.html:16
 msgid ""
 "Reflect on your day with just one click. Rate your daily mood and add a "
-"short note to capture every precious moment. 😊"
+"short note to capture every precious moment."
 msgstr ""
 "Refleksiin harimu dengan sekali klik aja. Beri rating untuk mood kamu "
-"hari ini &\n"
-"tambahin catatan singkat biar momen-momen berharga nggak kelewat. 😊"
+"hari ini & tambahin catatan singkat biar momen-momen berharga nggak "
+"kelewat."
 
-#: templates/home.html:144
+#: templates/home.html:48
+msgid "Log In to RateMyDay"
+msgstr "Masuk ke RateMyDay"
+
+#: templates/auth/sign-up.html:33 templates/home.html:49
+msgid "Start your journey with us today!"
+msgstr "Mulai perjalananmu bersama kami hari ini!"
+
+#: templates/home.html:64
+msgid "Password"
+msgstr "Kata Sandi"
+
+#: templates/home.html:74
+msgid "Remember me"
+msgstr "Ingat saya"
+
+#: templates/home.html:79
+msgid "Forgot your password?"
+msgstr "Lupa kata sandi?"
+
+#: templates/auth/sign-up.html:107 templates/home.html:91
+msgid "Login"
+msgstr "Masuk"
+
+#: templates/auth/sign-up.html:77 templates/home.html:101
+msgid "Or continue with"
+msgstr "Atau lanjutkan dengan"
+
+#: templates/home.html:123
+msgid "Sign In with Google"
+msgstr "Masuk dengan Google"
+
+#: templates/home.html:129
+msgid "Don't have an account?"
+msgstr "Belum punya akun?"
+
+#: templates/home.html:130
+msgid "Sign Up"
+msgstr "Daftar"
+
+#: templates/home.html:143 templates/template/footer.html:11
+#: templates/template/header.html:12 templates/template/header.html:73
 msgid "Features"
 msgstr "Fitur-fitur"
 
-#: templates/home.html:147
+#: templates/home.html:146
 msgid ""
-"is a simple app to record and reflect on your day. With an intuitive\n"
-"                        interface, you\n"
-"                        can easily rate your day, add notes, and track "
-"your mood trends."
+"is a simple app to record and reflect on your day. With an intuitive "
+"interface, you can easily rate your day, add notes, and track your mood "
+"trends."
 msgstr ""
-"Day adalah aplikasi sederhana untuk mencatat dan merefleksikan hari Anda."
-" Dengan antarmuka \n"
-"yang intuitif, Anda dapat dengan mudah memberikan rating, menambahkan "
-"catatan, dan melihat tren suasana hati Anda."
+"adalah aplikasi sederhana untuk mencatat dan merefleksikan hari Anda. "
+"Dengan antarmuka yang intuitif, Anda dapat dengan mudah memberikan "
+"rating, menambahkan catatan, dan melihat tren suasana hati Anda."
 
-#: templates/home.html:164
+#: templates/home.html:161
 msgid "Record Your Day"
 msgstr "Catat Harimu"
 
-#: templates/home.html:166
+#: templates/home.html:163
 msgid "Give your day a rating and add a quick note."
 msgstr "Beri rating dan tambahkan catatan singkat tentang hari Anda."
 
-#: templates/home.html:182
+#: templates/home.html:179
 msgid "Track Your Progress"
 msgstr "Lihat Perkembangan"
 
-#: templates/home.html:183
+#: templates/home.html:180
 msgid "Interactive charts to visualize your mood trends."
 msgstr "Grafik interaktif untuk melihat tren suasana hati Anda."
 
-#: templates/home.html:198
+#: templates/home.html:195
 msgid "Quick & Easy"
 msgstr "Cepat & Mudah"
 
-#: templates/home.html:199
+#: templates/home.html:196
 msgid "Takes just seconds to note down your day."
 msgstr "Cukup beberapa detik untuk mencatat hari Anda."
 
-#: templates/home.html:205
+#: templates/home.html:202
 msgid "Start recording and reflecting on your days now!"
 msgstr "Mulai catat dan refleksikan hari Anda sekarang!"
 
-#: templates/home.html:209
+#: templates/home.html:206 templates/template/header.html:54
 msgid "Get Started"
-msgstr "Mulai"
+msgstr "Mulai Sekarang"
 
-#: templates/home.html:241
+#: templates/home.html:238
 msgid "More Emotionally Aware"
 msgstr "Lebih Sadar Emosi"
 
-#: templates/home.html:242
+#: templates/home.html:239
 msgid "Recognize patterns and understand your feelings."
 msgstr "Melihat pola dan memahami perasaan Anda."
 
-#: templates/home.html:256
+#: templates/home.html:253
 msgid "Build Positive Habits"
-msgstr "Membentuk Kebiasaan Positif"
+msgstr "Membangun Kebiasaan Positif"
 
-#: templates/home.html:257
+#: templates/home.html:254
 msgid "Identify good and bad patterns through daily journaling."
 msgstr "Mengenali pola baik dan buruk melalui pencatatan harian."
 
-#: templates/home.html:272
+#: templates/home.html:269
 msgid "Express Yourself Freely"
 msgstr "Bebas Ekspresikan Diri"
 
-#: templates/home.html:273
+#: templates/home.html:270
 msgid "Keep a personal journal as a reflection of your journey."
 msgstr "Simpan catatan harian sebagai refleksi pribadi."
 
-#: templates/home.html:286
+#: templates/home.html:283 templates/template/footer.html:10
+#: templates/template/header.html:17 templates/template/header.html:75
 msgid "About Us"
 msgstr "Tentang Kami"
 
-#: templates/home.html:290
+#: templates/home.html:287
 msgid ""
 "Hey there! We believe that every day has its own unique story. That’s why"
 " we created\n"
@@ -119,10 +159,10 @@ msgid ""
 "reflect on your day quickly and effortlessly."
 msgstr ""
 "Hai! Kami percaya bahwa setiap hari memiliki cerita uniknya sendiri. "
-"Itulah mengapa kami menciptakan <strong>RateMyDay</strong>—platform "
-"sederhana untuk merefleksikan harimu dengan cepat dan mudah."
+"Itulah mengapa kami menciptakan Rate My Day, platform sederhana untuk "
+"merefleksikan harimu dengan cepat dan mudah."
 
-#: templates/home.html:294
+#: templates/home.html:291
 msgid ""
 "Each day is a canvas waiting to be filled with the colors of your "
 "experiences. Through\n"
@@ -135,24 +175,24 @@ msgid ""
 msgstr ""
 "Setiap hari adalah kanvas yang menunggu untuk diisi dengan warna-warni "
 "pengalaman. Melalui refleksi, kita bisa melihat pola, memahami diri "
-"sendiri, dan menemukan makna dalam setiap momen. Kami berharap "
-"<strong>RateMyDay</strong> bisa menjadi alat yang membantu dalam "
-"perjalanan refleksi ini, membimbing untuk menemukan kedamaian dan "
-"kebahagiaan di setiap hari."
+"sendiri, dan menemukan makna dalam setiap momen. Kami berharap Rate My "
+"Day bisa menjadi alat yang membantu dalam perjalanan refleksi ini, "
+"membimbing untuk menemukan kedamaian dan kebahagiaan di setiap hari."
 
-#: templates/home.html:301
+#: templates/home.html:298
 msgid "Warm regards,"
-msgstr "Salam Hangat"
+msgstr "Salam hangat"
 
-#: templates/home.html:302
+#: templates/home.html:299
 msgid "RateMyDay Team"
-msgstr "Tim RateMyDay"
+msgstr "Team RateMyDay"
 
-#: templates/home.html:316
+#: templates/home.html:313 templates/template/footer.html:12
+#: templates/template/header.html:22
 msgid "Support Us"
 msgstr "Dukung Kami"
 
-#: templates/home.html:318
+#: templates/home.html:315
 msgid ""
 "Hey there! At RateMyDay, we believe that tracking your mood daily can "
 "help you be more aware of\n"
@@ -160,141 +200,528 @@ msgid ""
 " ultimately, have better days. We want to keep\n"
 "                        this platform free, simple, and useful for "
 "everyone."
-msgstr "Hai! Kami di RateMyDay percaya bahwa mencatat suasana hati setiap hari bisa membantu kita lebih sadar dengan perasaan sendiri, memahami pola emosional, dan pada akhirnya, menjalani hari-hari dengan lebih baik. Kami ingin menjaga platform ini tetap gratis, simpel, dan bermanfaat untuk semua orang."
+msgstr ""
+"Hai! Kami di RateMyDay percaya bahwa mencatat suasana hati setiap hari "
+"bisa membantu kita lebih sadar dengan perasaan sendiri, memahami pola "
+"emosional, dan pada akhirnya, menjalani hari-hari dengan lebih baik. Kami"
+" ingin menjaga platform ini tetap gratis, simpel, dan bermanfaat untuk "
+"semua orang."
 
-#: templates/home.html:325
-msgid ""
-"Why Your Support\n"
-"                        Matters"
-msgstr "Kenapa Dukungan Kamu Penting"
+#: templates/home.html:322
+msgid "Why Your Support Matters?"
+msgstr "Kenapa Dukungan Kamu Penting?"
 
-#: templates/home.html:328
+#: templates/home.html:324
 msgid "Even a little support from you helps us:"
 msgstr "Dukungan kecil dari kamu bisa membantu kami:"
 
-#: templates/home.html:338
+#: templates/home.html:334
 msgid "Add awesome new features"
-msgstr "Menambahkan fitur keren"
+msgstr "Menambahkan fitur keren "
 
-#: templates/home.html:338
+#: templates/home.html:334
 msgid ""
 "like interactive\n"
 "                                charts, smarter mood insights, and an "
 "even smoother experience."
-msgstr "seperti grafik lebih interaktif, analisis suasana hati yang lebih cerdas, dan pengalaman pengguna yang lebih nyaman."
+msgstr ""
+"seperti grafik lebih interaktif, analisis suasana hati yang lebih cerdas,"
+" dan pengalaman pengguna yang lebih nyaman."
 
-#: templates/home.html:350
+#: templates/home.html:346
 msgid "Keep your data safe & private"
 msgstr "Menjaga privasi dan keamanan data kamu"
 
-#: templates/home.html:350
+#: templates/home.html:346
 msgid ""
 "because we\n"
 "                                believe self-reflection should stay yours."
 msgstr "karena kami percaya refleksi pribadi harus tetap jadi milikmu."
 
-#: templates/home.html:362
+#: templates/home.html:358
 msgid "Build a better mobile version"
 msgstr "Mengembangkan versi mobile yang lebih nyaman"
 
-#: templates/home.html:362
+#: templates/home.html:358
 msgid ""
 "so you can\n"
 "                                record your mood anytime, anywhere."
-msgstr "supaya kamu bisa mencatat kapan saja, di mana saja"
+msgstr "supaya kamu bisa mencatat kapan saja, di mana saja."
 
-#: templates/home.html:374
-
+#: templates/home.html:370
 msgid "Keep RateMyDay free"
 msgstr "Menjaga RateMyDay tetap gratis"
 
-#: templates/home.html:374
+#: templates/home.html:370
 msgid ""
 "for everyone who\n"
 "                                needs a space to express themselves."
 msgstr "dan bisa diakses siapa saja yang butuh ruang untuk mencatat perasaannya."
 
-#: templates/home.html:383
+#: templates/home.html:379
 msgid "Ways You Can Help"
 msgstr "Cara Kamu Bisa Membantu"
 
-#: templates/home.html:390
-
+#: templates/home.html:386 templates/home.html:395
 msgid "Share RateMyDay"
-msgstr "Bagikan RateMyDay "
+msgstr "Bagikan RateMyDay"
 
-#: templates/home.html:391
+#: templates/home.html:387
 msgid "Share with a friend or anyone who might find it helpful."
-msgstr "Bagikan ke teman atau siapapun yang mungkin membutuhkannya."
+msgstr "Bagikan RateMyDay ke teman atau keluarga yang mungkin membutuhkannya."
 
-#: templates/home.html:488
+#: templates/home.html:484
 msgid "Share now"
 msgstr "Bagikan sekarang"
 
-#: templates/home.html:503
+#: templates/home.html:499
 msgid "Buy us a coffee"
-msgstr "Belikan kami secangkir kopi "
+msgstr "Belikan kami secangkir kopi"
 
-#: templates/home.html:504
+#: templates/home.html:500
 msgid "A small donation goes a long way!"
-msgstr "dengan donasi kecil – setiap dukungan berarti banget!"
+msgstr "Dengan donasi kecil – setiap dukungan berarti banget!"
 
-#: templates/home.html:507
+#: templates/home.html:503
 msgid "Donate now"
-msgstr "Donasi sekarang"
+msgstr "Donasi Sekarang"
+
+#: templates/home.html:518
+msgid "Give feedback"
+msgstr "Beri Masukan"
+
+#: templates/home.html:519
+msgid "What features would you love to see?"
+msgstr "fitur apa yang ingin kamu lihat? "
 
 #: templates/home.html:522
-msgid "Give feedback"
-msgstr "Kasih masukan"
-
-#: templates/home.html:523
-msgid "What features would you love to see?"
-msgstr "fitur apa yang ingin kamu lihat?"
-
-#: templates/home.html:526
 msgid "Send feedback"
-msgstr "Kirim masukan"
+msgstr "Kirim Masukan"
 
-#: templates/home.html:552
+#: templates/home.html:548
 msgid "We’d Love to Hear From You!"
 msgstr "Kami ingin mendengar pendapatmu!"
 
-#: templates/home.html:554
+#: templates/home.html:550
 msgid ""
 "Help us improve by sharing your thoughts\n"
 "                            and ideas. Thank you for being part of\n"
 "                            this journey!"
-msgstr "Bantu kami jadi lebih baik dengan berbagi pendapat dan ide kamu. Terima kasih sudah jadi bagian dari perjalanan ini!"
+msgstr ""
+"Bantu kami jadi lebih baik dengan berbagi pendapat dan ide kamu. Terima "
+"kasih sudah jadi bagian dari perjalanan ini!"
 
-#: templates/home.html:564
+#: templates/home.html:560
 msgid "Give Your Feedback"
 msgstr "Berikan Masukanmu"
 
-#: templates/home.html:566
+#: templates/home.html:562
 msgid ""
 "Just enter your name, email, and feedback below.\n"
 "                                We appreciate your time!"
-msgstr "Cukup isi nama, email, dan feedback di bawah ini. Kami sangat menghargai waktumu!"
+msgstr ""
+"Cukup isi nama, email, dan feedback di bawah ini. Kami sangat menghargai "
+"waktumu!"
 
-#: templates/home.html:574
+#: templates/home.html:570
 msgid "Name"
 msgstr "Nama"
 
-#: templates/home.html:591
-msgid ""
-"Your\n"
-"                                    Feedback"
+#: templates/home.html:587
+msgid "Your Feedback"
 msgstr "Masukanmu"
 
-#: templates/home.html:602
+#: templates/home.html:597
 msgid "Send Feedback"
 msgstr "Kirim Masukan"
 
-#: templates/template/header.html:32
-msgid "EN"
-msgstr ""
+#: templates/index.html:61
+msgid "Track Your Day with Charts!"
+msgstr "Lacak Harimu dengan Grafik!"
 
-#: templates/template/header.html:32
+#: templates/index.html:62
+msgid "View your daily ratings in bar and line charts."
+msgstr "Lihat rating harianmu dalam grafik batang dan garis."
+
+#: templates/index.html:67
+msgid "Show chart for:"
+msgstr "Tampilkan grafik untuk:"
+
+#: templates/index.html:71
+msgid "Range Date"
+msgstr "Rentang Tanggal"
+
+#: templates/index.html:72
+msgid "1 Week"
+msgstr "1 Minggu"
+
+#: templates/index.html:73
+msgid "2 Weeks"
+msgstr "2 Minggu"
+
+#: templates/index.html:74
+msgid "1 Month"
+msgstr "1 Bulan"
+
+#: templates/index.html:75
+msgid "Pick a Month"
+msgstr "Pilih Bulan"
+
+#: templates/index.html:96
+msgid "How's Your Day?"
+msgstr "Gimana Harimu?"
+
+#: templates/index.html:97
+msgid "Take a moment to reflect on your day"
+msgstr "Luangkan waktu sebentar untuk refleksi harimu."
+
+#: templates/index.html:105 templates/journal.html:182
+msgid "Date"
+msgstr "Tanggal"
+
+#: templates/index.html:106
+msgid ""
+"Pick a date, or I'll default to\n"
+"                                today!"
+msgstr "Pilih tanggal, atau aku bakal otomatis pilih hari ini!"
+
+#: templates/index.html:116
+msgid "Mood Rating"
+msgstr "Rating Mood"
+
+#: templates/index.html:117
+msgid "How are you feeling today?"
+msgstr "Gimana perasaanmu hari ini?"
+
+#: templates/index.html:120 templates/journal.html:201
+msgid "Awful"
+msgstr "Buruk"
+
+#: templates/index.html:121 templates/journal.html:202
+msgid "Excellent"
+msgstr "Luar Biasa"
+
+#: templates/index.html:134 templates/journal.html:80
+msgid "Journal Entry"
+msgstr "Catatan Jurnal"
+
+#: templates/index.html:135
+msgid ""
+"Create your card. Express your thoughts\n"
+"                                and\n"
+"                                feelings..."
+msgstr "Buat kartu harianmu. Ungkapkan pikiran dan perasaanmu..."
+
+#: templates/index.html:149
+msgid "Submit Rating"
+msgstr "Kirim Rating"
+
+#: templates/index.html:162
+msgid "Hey, this looks familiar!"
+msgstr "Eh, sepertinya ini sudah pernah ada!"
+
+#: templates/index.html:163
+msgid "We already have this entry in our records. Would you like to update it?"
+msgstr "Kami sudah punya data ini sebelumnya. Mau diperbarui aja?"
+
+#: templates/index.html:164
+msgid "Yes, update it"
+msgstr "Ya, perbarui"
+
+#: templates/index.html:165
+msgid "Nevermind"
+msgstr "Gak jadi"
+
+#: templates/index.html:166
+msgid "All updated! Your changes have been saved."
+msgstr "Sudah diperbarui! Perubahanmu berhasil disimpan."
+
+#: templates/index.html:167
+msgid "Great job! Your data has been saved successfully."
+msgstr "Keren! Datamu berhasil disimpan."
+
+#: templates/index.html:168
+msgid "Oops! Something went wrong. Give it another try?"
+msgstr "Ups! Ada yang salah nih. Coba lagi, ya?"
+
+#: templates/journal.html:36
+
+msgid "Journal Archive"
+msgstr "Catatan Jurnal"
+
+#: templates/journal.html:37
+msgid "Explore your past journal entries!"
+msgstr "Jelajahi catatan jurnalmu yang lalu!"
+
+#: templates/journal.html:45
+msgid "Today"
+msgstr "Hari ini"
+
+#: templates/journal.html:64
+msgid "Sun"
+msgstr "Min"
+
+#: templates/journal.html:65
+
+msgid "Mon"
+msgstr "Sen"
+
+#: templates/journal.html:66
+msgid "Tue"
+msgstr "Sel"
+
+#: templates/journal.html:67
+msgid "Wed"
+msgstr "Rab"
+
+#: templates/journal.html:68
+msgid "Thu"
+msgstr "Kam"
+
+#: templates/journal.html:69
+msgid "Fri"
+msgstr "Jum"
+
+#: templates/journal.html:70
+msgid "Sat"
+msgstr "Sab"
+
+#: templates/journal.html:81
+msgid "Check your journal & edit anytime!"
+msgstr "Cek jurnalmu & edit kapan saja!"
+
+#: templates/journal.html:96
+msgid "Save"
+msgstr "Simpan"
+
+#: templates/journal.html:110
+
+msgid "Delete"
+msgstr "Hapus"
+
+#: templates/journal.html:136
+msgid "Open Card"
+msgstr "Buka Kartu"
+
+#: templates/journal.html:146
+
+msgid "Share"
+msgstr "Bagikan"
+
+#: templates/journal.html:156
+msgid "Copy"
+msgstr "Salin"
+
+#: templates/journal.html:165
+msgid "Download"
+msgstr "Unduh"
+
+#: templates/journal.html:189
+msgid "Day of Week"
+msgstr "Hari"
+
+#: templates/journal.html:198
+
+msgid ""
+"Mood\n"
+"                            Rating"
+msgstr "Rating Mood"
+
+#: templates/journal.html:219
+
+msgid ""
+"Journal\n"
+"                                Entry"
+msgstr "Catatan Jurnal"
+
+#: templates/journal.html:238
+
+msgid "Add Journal"
+msgstr "Tambah Jurnal"
+
+#: templates/journal.html:250
+msgid "Are you sure?"
+msgstr "Yakin ingin menghapus?"
+
+#: templates/journal.html:251
+msgid "Deleted journal entries can't be recovered!"
+msgstr "Catatan jurnal yang dihapus tidak bisa dikembalikan!"
+
+#: templates/journal.html:252
+msgid "Delete it!"
+msgstr "Ya, hapus"
+
+#: templates/journal.html:253
+msgid "Cancel"
+msgstr "Batal"
+
+#: templates/journal.html:254
+msgid "Journal deleted successfully!"
+msgstr "Catatan jurnal berhasil dihapus."
+
+#: templates/journal.html:255
+msgid "Error deleting journal"
+msgstr "Gagal menghapus jurnal"
+
+#: templates/auth/forgot-password.html:41
+msgid "Reset Password"
+msgstr "Reset Kata Sandi"
+
+#: templates/auth/forgot-password.html:42
+msgid "Enter your email and we'll send you a reset link"
+msgstr "Masukkan emailmu, dan kami akan mengirimkan tautan reset."
+
+#: templates/auth/forgot-password.html:54
+msgid "Send Reset Link"
+msgstr "Kirim Tautan Reset"
+
+#: templates/auth/sign-up.html:32
+msgid "Sign Up to RateMyDay"
+msgstr "Daftar ke RateMyDay"
+
+#: templates/auth/sign-up.html:66
+msgid "Create Account"
+msgstr "Buat Akun"
+
+#: templates/auth/sign-up.html:99
+msgid "Sign Up with Google"
+msgstr "Daftar dengan Google"
+
+#: templates/auth/sign-up.html:106
+msgid "Already have an account?"
+msgstr "Sudah Punya Akun?"
+
+#: templates/template/base-login.html:46 templates/template/header.html:33
+msgid "EN"
+msgstr "EN"
+
+#: templates/template/base-login.html:46 templates/template/header.html:33
 msgid "ID"
-msgstr ""
+msgstr "ID"
+
+#: templates/template/base-login.html:81
+msgid "Good Morning"
+msgstr "Selamat Pagi"
+
+#: templates/template/base-login.html:82
+msgid "Good Afternoon"
+msgstr "Selamat Siang"
+
+#: templates/template/base-login.html:83
+msgid "Good Evening"
+msgstr "Selamat Malam"
+
+#: templates/template/base-login.html:83
+msgid "Hi"
+msgstr "Halo"
+
+#: templates/template/base-login.html:102
+#: templates/template/base-login.html:152
+msgid "Home"
+msgstr "Beranda"
+
+#: templates/template/base-login.html:105
+#: templates/template/base-login.html:168
+msgid "My Journal"
+msgstr "Jurnalku"
+
+#: templates/template/base-login.html:109
+#: templates/template/base-login.html:188
+msgid "Logout"
+msgstr "Keluar"
+
+#: templates/template/footer.html:8
+msgid "Navigation"
+msgstr "Navigasi"
+
+#: templates/template/footer.html:18
+msgid "Help & Support"
+msgstr "Bantuan & Dukungan"
+
+#: templates/template/footer.html:20
+msgid "How to Use"
+msgstr "Cara Penggunaan"
+
+#: templates/template/footer.html:21
+msgid "Privacy Policy"
+msgstr "Kebijakan Privasi"
+
+#: templates/template/footer.html:22
+msgid "FAQs"
+msgstr "FAQ"
+
+#: templates/template/footer.html:28
+msgid "Contact Info"
+msgstr "Info Kontak"
+
+#: templates/template/footer.html:54
+msgid "Social Media"
+msgstr "Media Sosial"
+
+#: templates/template/footer.html:79
+msgid "All rights reserved."
+msgstr "Hak cipta dilindungi."
+
+#: templates/template/header.html:77
+msgid ""
+"Support\n"
+"                Us"
+msgstr "Dukung Kami"
+
+#~ msgid "Journal Archive"
+#~ msgstr "Arsip Jurnal"
+
+#~ msgid "Explore your past journal entries!"
+#~ msgstr "Jelajahi catatan jurnalmu yang lalu!"
+
+#~ msgid "Today"
+#~ msgstr "Hari ini"
+
+#~ msgid "Sun"
+#~ msgstr "Min"
+
+#~ msgid "Mon"
+#~ msgstr "Sen"
+
+#~ msgid "Tue"
+#~ msgstr "Sel"
+
+#~ msgid "Wed"
+#~ msgstr "Rab"
+
+#~ msgid "Thu"
+#~ msgstr "Kam"
+
+#~ msgid "Fri"
+#~ msgstr "Jum"
+
+#~ msgid "Sat"
+#~ msgstr "Sab"
+
+#~ msgid "Check your journal & edit anytime!"
+#~ msgstr "Cek jurnalmu & edit kapan saja!"
+
+#~ msgid "Save"
+#~ msgstr "Simpan"
+
+#~ msgid "Delete"
+#~ msgstr "Hapus"
+
+#~ msgid "Open Card"
+#~ msgstr "Buka Kartu"
+
+#~ msgid "Share"
+#~ msgstr "Bagikan"
+
+#~ msgid "Copy"
+#~ msgstr "Salin"
+
+#~ msgid "Download"
+#~ msgstr "Unduh"
+
+#~ msgid "Day of Week"
+#~ msgstr "Hari"
+
+#~ msgid "Add Journal"
+#~ msgstr "Tambah Jurnal"
 

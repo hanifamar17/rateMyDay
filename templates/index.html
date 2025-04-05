@@ -58,21 +58,21 @@
                 {% endwith %}
 
                 <div class="text-center md:text-left space-y-2">
-                    <h2 class="text-xl font-medium text-gray-800">Track Your Day with Charts! </h2>
-                    <p class="text-gray-500 text-sm">View your daily ratings in bar and line charts.</p>
+                    <h2 class="text-xl font-medium text-gray-800">{{_("Track Your Day with Charts!")}} </h2>
+                    <p class="text-gray-500 text-sm">{{_("View your daily ratings in bar and line charts.")}}</p>
                 </div>
 
                 <!--Filter Chart-->
                 <div class="flex items-center gap-4 z-0">
-                    <label for="filter" class="text-gray-700 font-medium text-sm">Show chart for:</label>
+                    <label for="filter" class="text-gray-700 font-medium text-sm">{{_("Show chart for:")}}</label>
                     <div class="relative">
                         <select id="filter"
                             class="block w-32 p-1 text-sm bg-white border border-gray-300 rounded shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition">
-                            <option value="">Range Date</option>
-                            <option value="1w">1 Week</option>
-                            <option value="2w">2 Weeks</option>
-                            <option value="1m">1 Month</option>
-                            <option value="monthly">Pick a Month</option>
+                            <option value="">{{_("Range Date")}}</option>
+                            <option value="1w">{{_("1 Week")}}</option>
+                            <option value="2w">{{_("2 Weeks")}}</option>
+                            <option value="1m">{{_("1 Month")}}</option>
+                            <option value="monthly">{{_("Pick a Month")}}</option>
                         </select>
                     </div>
 
@@ -93,8 +93,8 @@
             <!--Form rating-->
             <div class="space-y-6">
                 <div class="text-center md:text-left space-y-2">
-                    <h2 class="text-xl font-medium text-gray-800">How's Your Day?</h2>
-                    <p class="text-gray-500 text-sm">Take a moment to reflect on your day</p>
+                    <h2 class="text-xl font-medium text-gray-800">{{_("How's Your Day?")}}</h2>
+                    <p class="text-gray-500 text-sm">{{_("Take a moment to reflect on your day")}}</p>
                 </div>
 
                 <form id="ratingForm" class="space-y-6" method="POST">
@@ -102,9 +102,9 @@
 
                     <div class="space-y-2">
                         <div class="mb-1">
-                            <label class="block text-sm font-bold text-gray-700">Date</label>
-                            <label class="block text-sm text-gray-700 mt-2">Pick a date, or I'll default to
-                                today!</label>
+                            <label class="block text-sm font-bold text-gray-700">{{_("Date")}}</label>
+                            <label class="block text-sm text-gray-700 mt-2">{{_("Pick a date, or I'll default to
+                                today!")}}</label>
                         </div>
                         {{ form.date(class="w-full p-3 text-sm border border-gray-200 rounded bg-gray-50 focus:bg-white
                         focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 transition-all
@@ -113,12 +113,12 @@
 
                     <div class="space-y-2">
                         <div class="mb-1">
-                            <label class="block text-sm font-bold text-gray-700">Mood Rating</label>
-                            <label class="block text-sm text-gray-700 mt-2">How are you feeling today?</label>
+                            <label class="block text-sm font-bold text-gray-700">{{_("Mood Rating")}}</label>
+                            <label class="block text-sm text-gray-700 mt-2">{{_("How are you feeling today?")}}</label>
                         </div>
                         <div class="flex justify-between mb-2">
-                            <span class="text-gray-500">😞 Awful</span>
-                            <span class="text-gray-500">😊 Excellent</span>
+                            <span class="text-gray-500">😞 {{_("Awful")}}</span>
+                            <span class="text-gray-500">😊 {{_("Excellent")}}</span>
                         </div>
                         <input type="range" min="1" max="5" value="3" id="mood-slider"
                             class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer"
@@ -131,9 +131,10 @@
 
                     <div class="space-y-2">
                         <div class="mb-1">
-                            <label class="block text-sm font-bold text-gray-700">Journal Entry</label>
-                            <label class="block text-sm text-gray-700 mt-2">Express your thoughts and
-                                feelings...</label>
+                            <label class="block text-sm font-bold text-gray-700">{{_("Journal Entry")}}</label>
+                            <label class="block text-sm text-gray-700 mt-2">{{_("Create your card. Express your thoughts
+                                and
+                                feelings...")}}</label>
                         </div>
                         {{ form.journal(class="journal-textarea w-full p-3 text-sm border border-gray-200 rounded
                         bg-gray-50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-blue-500
@@ -145,7 +146,7 @@
 
                     <button type="submit"
                         class="w-full bg-gradient-to-r from-blue-500 to-indigo-500 text-white py-3 px-6 rounded-md font-medium hover:from-blue-600 hover:to-indigo-600 transition-all duration-300 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50">
-                        Submit Rating
+                        {{_("Submit Rating")}}
                     </button>
                 </form>
 
@@ -153,6 +154,20 @@
         </div>
     </div>
 </div>
+
+<!--Swetalert translation-->
+<script>
+    // Inject translations from Flask for JavaScript use
+    window.appTranslations = {
+        duplicate_title: "{{ _('Hey, this looks familiar!') }}",
+        duplicate_message: "{{ _('We already have this entry in our records. Would you like to update it?') }}",
+        confirm_update: "{{ _('Yes, update it') }}",
+        cancel: "{{ _('Nevermind') }}",
+        update_success: "{{ _('All updated! Your changes have been saved.') }}",
+        save_success: "{{ _('Great job! Your data has been saved successfully.') }}",
+        error_message: "{{ _('Oops! Something went wrong. Give it another try?') }}"
+    };
+</script>
 
 <!--Form-->
 <script>
@@ -269,14 +284,17 @@
             .then(data => {
                 //console.log("DEBUG: Server Response Data:", data);
                 if (data.duplicate) {
+                    // Get translations from your application
+                    const t = window.appTranslations;
+
                     // Duplicate data confirmation with friendly message
                     QuickAlert.fire({
-                        title: "Hey, this looks familiar!",
-                        html: "We already have this entry in our records. Would you like to update it?",
+                        title: t.duplicate_title,
+                        html: t.duplicate_message,
                         icon: "info",
                         showCancelButton: true,
-                        confirmButtonText: "Yes, update it",
-                        cancelButtonText: "Nevermind"
+                        confirmButtonText: t.confirm_update,
+                        cancelButtonText: t.cancel
                     }).then((result) => {
                         if (result.isConfirmed) {
                             fetch("/update", {
@@ -292,7 +310,7 @@
                                     // Success toast notification
                                     Toast.fire({
                                         icon: "success",
-                                        title: "All updated! Your changes have been saved."
+                                        title: t.update_success
                                     }).then(() => location.reload());
                                 });
                         }
@@ -301,7 +319,7 @@
                     // Success toast notification
                     Toast.fire({
                         icon: "success",
-                        title: "Great job! Your data has been saved successfully."
+                        title: t.save_success
                     }).then(() => {
                         location.reload();
                     });
@@ -312,13 +330,9 @@
                 // Error toast notification
                 Toast.fire({
                     icon: "error",
-                    title: "Oops! Something went wrong. Give it another try?"
+                    title: window.appTranslations.error_message
                 });
             })
-            .finally(() => {
-                button.innerHTML = originalText;
-                button.disabled = false;
-            });
     });
 
     // Ambil elemen textarea dan counter karakter

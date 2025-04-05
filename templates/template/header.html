@@ -9,17 +9,17 @@
             <ul class="flex space-x-8">
                 <li>
                     <a href="#features" class="text-sm font-medium hover:text-blue-300 transition-colors">
-                        Features
+                        {{_("Features")}}
                     </a>
                 </li>
                 <li>
                     <a href="#about-us" class="text-sm font-medium hover:text-blue-300 transition-colors">
-                        About Us
+                        {{_("About Us")}}
                     </a>
                 </li>
                 <li>
                     <a href="#support-us" class="text-sm font-medium hover:text-blue-300 transition-colors">
-                        Support Us
+                        {{_("Support Us")}}
                     </a>
                 </li>
             </ul>
@@ -27,31 +27,39 @@
         <!--Right Section: Language Switcher & Get Started-->
         <div class="flex items-center space-x-4">
             <!-- Language switcher - Minimal dropdown style -->
-            <div class="relative inline-block text-left">
-                <button id="language-menu-button" type="button" class="flex items-center text-sm text-gray-200 hover:text-blue-300">
-                    <span class="mr-1">{{ _('EN') if g.get('lang_code', 'en') == 'en' else _('ID') }}</span>
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <div class="relative inline-block text-left group">
+                <button id="language-menu-button" type="button"
+                    class="flex items-center text-sm text-gray-200 hover:text-blue-300 transition-colors duration-200">
+                    <span class="mr-1">{{ _("EN") if g.get("lang_code", "en") == "en" else _("ID") }}</span>
+                    <svg class="w-3 h-3 transform transition-transform duration-200 group-hover:rotate-180" fill="none"
+                        stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
                     </svg>
                 </button>
-                <!-- Dropdown menu -->
-                <div id="language-menu" class="hidden absolute right-0 z-10 mt-2 w-24 origin-top-right rounded-md bg-gray-800 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+
+                <div id="language-menu"
+                    class="hidden opacity-0 absolute right-0 z-10 mt-1 w-24 origin-top-right rounded-md bg-gray-800 shadow-lg ring-1 ring-black/5 focus:outline-none transition-all duration-200">
                     <div class="py-1">
-                        <a href="{{ url_for('home', lang='en') }}" class="block px-4 py-2 text-sm text-gray-200 hover:bg-gray-700">English</a>
-                        <a href="{{ url_for('home', lang='id') }}" class="block px-4 py-2 text-sm text-gray-200 hover:bg-gray-700">Indonesia</a>
+                        <a href="{{ url_for('home', lang='en') }}"
+                            class="block px-3 py-1.5 text-sm text-gray-200 hover:bg-gray-700 transition-colors duration-150">English</a>
+                        <a href="{{ url_for('home', lang='id') }}"
+                            class="block px-3 py-1.5 text-sm text-gray-200 hover:bg-gray-700 transition-colors duration-150">Indonesia</a>
                     </div>
                 </div>
             </div>
-            
+
             <!--Get Started Button-->
-            <a href="/homepage" class="bg-white text-sky-900 hover:bg-blue-100 px-4 py-2 rounded-md text-sm font-medium transition-colors">
-                Get Started
+            <a href="/homepage"
+                class="bg-white text-sky-900 hover:bg-blue-100 px-4 py-2 rounded-md text-sm font-medium transition-colors">
+                {{_("Get Started")}}
             </a>
-            
+
             <!--Mobile Menu Button (visible only on mobile)-->
             <button id="menu-toggle" type="button" class="md:hidden text-gray-50 hover:text-blue-300">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16">
+                    </path>
                 </svg>
             </button>
         </div>
@@ -62,27 +70,46 @@
         class="hidden md:hidden transition-all duration-300 bg-blue-950/50 shadow-lg backdrop-blur-md">
         <div class="px-2 pt-2 pb-3 space-y-1">
             <a href="#features"
-                class="block px-3 py-2 text-sm font-medium hover:bg-sky-800 rounded-md menu-item">Features</a>
-            <a href="#about-us" class="block px-3 py-2 text-sm font-medium hover:bg-sky-800 rounded-md menu-item">About
-                Us</a>
+                class="block px-3 py-2 text-sm font-medium hover:bg-sky-800 rounded-md menu-item">{{_("Features")}}</a>
+            <a href="#about-us"
+                class="block px-3 py-2 text-sm font-medium hover:bg-sky-800 rounded-md menu-item">{{_("About Us")}}</a>
             <a href="#support-us"
-                class="block px-3 py-2 text-sm font-medium hover:bg-sky-800 rounded-md menu-item">Support Us</a>
+                class="block px-3 py-2 text-sm font-medium hover:bg-sky-800 rounded-md menu-item">{{_("Support
+                Us")}}</a>
         </div>
     </div>
 </nav>
 
 <!-- Script untuk dropdown language switcher -->
 <script>
-    // Toggle dropdown when button is clicked
-    document.getElementById('language-menu-button').addEventListener('click', function() {
-        document.getElementById('language-menu').classList.toggle('hidden');
-    });
-    
-    // Close the dropdown when clicking outside
-    window.addEventListener('click', function(e) {
-        if (!document.getElementById('language-menu-button').contains(e.target)) {
-            document.getElementById('language-menu').classList.add('hidden');
-        }
+    document.addEventListener('DOMContentLoaded', () => {
+        const menuButton = document.getElementById('language-menu-button');
+        const menu = document.getElementById('language-menu');
+
+        // Toggle dropdown with animation
+        menuButton.addEventListener('click', (e) => {
+            e.stopPropagation();
+
+            if (menu.classList.contains('hidden')) {
+                menu.classList.remove('hidden');
+                setTimeout(() => {
+                    menu.classList.remove('opacity-0');
+                }, 10);
+            } else {
+                menu.classList.add('opacity-0');
+                setTimeout(() => {
+                    menu.classList.add('hidden');
+                }, 200);
+            }
+        });
+
+        // Close dropdown when clicking outside
+        document.addEventListener('click', () => {
+            menu.classList.add('opacity-0');
+            setTimeout(() => {
+                menu.classList.add('hidden');
+            }, 200);
+        });
     });
 </script>
 
