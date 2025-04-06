@@ -24,22 +24,27 @@ app.config['BABEL_SUPPORTED_LOCALES'] = ['en', 'id']  # Bahasa yang didukung
 csrf = CSRFProtect(app) 
 
 # 🔹 Setup Flask-Babel
-# Fungsi untuk menentukan locale (bahasa)
+# 🔹 Locale selector
 def get_locale():
-    # Prioritas: 1. Parameter URL, 2. Sesi, 3. Preferensi browser, 4. Default
-    locale = request.args.get('lang')
-    if locale and locale in app.config['BABEL_SUPPORTED_LOCALES']:
-        session['lang'] = locale
-        return locale
-    
-    if 'lang' in session and session['lang'] in app.config['BABEL_SUPPORTED_LOCALES']:
+    # 1. Cek parameter URL
+    lang = request.args.get('lang')
+    if lang in app.config['BABEL_SUPPORTED_LOCALES']:
+        session['lang'] = lang
+        return lang
+
+    # 2. Cek session
+    if 'lang' in session:
         return session['lang']
-    
-    # Deteksi bahasa browser
+
+    # 3. Cek browser
     return request.accept_languages.best_match(app.config['BABEL_SUPPORTED_LOCALES'])
 
-# Inisialisasi Babel dengan fungsi locale_selector
 babel = Babel(app, locale_selector=get_locale)
+
+# 🔹 Set g.lang_code sebelum request
+@app.before_request
+def before_request():
+    g.lang_code = get_locale()
 
 # 🔹 Konfigurasi Gmail SMTP using GOOGLE APP PASSWORD
 app.config["MAIL_SERVER"] = "smtp.gmail.com"

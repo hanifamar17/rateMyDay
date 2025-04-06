@@ -52,23 +52,23 @@
                             </button>
 
                             <div id="language-menu"
-                                class="hidden opacity-0 absolute right-0 z-10 mt-1 w-24 origin-top-right rounded-md bg-gray-800 shadow-lg ring-1 ring-black/5 focus:outline-none transition-all duration-200">
+                                class="hidden opacity-0 absolute right-0 z-10 mt-1 w-24 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black/5 focus:outline-none transition-all duration-200">
                                 <div class="py-1">
                                     {% if request.endpoint == 'index' %}
                                     <a href="{{ url_for('index', lang='en') }}"
-                                        class="block px-3 py-1.5 text-sm text-gray-200 hover:bg-gray-700 transition-colors duration-150">English</a>
+                                        class="block px-3 py-1.5 text-sm text-gray-700 hover:bg-gray-200 transition-colors duration-150">English</a>
                                     <a href="{{ url_for('index', lang='id') }}"
-                                        class="block px-3 py-1.5 text-sm text-gray-200 hover:bg-gray-700 transition-colors duration-150">Indonesia</a>
+                                        class="block px-3 py-1.5 text-sm text-gray-700 hover:bg-gray-200 transition-colors duration-150">Indonesia</a>
                                     {% elif request.endpoint == 'journal' %}
                                     <a href="{{ url_for('journal', lang='en') }}"
-                                        class="block px-3 py-1.5 text-sm text-gray-200 hover:bg-gray-700 transition-colors duration-150">English</a>
+                                        class="block px-3 py-1.5 text-sm text-gray-700 hover:bg-gray-200 transition-colors duration-150">English</a>
                                     <a href="{{ url_for('journal', lang='id') }}"
-                                        class="block px-3 py-1.5 text-sm text-gray-200 hover:bg-gray-700 transition-colors duration-150">Indonesia</a>
+                                        class="block px-3 py-1.5 text-sm text-gray-700 hover:bg-gray-200 transition-colors duration-150">Indonesia</a>
                                     {% else %}
                                     <a href="{{ url_for(request.endpoint, lang='en', **request.view_args) }}"
-                                        class="block px-3 py-1.5 text-sm text-gray-200 hover:bg-gray-700 transition-colors duration-150">English</a>
+                                        class="block px-3 py-1.5 text-sm text-gray-700 hover:bg-gray-200 transition-colors duration-150">English</a>
                                     <a href="{{ url_for(request.endpoint, lang='id', **request.view_args) }}"
-                                        class="block px-3 py-1.5 text-sm text-gray-200 hover:bg-gray-700 transition-colors duration-150">Indonesia</a>
+                                        class="block px-3 py-1.5 text-sm text-gray-700 hover:bg-gray-200 transition-colors duration-150">Indonesia</a>
                                     {% endif %}
                                 </div>
                             </div>
