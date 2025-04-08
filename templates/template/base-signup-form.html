@@ -14,6 +14,7 @@
             font-family: 'Inter', sans-serif;
         }
     </style>
+    
 </head>
 
 <body class="min-h-screen p-0 md:p-0 bg-gradient-to-tl from-blue-950 via-indigo-800 to-indigo-900">
@@ -21,7 +22,7 @@
     {% include "template/header.html" %}
 
     <!--Konten utama-->
-    <div class="py-20 md:py-20 relative w-full">
+    <div class="py-20 pt-32 relative w-full">
         <div class="container mx-auto px-4 md:px-4 lg:px-4 flex justify-center">
           {% block content %} <!--Konten di sini--> {% endblock %}  
         </div>

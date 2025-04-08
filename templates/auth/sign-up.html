@@ -1,9 +1,9 @@
 {% extends "template/base-signup-form.html" %}
 {% block content %}
 <!-- Sign up -->
-<div class="flex item-center justify-center max-w-xl mx-auto lg:mx-0">
+<div class="flex items-center justify-center w-full md:max-w-lg">
     <div
-        class="p-6 md:p-8 bg-white rounded-lg shadow-lg w-full backdrop-blur-sm transition-all duration-300 hover:shadow-2xl">
+        class="p-6 md:p-8 bg-white rounded-lg shadow-xl w-full backdrop-blur-sm transition-all duration-300 hover:shadow-2xl">
         <div class="mb-6 md:mb-8 text-left w-full">
 
             <!-- Error message -->
@@ -34,39 +34,35 @@
         </div>
 
         <form method="POST" action="{{ url_for('register') }}" class="space-y-4">
-            {{ form.hidden_tag() }}  <!-- Tambahkan CSRF Token -->
-        
-            <div class="grid grid-cols-2 gap-4">
-                <div>
-                    {{ form.first_name.label(class="block text-sm font-medium text-gray-700 mb-1") }}
-                    {{ form.first_name(class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors", placeholder="First Name") }}
-                </div>
-                <div>
-                    {{ form.last_name.label(class="block text-sm font-medium text-gray-700 mb-1") }}
-                    {{ form.last_name(class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors", placeholder="Last Name") }}
-                </div>
+            {{ form.hidden_tag() }} <!-- CSRF Token -->
+
+            <div>
+                {{ form.first_name.label(class="block text-sm font-medium text-gray-700 mb-1") }}
+                {{ form.first_name(class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none
+                focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors",
+                placeholder="Your name", autocomplete="name") }}
             </div>
-        
+
             <div>
                 {{ form.email.label(class="block text-sm font-medium text-gray-700 mb-1") }}
-                {{ form.email(class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors", placeholder="Enter your email") }}
+                {{ form.email(class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2
+                focus:ring-indigo-500 focus:border-indigo-500 transition-colors", placeholder="Your email address",
+                autocomplete="email") }}
+                <p class="text-sm text-gray-500 mt-2">{{_("We'll never share your email with anyone else.")}}</p>
             </div>
-        
+
             <div>
                 {{ form.password.label(class="block text-sm font-medium text-gray-700 mb-1") }}
-                {{ form.password(class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors", placeholder="Create a password") }}
+                {{ form.password(class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none
+                focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors", placeholder="Create a secure password", autocomplete="new-password") }}
+                <p class="text-sm text-gray-500 mt-2">{{_("Use at least 8 characters with letters and numbers")}}</p>
             </div>
-        
-            <div>
-                {{ form.confirm_password.label(class="block text-sm font-medium text-gray-700 mb-1") }}
-                {{ form.confirm_password(class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors", placeholder="Confirm your password") }}
-            </div>
-        
-            <button type="submit" class="w-full bg-indigo-600 text-white py-2 px-4 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition-colors mt-6">
+
+            <button type="submit"
+                class="w-full bg-indigo-600 text-white font-semibold text-base py-2 px-4 rounded-lg hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition-colors mt-8 md:mt-10">
                 {{_("Create Account")}}
             </button>
         </form>
-              
 
         <div class="mt-6">
             <div class="relative">
@@ -74,15 +70,14 @@
                     <div class="w-full border-t border-gray-300"></div>
                 </div>
                 <div class="relative flex justify-center text-sm">
-                    <span class="px-2 bg-white text-gray-500">{{_("Or continue with")}}</span>
+                    <span class="px-4 bg-white text-gray-500">{{_("Or continue with")}}</span>
                 </div>
             </div>
 
             <div class="mt-6">
-
                 <a href="{{ url_for('google.login') }}"
-                    class="w-full flex items-center justify-center gap-2 bg-white border border-gray-300 rounded-md py-2 px-4 text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition-colors">
-                    <svg class="h-5 w-5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    class="w-full flex items-center justify-center gap-3 bg-white border border-gray-300 rounded-lg py-2 px-4 text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition-colors">
+                    <svg class="h-6 w-6" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                         <path
                             d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
                             fill="#4285F4" />
@@ -98,27 +93,87 @@
                     </svg>
                     {{_("Sign Up with Google")}}
                 </a>
-
             </div>
         </div>
 
         <p class="mt-6 md:mt-8 text-center text-sm text-gray-600">
             {{_("Already have an account?")}}
-            <a href="{{ url_for('login') }}" class="font-medium text-indigo-600 hover:text-indigo-500">{{_("Login")}}</a>
+            <a href="{{ url_for('login') }}"
+                class="font-medium text-indigo-600 hover:text-indigo-500">{{_("Login")}}</a>
         </p>
     </div>
 </div>
 
 <!--Confirm Password-->
 <script>
-    document.querySelector("form").addEventListener("submit", function (e) {
-        const password = document.getElementById("password").value;
-        const confirmPassword = document.getElementById("confirm_password").value;
+    document.addEventListener('DOMContentLoaded', function () {
+        // Get the password input element
+        const passwordInput = document.querySelector('input[name="password"]');
+        const passwordHelpText = passwordInput.nextElementSibling;
+        const originalHelpText = passwordHelpText.innerText;
 
-        if (password !== confirmPassword) {
-            e.preventDefault();
-            alert("Passwords do not match!");
+        // Create error message element but don't add it yet
+        const errorMessage = document.createElement('p');
+        errorMessage.className = 'text-sm text-red-500 mt-1';
+
+        // Function to validate password
+        function validatePassword() {
+            const password = passwordInput.value;
+            const hasMinLength = password.length >= 8;
+            const hasLetters = /[a-zA-Z]/.test(password);
+            const hasNumbers = /[0-9]/.test(password);
+
+            // Remove any existing error message
+            if (errorMessage.parentNode) {
+                errorMessage.remove();
+            }
+
+            // Set appropriate styles based on validation
+            if (password && (!hasMinLength || !hasLetters || !hasNumbers)) {
+                // Invalid password
+                passwordInput.classList.remove('border-gray-300', 'focus:ring-indigo-500', 'focus:border-indigo-500');
+                passwordInput.classList.add('border-red-500', 'focus:ring-red-500', 'focus:border-red-500');
+
+                // Create error message
+                let errorText = 'Password must:';
+                if (!hasMinLength) errorText += ' be at least 8 characters long,';
+                if (!hasLetters) errorText += ' include letters,';
+                if (!hasNumbers) errorText += ' include numbers,';
+                errorText = errorText.slice(0, -1); // Remove trailing comma
+
+                errorMessage.innerText = errorText;
+                passwordHelpText.after(errorMessage);
+            } else if (password) {
+                // Valid password
+                passwordInput.classList.remove('border-red-500', 'focus:ring-red-500', 'focus:border-red-500');
+                passwordInput.classList.add('border-gray-300', 'focus:ring-indigo-500', 'focus:border-indigo-500');
+            } else {
+                // Empty password field - revert to original state
+                passwordInput.classList.remove('border-red-500', 'focus:ring-red-500', 'focus:border-red-500');
+                passwordInput.classList.remove('border-green-500', 'focus:ring-green-500', 'focus:border-green-500');
+                passwordInput.classList.add('border-gray-300', 'focus:ring-indigo-500', 'focus:border-indigo-500');
+            }
         }
+
+        // Add event listeners
+        passwordInput.addEventListener('input', validatePassword);
+        passwordInput.addEventListener('blur', validatePassword);
+
+        // For form submission
+        passwordInput.form.addEventListener('submit', function (event) {
+            validatePassword();
+
+            // If password is invalid, prevent form submission
+            const password = passwordInput.value;
+            const hasMinLength = password.length >= 8;
+            const hasLetters = /[a-zA-Z]/.test(password);
+            const hasNumbers = /[0-9]/.test(password);
+
+            if (!hasMinLength || !hasLetters || !hasNumbers) {
+                event.preventDefault();
+                passwordInput.focus();
+            }
+        });
     });
 </script>
 {% endblock %}

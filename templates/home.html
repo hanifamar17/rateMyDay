@@ -15,137 +15,140 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
         integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <div id="header"
-        class="max-w-screen-xl mx-auto flex flex-col flex-grow lg:flex-row lg:items-center lg:justify-between gap-8 lg:gap-32 py-20 md:py-20">
-        <!-- Informasi - Visible on all screens -->
-        <div
-            class="flex-1 flex flex-col self-center z-0 text-gray-50 text-center lg:text-left max-w-lg mx-auto lg:mx-0">
-            <p class="font-medium text-2xl md:text-2xl">{{ _("Track Your Daily Mood!") }}</p>
-            <h1 class="mb-3 font-semibold text-3xl md:text-4xl">{{ _("Discover Your Happiness Patterns!") }}</h1>
-            <p class="text-sm md:text-base leading-relaxed mb-8 lg:mb-0 text-gray-300">
-                {{ _("Reflect on your day with just one click. Rate your daily mood and add a short note to capture
-                every precious moment.") }}😊
-            </p>
-        </div>
-
-        <!-- Sign-In -->
-        <div class="flex item-center justify-center max-w-xl mx-auto lg:mx-0 self-center">
+    <section class="max-w-screen-xl mx-auto py-12 px-6 md:px-12 text-gray-700 text-gray-700">
+        <div id="header"
+            class="max-w-screen-xl mx-auto flex flex-col flex-grow lg:flex-row lg:items-center lg:justify-between gap-8 lg:gap-32 py-20 md:py-20">
+            <!-- Informasi - Visible on all screens -->
             <div
-                class="p-6 md:p-8 bg-white rounded-lg shadow-md w-80 md:w-96 backdrop-blur-sm transition-all duration-300 hover:shadow-2xl">
+                class="flex-1 flex flex-col self-center z-0 text-gray-50 text-center lg:text-left max-w-lg mx-auto lg:mx-0">
+                <p class="font-medium text-2xl md:text-2xl">{{ _("Track Your Daily Mood!") }}</p>
+                <h1 class="mb-3 font-semibold text-3xl md:text-4xl">{{ _("Discover Your Happiness Patterns!") }}</h1>
+                <p class="text-sm md:text-base leading-relaxed mb-8 lg:mb-0 text-gray-300">
+                    {{ _("Reflect on your day with just one click. Rate your daily mood and add a short note to capture
+                    every precious moment.") }}😊
+                </p>
+            </div>
 
-                <!-- Error Messages -->
-                {% with messages = get_flashed_messages(with_categories=True) %}
-                {% if messages %}
-                {% for category, message in messages %}
-                <div class="text-red-800 text-sm bg-red-50 border border-red-500 px-4 py-3 rounded relative mb-2"
-                    role="alert">
-                    <span class="{{ category }}">{{ message }}</span>
-                    <span class="absolute top-0 bottom-0 right-0 px-4 py-3"
-                        onclick="this.parentElement.style.display='none';">
-                        <svg class="fill-current h-6 w-6 text-red-500" role="button" xmlns="http://www.w3.org/2000/svg"
-                            viewBox="0 0 20 20">
-                            <title>Close</title>
-                            <path
-                                d="M14.348 14.849a1.2 1.2 0 0 1-1.697 0L10 11.819l-2.651 3.029a1.2 1.2 0 1 1-1.697-1.697l2.758-3.15-2.759-3.152a1.2 1.2 0 1 1 1.697-1.697L10 8.183l2.651-3.031a1.2 1.2 0 1 1 1.697 1.697l-2.758 3.152 2.758 3.15a1.2 1.2 0 0 1 0 1.698z" />
-                        </svg>
-                    </span>
-                </div>
-                {% endfor %}
-                {% endif %}
-                {% endwith %}
+            <!-- Sign-In -->
+            <div class="flex justify-center w-full lg:w-auto">
+                <div
+                    class="p-6 md:p-8 bg-white rounded-lg shadow-md w-full max-w-sm md:max-w-md lg:w-96 backdrop-blur-sm transition-all duration-300 hover:shadow-2xl">
 
-
-                <div class="mb-6 md:mb-8 text-left">
-                    <h3 class="font-semibold text-xl md:text-2xl text-indigo-950 mb-2">{{_("Log In to RateMyDay")}}</h3>
-                    <p class="text-gray-600 text-sm">{{_("Start your journey with us today!")}}</p>
-                </div>
-                <form method="POST" action="{{ url_for('login') }}" enctype="application/x-www-form-urlencoded"
-                    class="space-y-4">
-                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
-
-                    <!-- Email Input -->
-                    <div>
-                        <label for="email" class="block text-sm font-medium text-gray-700 mb-1">Email</label>
-                        <input type="email" id="email_login" name="email" required class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none 
-                   focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors" />
+                    <!-- Error Messages -->
+                    {% with messages = get_flashed_messages(with_categories=True) %}
+                    {% if messages %}
+                    {% for category, message in messages %}
+                    <div class="text-red-800 text-sm bg-red-50 border border-red-500 px-4 py-3 rounded relative mb-2"
+                        role="alert">
+                        <span class="{{ category }}">{{ message }}</span>
+                        <span class="absolute top-0 bottom-0 right-0 px-4 py-3"
+                            onclick="this.parentElement.style.display='none';">
+                            <svg class="fill-current h-6 w-6 text-red-500" role="button"
+                                xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                                <title>Close</title>
+                                <path
+                                    d="M14.348 14.849a1.2 1.2 0 0 1-1.697 0L10 11.819l-2.651 3.029a1.2 1.2 0 1 1-1.697-1.697l2.758-3.15-2.759-3.152a1.2 1.2 0 1 1 1.697-1.697L10 8.183l2.651-3.031a1.2 1.2 0 1 1 1.697 1.697l-2.758 3.152 2.758 3.15a1.2 1.2 0 0 1 0 1.698z" />
+                            </svg>
+                        </span>
                     </div>
+                    {% endfor %}
+                    {% endif %}
+                    {% endwith %}
 
-                    <!-- Password Input -->
-                    <div>
-                        <label for="password"
-                            class="block text-sm font-medium text-gray-700 mb-1">{{_("Password")}}</label>
-                        <input type="password" id="password" name="password" required class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none 
-                   focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors" />
+
+                    <div class="mb-6 md:mb-8 text-left">
+                        <h3 class="font-semibold text-xl md:text-2xl text-indigo-950 mb-2">{{_("Log In to RateMyDay")}}
+                        </h3>
+                        <p class="text-gray-600 text-sm">{{_("Start your journey with us today!")}}</p>
                     </div>
+                    <form method="POST" action="{{ url_for('login') }}" enctype="application/x-www-form-urlencoded"
+                        class="space-y-4">
+                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
 
-                    <!-- Remember Me Checkbox -->
-                    <div class="flex items-center justify-between">
-                        <div class="flex items-center">
-                            <input type="checkbox" id="remember-me" name="remember_me"
-                                class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded" />
-                            <label for="remember-me" class="ml-2 block text-sm text-gray-700">{{_("Remember
-                                me")}}</label>
+                        <!-- Email Input -->
+                        <div>
+                            <label for="email" class="block text-sm font-medium text-gray-700 mb-1">Email</label>
+                            <input type="email" id="email_login" name="email" required class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none 
+                   focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors" />
                         </div>
-                        <div class="text-sm">
-                            <a href="{{ url_for('forgot_password') }}"
-                                class="font-medium text-indigo-600 hover:text-indigo-500">
-                                {{_("Forgot your password?")}}
+
+                        <!-- Password Input -->
+                        <div>
+                            <label for="password"
+                                class="block text-sm font-medium text-gray-700 mb-1">{{_("Password")}}</label>
+                            <input type="password" id="password" name="password" required class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none 
+                   focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors" />
+                        </div>
+
+                        <!-- Remember Me Checkbox -->
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center">
+                                <input type="checkbox" id="remember-me" name="remember_me"
+                                    class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded" />
+                                <label for="remember-me" class="ml-2 block text-sm text-gray-700">{{_("Remember
+                                    me")}}</label>
+                            </div>
+                            <div class="text-sm">
+                                <a href="{{ url_for('forgot_password') }}"
+                                    class="font-medium text-indigo-600 hover:text-indigo-500">
+                                    {{_("Forgot your password?")}}
+                                </a>
+                            </div>
+                        </div>
+
+                        <!-- Error Message -->
+                        <p id="error-message" class="text-red-600 text-sm mt-2 hidden"></p>
+
+                        <!-- Login Button -->
+                        <button type="submit" id="loginButton" class="w-full bg-indigo-600 text-white py-2 px-4 rounded-md hover:bg-indigo-700 
+                   focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 
+                   transition-colors mt-6">
+                            {{_("Login")}}
+                        </button>
+                    </form>
+
+                    <div class="mt-6">
+                        <div class="relative">
+                            <div class="absolute inset-0 flex items-center">
+                                <div class="w-full border-t border-gray-300"></div>
+                            </div>
+                            <div class="relative flex justify-center text-sm">
+                                <span class="px-2 bg-white text-gray-500">{{_("Or continue with")}}</span>
+                            </div>
+                        </div>
+
+                        <div class="mt-6">
+
+                            <a href="{{ url_for('google.login') }}"
+                                class="w-full flex items-center justify-center gap-2 bg-white border border-gray-300 rounded-md py-2 px-4 text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition-colors">
+                                <svg class="h-5 w-5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
+                                        fill="#4285F4" />
+                                    <path
+                                        d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"
+                                        fill="#34A853" />
+                                    <path
+                                        d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"
+                                        fill="#FBBC05" />
+                                    <path
+                                        d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"
+                                        fill="#EA4335" />
+                                </svg>
+                                {{_("Sign In with Google")}}
                             </a>
                         </div>
                     </div>
 
-                    <!-- Error Message -->
-                    <p id="error-message" class="text-red-600 text-sm mt-2 hidden"></p>
-
-                    <!-- Login Button -->
-                    <button type="submit" id="loginButton" class="w-full bg-indigo-600 text-white py-2 px-4 rounded-md hover:bg-indigo-700 
-                   focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 
-                   transition-colors mt-6">
-                        {{_("Login")}}
-                    </button>
-                </form>
-
-                <div class="mt-6">
-                    <div class="relative">
-                        <div class="absolute inset-0 flex items-center">
-                            <div class="w-full border-t border-gray-300"></div>
-                        </div>
-                        <div class="relative flex justify-center text-sm">
-                            <span class="px-2 bg-white text-gray-500">{{_("Or continue with")}}</span>
-                        </div>
-                    </div>
-
-                    <div class="mt-6">
-
-                        <a href="{{ url_for('google.login') }}"
-                            class="w-full flex items-center justify-center gap-2 bg-white border border-gray-300 rounded-md py-2 px-4 text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition-colors">
-                            <svg class="h-5 w-5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                <path
-                                    d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
-                                    fill="#4285F4" />
-                                <path
-                                    d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"
-                                    fill="#34A853" />
-                                <path
-                                    d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"
-                                    fill="#FBBC05" />
-                                <path
-                                    d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"
-                                    fill="#EA4335" />
-                            </svg>
-                            {{_("Sign In with Google")}}
-                        </a>
-                    </div>
+                    <p class="mt-6 md:mt-8 text-center text-sm text-gray-600">
+                        {{_("Don't have an account?")}}
+                        <a href="{{ url_for('register') }}"
+                            class="font-medium text-indigo-600 hover:text-indigo-500">{{_("Sign Up")}}</a>
+                    </p>
                 </div>
-
-                <p class="mt-6 md:mt-8 text-center text-sm text-gray-600">
-                    {{_("Don't have an account?")}}
-                    <a href="{{ url_for('register') }}"
-                        class="font-medium text-indigo-600 hover:text-indigo-500">{{_("Sign Up")}}</a>
-                </p>
             </div>
         </div>
-    </div>
+    </section>
 
     <!-- Section Deskripsi Website & About Us (full width) -->
     <div class="flex flex-col flex-grow gap-16 w-full mx-auto bg-white">
@@ -492,17 +495,19 @@
 
                     <!-- Feedback Form -->
                     <div
-                        class="max-w-md mx-auto p-5 md:p-6 bg-white rounded-lg shadow-sm transition-all duration-200 backdrop-blur-sm transition-all duration-300 hover:shadow-2xl">
+                        class="max-w-md mx-auto text-left p-5 md:p-6 bg-white rounded-lg shadow-sm transition-all duration-200 backdrop-blur-sm transition-all duration-300 hover:shadow-2xl">
                         <div class="mb-5">
-                            <h3 class="font-medium text-lg text-gray-800 mb-1">{{_("Give Your Feedback")}}</h3>
-                            <p class="text-gray-500 text-sm">{{_("We appreciate your thoughts on how we can improve.")}}
+                            <h3 class="font-semibold text-xl md:text-2xl text-indigo-950 mb-2">{{_("Give Your
+                                Feedback")}}</h3>
+                            <p class="text-gray-600 text-sm">{{_("We appreciate your thoughts on how we can improve.")}}
                             </p>
                         </div>
 
                         <form id="feedbackForm" method="POST" action="{{ url_for('send_feedback') }}" class="space-y-4">
                             <!-- Name Input -->
                             <div>
-                                <label for="name" class="text-sm text-gray-600 mb-1 block">{{_("Name")}}</label>
+                                <label for="name"
+                                    class="block text-sm font-medium text-gray-700 mb-1">{{_("Name")}}</label>
                                 <input type="text" id="name" name="name" required autocomplete="off"
                                     class="w-full px-3 py-2 border border-gray-200 rounded-md outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-all text-sm"
                                     placeholder="{{_('Your name')}}">
@@ -511,7 +516,7 @@
                             <!-- Email Input -->
                             <div>
                                 <label for="email_feedback"
-                                    class="text-sm text-gray-600 mb-1 block">{{_("Email")}}</label>
+                                    class="block text-sm font-medium text-gray-700 mb-1">{{_("Email")}}</label>
                                 <input type="email" id="email_feedback" name="email" required autocomplete="off"
                                     class="w-full px-3 py-2 border border-gray-200 rounded-md outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-all text-sm"
                                     placeholder="{{_('your@email.com')}}">
@@ -519,7 +524,7 @@
 
                             <!-- Message Input -->
                             <div>
-                                <label for="message" class="text-sm text-gray-600 mb-1 block">{{_("Your
+                                <label for="message" class="block text-sm font-medium text-gray-700 mb-1">{{_("Your
                                     Feedback")}}</label>
                                 <textarea id="message" name="message" rows="3" required
                                     class="feedback-textarea w-full px-3 py-2 border border-gray-200 rounded-md outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-all text-sm resize-none"

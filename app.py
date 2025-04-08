@@ -11,6 +11,7 @@ from firebase_admin import auth, credentials
 import traceback
 from flask_mail import Mail, Message
 from flask_wtf.csrf import CSRFProtect
+from flask_wtf.csrf import generate_csrf
 from forms import RatingForm, RegisterForm, FeedbackForm
 import subprocess
 import os
@@ -22,6 +23,23 @@ app.config.from_object(Config)
 app.config['BABEL_DEFAULT_LOCALE'] = 'en'  # Bahasa default: Inggris
 app.config['BABEL_SUPPORTED_LOCALES'] = ['en', 'id']  # Bahasa yang didukung
 csrf = CSRFProtect(app) 
+
+@app.context_processor
+def inject_csrf_token():
+    return dict(csrf_token=generate_csrf)
+
+
+MAINTENANCE_MODE = False  # Ganti ke False kalau maintenance selesai
+DEVELOPER_IPS = {''}  # Tambahkan IP di sini
+
+@app.before_request
+def check_for_maintenance():
+    if MAINTENANCE_MODE and request.remote_addr not in DEVELOPER_IPS and request.endpoint != 'maintenance':
+        return redirect(url_for('maintenance'))
+
+@app.route('/maintenance')
+def maintenance():
+    return render_template('maintenance.html'), 503
 
 # 🔹 Setup Flask-Babel
 # 🔹 Locale selector
@@ -164,10 +182,9 @@ def register():
     if request.method == "POST":
         if form.validate_on_submit():
             given_name = form.first_name.data.strip()
-            family_name = form.last_name.data.strip() if form.last_name.data else ""
             email = form.email.data
             password = form.password.data
-            name = f"{given_name} {family_name}".strip()
+            name = given_name
             
             try:
                 # Create user in Firebase Authentication
@@ -198,7 +215,7 @@ def register():
                     email, 
                     name, 
                     given_name, 
-                    family_name
+                    ""  # Empty string for last_name
                 )
                 
                 # Login user
@@ -454,7 +471,7 @@ def forgot_password():
 
              # 🔥 Kirim email dengan Flask-Mail
             msg = Message(
-                "RateMyDays: Reset Password Request",
+                "RateMyDay: Reset Password Request",
                 recipients=[email],
                 body=f"Click the link below to reset your password:\n\n{reset_link}"
             )
