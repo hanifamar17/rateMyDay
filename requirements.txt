@@ -8,3 +8,5 @@ flask-wtf
 email-validator
 Flask-SeaSurf
 Flask-Babel
+wordcloud
+transformers torch

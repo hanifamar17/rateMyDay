@@ -16,6 +16,12 @@ from forms import RatingForm, RegisterForm, FeedbackForm
 import subprocess
 import os
 from flask_babel import Babel, gettext as _
+from datetime import datetime, timedelta
+from wordcloud import WordCloud, STOPWORDS
+import matplotlib.pyplot as plt
+from io import BytesIO
+import base64
+from transformers import pipeline
 
 
 app = Flask(__name__)
@@ -506,18 +512,26 @@ def load_data(user_id):
 
 # Fungsi untuk menyimpan atau memperbarui data
 def save_data(user_id, date, rating, journal):
+    sentiment_score, sentiment_label = analyze_sentiment(journal)
+
     with get_db_connection() as conn:
         with conn.cursor(dictionary=True) as cursor:
-            # Cek apakah data dengan tanggal yang sama sudah ada
             cursor.execute("SELECT id FROM ratings WHERE date = %s AND user_id = %s", (date, user_id))
             existing = cursor.fetchone()
 
             if existing:
-                cursor.execute("UPDATE ratings SET rating = %s, journal = %s WHERE date = %s AND user_id = %s", (rating, journal, date, user_id))
+                cursor.execute("""
+                    UPDATE ratings 
+                    SET rating = %s, journal = %s, sentiment_score = %s, sentiment_label = %s 
+                    WHERE date = %s AND user_id = %s
+                """, (rating, journal, sentiment_score, sentiment_label, date, user_id))
             else:
-                cursor.execute("INSERT INTO ratings (user_id, date, rating, journal) VALUES (%s, %s, %s, %s)", (user_id, date, rating, journal))
+                cursor.execute("""
+                    INSERT INTO ratings (user_id, date, rating, journal, sentiment_score, sentiment_label) 
+                    VALUES (%s, %s, %s, %s, %s, %s)
+                """, (user_id, date, rating, journal, sentiment_score, sentiment_label))
 
-            conn.commit()  # Simpan perubahan
+            conn.commit()
 
 @app.route("/update", methods=["POST"])
 def update_rating():
@@ -567,6 +581,7 @@ def index():
             date = form.date.data
             rating = form.rating.data
             journal = form.journal.data.strip()
+            sentiment_score, sentiment_label = analyze_sentiment(journal)
 
             print(f"DEBUG: date={date}, rating={rating}, journal='{journal}'")
 
@@ -598,7 +613,7 @@ def index():
                 })
 
             # Jika tidak ada data, simpan sebagai entri baru
-            cursor.execute("INSERT INTO ratings (user_id, date, rating, journal) VALUES (%s, %s, %s, %s)", (user_id, date, rating, journal))
+            cursor.execute("INSERT INTO ratings (user_id, date, rating, journal, sentiment_score, sentiment_label) VALUES (%s, %s, %s, %s, %s, %s)", (user_id, date, rating, journal, sentiment_score, sentiment_label))
             conn.commit()
             conn.close()
 
@@ -637,7 +652,7 @@ def index():
         chart_data = {"dates": dates, "ratings": ratings}
     
     given_name = current_user.given_name or current_user.name
-    return render_template("index.html", chart_data=chart_data, given_name=given_name, user=current_user, form=form)
+    return render_template("login/index.html", chart_data=chart_data, given_name=given_name, user=current_user, form=form)
 
 @app.route("/get_rating", methods=["GET"])
 @login_required
@@ -689,7 +704,7 @@ def journal():
     conn.close()
     
     given_name = current_user.given_name or current_user.name
-    return render_template("journal.html", data=data, journal_entries=journal_entries, given_name=given_name, user=current_user)
+    return render_template("login/journal.html", data=data, journal_entries=journal_entries, given_name=given_name, user=current_user)
 
 @app.route("/get_calendar")
 @login_required
@@ -753,6 +768,7 @@ def update_entry(entry_id):
 
     rating = request.form.get("rating")
     journal = request.form.get("journal", " ").strip()
+    sentiment_score, sentiment_label = analyze_sentiment(journal)
 
     if not rating:
         return jsonify({"success": False, "message": "Missing data"}), 400
@@ -762,14 +778,10 @@ def update_entry(entry_id):
         cursor = conn.cursor()
         cursor.execute("""
             UPDATE ratings 
-            SET rating = %s, journal = %s
+            SET rating = %s, journal = %s, sentiment_score = %s, sentiment_label = %s
             WHERE id = %s AND user_id = %s
-        """, (rating, journal, entry_id, current_user.id))
+        """, (rating, journal, sentiment_score, sentiment_label, entry_id, current_user.id))
         conn.commit()
-        
-        # Removing rowcount check to ensure data is always saved
-        # even when there are no actual changes
-        
         conn.close()
         return jsonify({"success": True, "message": "Entry updated successfully!"})
     except Exception as e:
@@ -795,7 +807,7 @@ def journal_image(entry_id):
     if not entry:
         return "Journal entry not found", 404
 
-    return render_template("journal_image.html", entry=entry)
+    return render_template("login/journal_image.html", entry=entry)
 
 @app.route("/get_entry_by_date/<string:date>", methods=["GET"])
 @login_required
@@ -824,7 +836,6 @@ def get_entry_by_date(date):
     entry["mood_emoji"] = mood_emojis.get(entry["rating"], "😐")
 
     return jsonify({"success": True, "entry": entry})
-
 
 
 def format_date(date_str):
@@ -925,6 +936,130 @@ def graph():
         chart_data = {"dates": dates, "ratings": ratings}
 
     return render_template("graph.html", chart_data=chart_data)
+
+
+#VISUALIZATION
+#sentiment analysis
+# Hanya perlu load sekali
+# Load model hanya sekali
+sentiment_model = pipeline("sentiment-analysis", model="nlptown/bert-base-multilingual-uncased-sentiment")
+
+def analyze_sentiment(text):
+    """
+    Analyze sentiment of text using nlptown/bert-base-multilingual-uncased-sentiment model.
+    
+    Parameters:
+        text (str): The text to analyze
+        
+    Returns:
+        tuple: (sentiment_score, sentiment_label) where:
+            - sentiment_score is a float between -1.0 and 1.0
+            - sentiment_label is one of "positive", "neutral", or "negative"
+    """
+    if not text.strip():
+        return 0.0, "neutral"  # Empty text is considered neutral
+    
+    # Get sentiment prediction from the model
+    result = sentiment_model(text)[0]
+    
+    # Extract star rating (1-5) from label
+    label = result['label']  # Example: '4 stars'
+    stars = int(label.split()[0])  # Get the number part
+    
+    # Get confidence score from model
+    confidence = result['score']
+    
+    # Enhanced normalization: Convert 1-5 scale to -1.0 to 1.0
+    # This uses a slightly more nuanced approach with confidence weighting
+    normalized_score = (stars - 3) / 2  # Base conversion
+    
+    # Apply confidence adjustment - higher confidence means more extreme scores
+    adjusted_score = normalized_score * (0.7 + (confidence * 0.3))
+    
+    # Round to 3 decimal places for readability
+    final_score = round(adjusted_score, 3)
+    
+    # Determine sentiment label with improved thresholds
+    # These thresholds are adjusted based on the distribution of the model's outputs
+    if final_score >= 0.25:
+        sentiment_label = "positive"
+    elif final_score <= -0.25:
+        sentiment_label = "negative"
+    else:
+        sentiment_label = "neutral"
+        
+    # Ensure score is within bounds
+    final_score = max(min(final_score, 1.0), -1.0)
+    
+    return final_score, sentiment_label
+
+
+@app.route('/journal-insights')
+@login_required
+def journal_insights():
+    # Get filter parameters
+    filter_range = request.args.get('range', 'month')
+    sentiment_filter = request.args.get('sentiment', 'all')
+
+    # Calculate date range
+    end_date = datetime.now()
+    if filter_range == 'month':
+        start_date = end_date - timedelta(days=30)
+    elif filter_range == 'year':
+        start_date = end_date - timedelta(days=365)
+    else:  # 'all' time
+        start_date = datetime(2000, 1, 1)
+
+    # Set up database connection
+    conn = get_db_connection()
+    cursor = conn.cursor()
+
+    # Prepare the SQL query based on sentiment filter
+    sql_query = """
+        SELECT journal FROM ratings
+        WHERE user_id = %s AND date BETWEEN %s AND %s
+    """
+    params = [current_user.id, start_date, end_date]
+
+    # Add sentiment label filter if specified
+    if sentiment_filter in ['positive', 'neutral', 'negative']:
+        sql_query += " AND sentiment_label = %s"
+        params.append(sentiment_filter)
+
+    # Execute the query
+    cursor.execute(sql_query, params)
+    results = cursor.fetchall()
+    cursor.close()
+    conn.close()
+
+    # Create word cloud if there are journal entries
+    text = " ".join(row[0] for row in results if row[0])
+    if text.strip() == "":
+        img_data = None
+    else:
+        wc = WordCloud(
+            width=800,
+            height=400,
+            background_color='white',
+            colormap='tab10',
+            max_words=100,
+            stopwords=set(STOPWORDS)
+        ).generate(text)
+
+        buffer = BytesIO()
+        wc.to_image().save(buffer, format='PNG')
+        img_data = base64.b64encode(buffer.getvalue()).decode('utf-8')
+
+    given_name = current_user.given_name or current_user.name
+    return render_template(
+        'login/visualization.html',
+        img_data=img_data,
+        current_range=filter_range,
+        current_sentiment=sentiment_filter,
+        given_name=given_name,
+        user=current_user
+    )
+
 
 if __name__ == "__main__":
     app.run(debug=True)
