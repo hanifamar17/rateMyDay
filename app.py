@@ -1,6 +1,5 @@
 from flask import Flask, render_template, request, jsonify, session, redirect, url_for, flash, make_response, g
 import requests
-import json
 from datetime import datetime, timedelta, date
 from config import Config
 import mysql.connector
@@ -13,15 +12,9 @@ from flask_mail import Mail, Message
 from flask_wtf.csrf import CSRFProtect
 from flask_wtf.csrf import generate_csrf
 from forms import RatingForm, RegisterForm, FeedbackForm
-import subprocess
-import os
 from flask_babel import Babel, gettext as _
 from datetime import datetime, timedelta
-from wordcloud import WordCloud, STOPWORDS
-import matplotlib.pyplot as plt
-from io import BytesIO
-import base64
-from transformers import pipeline
+from sentiments import analyze_sentiment, generate_wordcloud, generate_sentiment_heatmap, calculate_moving_average
 
 
 app = Flask(__name__)
@@ -939,127 +932,93 @@ def graph():
 
 
 #VISUALIZATION
-#sentiment analysis
-# Hanya perlu load sekali
-# Load model hanya sekali
-sentiment_model = pipeline("sentiment-analysis", model="nlptown/bert-base-multilingual-uncased-sentiment")
-
-def analyze_sentiment(text):
-    """
-    Analyze sentiment of text using nlptown/bert-base-multilingual-uncased-sentiment model.
-    
-    Parameters:
-        text (str): The text to analyze
-        
-    Returns:
-        tuple: (sentiment_score, sentiment_label) where:
-            - sentiment_score is a float between -1.0 and 1.0
-            - sentiment_label is one of "positive", "neutral", or "negative"
-    """
-    if not text.strip():
-        return 0.0, "neutral"  # Empty text is considered neutral
-    
-    # Get sentiment prediction from the model
-    result = sentiment_model(text)[0]
-    
-    # Extract star rating (1-5) from label
-    label = result['label']  # Example: '4 stars'
-    stars = int(label.split()[0])  # Get the number part
-    
-    # Get confidence score from model
-    confidence = result['score']
-    
-    # Enhanced normalization: Convert 1-5 scale to -1.0 to 1.0
-    # This uses a slightly more nuanced approach with confidence weighting
-    normalized_score = (stars - 3) / 2  # Base conversion
-    
-    # Apply confidence adjustment - higher confidence means more extreme scores
-    adjusted_score = normalized_score * (0.7 + (confidence * 0.3))
-    
-    # Round to 3 decimal places for readability
-    final_score = round(adjusted_score, 3)
-    
-    # Determine sentiment label with improved thresholds
-    # These thresholds are adjusted based on the distribution of the model's outputs
-    if final_score >= 0.25:
-        sentiment_label = "positive"
-    elif final_score <= -0.25:
-        sentiment_label = "negative"
-    else:
-        sentiment_label = "neutral"
-        
-    # Ensure score is within bounds
-    final_score = max(min(final_score, 1.0), -1.0)
-    
-    return final_score, sentiment_label
-
-
 @app.route('/journal-insights')
 @login_required
 def journal_insights():
-    # Get filter parameters
+    # Filter time period & sentiment section ------------------
     filter_range = request.args.get('range', 'month')
     sentiment_filter = request.args.get('sentiment', 'all')
-
-    # Calculate date range
     end_date = datetime.now()
+    
+    # Set date range based on filter
     if filter_range == 'month':
         start_date = end_date - timedelta(days=30)
     elif filter_range == 'year':
         start_date = end_date - timedelta(days=365)
-    else:  # 'all' time
+    else:  # 'all'
         start_date = datetime(2000, 1, 1)
-
-    # Set up database connection
+    
+    # Database section ------------------------------------
     conn = get_db_connection()
     cursor = conn.cursor()
 
-    # Prepare the SQL query based on sentiment filter
+    # Get journal entries from database
     sql_query = """
         SELECT journal FROM ratings
         WHERE user_id = %s AND date BETWEEN %s AND %s
     """
     params = [current_user.id, start_date, end_date]
-
-    # Add sentiment label filter if specified
+    
     if sentiment_filter in ['positive', 'neutral', 'negative']:
         sql_query += " AND sentiment_label = %s"
         params.append(sentiment_filter)
-
-    # Execute the query
+    
     cursor.execute(sql_query, params)
-    results = cursor.fetchall()
+    journal_results = cursor.fetchall()
+
+    # Query untuk data sentiment heatmap - pengambilan data sekaligus
+    cursor.execute("""
+        SELECT date, sentiment_score
+        FROM ratings
+        WHERE user_id = %s AND date BETWEEN %s AND %s
+    """, (current_user.id, start_date, end_date))
+    sentiment_data = cursor.fetchall()
+
+    # Tutup koneksi sekali saja
     cursor.close()
     conn.close()
-
-    # Create word cloud if there are journal entries
-    text = " ".join(row[0] for row in results if row[0])
-    if text.strip() == "":
+    
+    # Wordcloud section -------------------------------
+    # Extract text from results
+    texts = [row[0] for row in journal_results if row[0]]
+    
+    if not texts:
         img_data = None
     else:
-        wc = WordCloud(
-            width=800,
-            height=400,
-            background_color='white',
-            colormap='tab10',
-            max_words=100,
-            stopwords=set(STOPWORDS)
-        ).generate(text)
+        # Generate WordCloud with improved TF-IDF processing
+        img_data = generate_wordcloud(texts)
+    
+    # Heatmap sentiment section ----------------------------
+    # Menyusun data untuk heatmap
+    sentiment_by_day = {}
+    for row in sentiment_data:
+        date_str, score = row
+        date_obj = date_str if isinstance(date_str, date) else datetime.strptime(date_str, "%Y-%m-%d").date()
+        sentiment_by_day[date_obj] = sentiment_by_day.get(date_obj, []) + [score]
+    
+    # Generate heatmap data
+    heatmap_data = generate_sentiment_heatmap(sentiment_by_day, start_date, end_date)
 
-        buffer = BytesIO()
-        wc.to_image().save(buffer, format='PNG')
-        img_data = base64.b64encode(buffer.getvalue()).decode('utf-8')
+    # Moving average sentiment section ----------------------------
+    moving_avg_data = calculate_moving_average(sentiment_data, window_size=7)
 
-    given_name = current_user.given_name or current_user.name
+    # Fallback untuk nama pengguna
+    given_name = getattr(current_user, 'given_name', None) or getattr(current_user, 'name', 'User')
+    
     return render_template(
         'login/visualization.html',
         img_data=img_data,
         current_range=filter_range,
         current_sentiment=sentiment_filter,
         given_name=given_name,
-        user=current_user
+        user=current_user,
+        heatmap_data=heatmap_data,
+        moving_avg_data=moving_avg_data
     )
 
+@app.route('/learn-more')
+def learn_more():
+    return render_template('learn-more.html', current_route=request.path)
 
 if __name__ == "__main__":
     app.run(debug=True)

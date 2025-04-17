@@ -9,4 +9,7 @@ email-validator
 Flask-SeaSurf
 Flask-Babel
 wordcloud
-transformers torch
+transformers
+torch
+sentencepiece
+scikit-learn

@@ -1,4 +1,5 @@
-from app import get_db_connection, analyze_sentiment
+from app import get_db_connection
+from sentiments import analyze_sentiment
 import time
 
 def update_existing_sentiments():
