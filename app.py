@@ -469,7 +469,7 @@ def forgot_password():
 
              # 🔥 Kirim email dengan Flask-Mail
             msg = Message(
-                "RateMyDay: Reset Password Request",
+                "RateJournee: Reset Password Request",
                 recipients=[email],
                 body=f"Click the link below to reset your password:\n\n{reset_link}"
             )
@@ -865,7 +865,7 @@ def send_feedback():
         message = feedback_form.message.data
 
         msg = Message(
-            subject="RateMyDay: Feedback",
+            subject="RateJournee: Feedback",
             sender=email,
             recipients=["luciddream982@gmail.com"],  # Perbaiki email admin
             body=f"From: {name} ({email})\n\nMessage:\n{message}",

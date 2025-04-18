@@ -1,15 +1,15 @@
 # Indonesian translations for .
-# Copyright (C) 2025 RateMyDay
+# Copyright (C) 2025 RateJournee
 # This file is distributed under the same license as the  project.
-# Amar <ratemyday@gmail.com>, 2025.
+# Amar <ratejournee@gmail.com>, 2025.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version:  RATEMYDAY\n"
-"Report-Msgid-Bugs-To: ratemyday@gmail.com\n"
-"POT-Creation-Date: 2025-04-18 22:48+0700\n"
+"Project-Id-Version:  RateJournee\n"
+"Report-Msgid-Bugs-To: ratejournee@gmail.com\n"
+"POT-Creation-Date: 2025-04-19 00:49+0700\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: Amar <ratemyday@gmail.com>\n"
+"Last-Translator: Amar <ratejournee@gmail.com>\n"
 "Language: id\n"
 "Language-Team: id <LL@li.org>\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
@@ -38,8 +38,9 @@ msgstr ""
 "terekam."
 
 #: templates/home.html:60
-msgid "Log In to RateMyDay"
-msgstr "Masuk ke RateMyDay"
+#, 
+msgid "Log In to RateJournee"
+msgstr "Masuk ke RateJournee"
 
 #: templates/auth/sign-up.html:33 templates/home.html:62
 msgid "Start your journey with us today!"
@@ -171,29 +172,30 @@ msgstr "Tentang Kami"
 msgid ""
 "Hey there! We believe that every day has its own unique story. That’s why"
 " we created\n"
-"                        <strong>RateMyDay</strong>—a simple platform to "
-"reflect on your day quickly and\n"
+"                        <strong>RateJournee</strong>—a simple platform to"
+" reflect on your day quickly and\n"
 "                        effortlessly."
 msgstr ""
 "Hai! Kami percaya bahwa setiap hari memiliki cerita uniknya sendiri. "
-"Itulah mengapa kami menciptakan Rate My Day, platform sederhana untuk "
-"merefleksikan harimu dengan cepat dan mudah."
+"Itulah mengapa kami menciptakan <strong>RateJournee</strong>, platform "
+"sederhana untuk merefleksikan harimu dengan cepat dan mudah."
 
 #: templates/home.html:317
+#, 
 msgid ""
 "Each day is a canvas waiting to be filled with the colors of your "
 "experiences. Through\n"
 "                        reflection, we can recognize patterns, understand"
 " ourselves better, and find meaning in every\n"
-"                        moment. We hope <strong>RateMyDay</strong> "
+"                        moment. We hope <strong>RateJournee</strong> "
 "becomes a helpful tool in your journey, guiding you\n"
 "                        toward peace and\n"
 "                        happiness every day."
 msgstr ""
 "Setiap hari adalah kanvas yang menunggu untuk diisi dengan warna-warni "
 "pengalaman. Melalui refleksi, kita bisa melihat pola, memahami diri "
-"sendiri, dan menemukan makna dalam setiap momen. Kami berharap Rate My "
-"Day bisa menjadi alat yang membantu dalam perjalanan refleksi ini, "
+"sendiri, dan menemukan makna dalam setiap momen. Kami berharap RateJournee "
+"bisa menjadi alat yang membantu dalam perjalanan refleksi ini, "
 "membimbing untuk menemukan kedamaian dan kebahagiaan di setiap hari."
 
 #: templates/home.html:324
@@ -201,8 +203,9 @@ msgid "Warm regards,"
 msgstr "Salam hangat"
 
 #: templates/home.html:325
-msgid "RateMyDay Team"
-msgstr "Team RateMyDay"
+#, 
+msgid "RateJournee Team"
+msgstr "Tim RateJournee"
 
 #: templates/home.html:339 templates/template/footer.html:12
 #: templates/template/header.html:23
@@ -212,7 +215,7 @@ msgstr "Dukung Kami"
 #: templates/home.html:341
 #, 
 msgid ""
-"Hey there! At RateMyDay, we believe that tracking your mood daily can "
+"Hey there! At RateJournee, we believe that tracking your mood daily can "
 "help you be more\n"
 "                        aware of\n"
 "                        your feelings, understand emotional patterns, and"
@@ -220,7 +223,7 @@ msgid ""
 "                        this platform free, simple, and useful for "
 "everyone."
 msgstr ""
-"Hai! Kami di RateMyDay percaya bahwa mencatat suasana hati setiap hari "
+"Hai! Kami di RateJournee percaya bahwa mencatat suasana hati setiap hari "
 "bisa membantu kita lebih sadar dengan perasaan sendiri, memahami pola "
 "emosional, dan pada akhirnya, menjalani hari-hari dengan lebih baik. Kami"
 " ingin menjaga platform ini tetap gratis, simpel, dan bermanfaat untuk "
@@ -268,8 +271,9 @@ msgid ""
 msgstr "supaya kamu bisa mencatat kapan saja, di mana saja."
 
 #: templates/home.html:401
-msgid "Keep RateMyDay free"
-msgstr "Menjaga RateMyDay tetap gratis"
+#, 
+msgid "Keep RateJournee free"
+msgstr "Menjaga RateJournee tetap gratis"
 
 #: templates/home.html:401
 #, 
@@ -284,8 +288,9 @@ msgid "Ways You Can Help"
 msgstr "Cara Kamu Bisa Membantu"
 
 #: templates/home.html:418
-msgid "Share RateMyDay"
-msgstr "Bagikan RateMyDay"
+#, 
+msgid "Share RateJournee"
+msgstr "Bagikan RateJournee"
 
 #: templates/home.html:419
 #, 
@@ -387,7 +392,9 @@ msgstr "Tentang Journal Analytics"
 msgid ""
 "Understand how Journal Analytics help\n"
 "                    you reflect and grow through your journaling."
-msgstr "Pahami bagaimana Journal Analytics membantu Anda untuk merenung dan berkembang melalui jurnal Anda"
+msgstr ""
+"Pahami bagaimana Journal Analytics membantu Anda untuk merenung dan "
+"berkembang melalui jurnal Anda"
 
 #: templates/learn-more.html:14 templates/login/visualization.html:38
 msgid "Word Cloud"
@@ -401,11 +408,18 @@ msgid ""
 "IDF</strong> (Term Frequency–Inverse Document\n"
 "                    Frequency), which highlights unique and relevant "
 "words, not just the most repeated ones."
-msgstr "Word Cloud adalah tampilan visual dari kata-kata yang paling bermakna dalam jurnal Anda. Berbeda dengan cloud dasar yang hanya didasarkan pada frekuensi, versi ini menggunakan <strong>TF-IDF</strong> (Term Frequency–Inverse Document Frequency), yang menyoroti kata-kata yang unik dan relevan, bukan hanya yang paling sering diulang."
+msgstr ""
+"Word Cloud adalah tampilan visual dari kata-kata yang paling bermakna "
+"dalam jurnal Anda. Berbeda dengan cloud dasar yang hanya didasarkan pada "
+"frekuensi, versi ini menggunakan <strong>TF-IDF</strong> (Term "
+"Frequency–Inverse Document Frequency), yang menyoroti kata-kata yang unik"
+" dan relevan, bukan hanya yang paling sering diulang."
 
 #: templates/learn-more.html:21
 msgid "<strong>Bigger words:</strong> More meaningful in context"
-msgstr "<strong>Kata besar:</strong> Kata penting atau sering muncul secara bermakna"
+msgstr ""
+"<strong>Kata besar:</strong> Kata penting atau sering muncul secara "
+"bermakna"
 
 #: templates/learn-more.html:22
 msgid "<strong>Position:</strong> Random; doesn't reflect order or importance"
@@ -420,7 +434,9 @@ msgid ""
 "<strong>Tip:</strong> Use the word cloud to identify recurring themes and"
 " reflect on what truly\n"
 "                    matters to you."
-msgstr "<strong>Tip:</strong> Gunakan word cloud untuk mengidentifikasi tema-tema yang berulang dan merenungkan apa yang benar-benar penting bagi Anda."
+msgstr ""
+"<strong>Tip:</strong> Gunakan word cloud untuk mengidentifikasi tema-tema"
+" yang berulang dan merenungkan apa yang benar-benar penting bagi Anda."
 
 #: templates/learn-more.html:33
 msgid "Sentiment Analysis"
@@ -433,7 +449,11 @@ msgid ""
 "                    <strong>neutral</strong>, or "
 "<strong>negative</strong>. It analyzes your words and phrases in\n"
 "                    context and assigns a sentiment score."
-msgstr "Analisis Sentimen menentukan apakah entri jurnal Anda secara keseluruhan bersifat <strong>positif</strong>, <strong>netral</strong>, atau <strong>negatif</strong>. Ini menganalisis kata-kata dan frasa Anda dalam konteks dan memberikan skor sentimen."
+msgstr ""
+"Analisis Sentimen menentukan apakah entri jurnal Anda secara keseluruhan "
+"bersifat <strong>positif</strong>, <strong>netral</strong>, atau "
+"<strong>negatif</strong>. Ini menganalisis kata-kata dan frasa Anda dalam"
+" konteks dan memberikan skor sentimen."
 
 #: templates/learn-more.html:40
 msgid "<strong>Score:</strong> Numeric (e.g., -1.0 to +1.0)"
@@ -452,7 +472,9 @@ msgid ""
 "<strong>Use Case:</strong> Identify mood patterns, emotional triggers, "
 "and track your personal\n"
 "                    growth."
-msgstr "<strong>Kasus Penggunaan:</strong> Identifikasi pola mood, pemicu emosi, dan pantau pertumbuhan pribadi Anda."
+msgstr ""
+"<strong>Kasus Penggunaan:</strong> Identifikasi pola mood, pemicu emosi, "
+"dan pantau pertumbuhan pribadi Anda."
 
 #: templates/learn-more.html:52
 msgid "Combining Word Cloud & Sentiment"
@@ -464,14 +486,20 @@ msgid ""
 "words are associated with\n"
 "                    different moods, and how your language shifts as your"
 " emotions change."
-msgstr "Dengan menggabungkan Word Cloud dan Analisis Sentimen, Anda dapat menemukan kata-kata yang terkait dengan berbagai mood, serta bagaimana bahasa Anda berubah seiring dengan perasaan Anda."
+msgstr ""
+"Dengan menggabungkan Word Cloud dan Analisis Sentimen, Anda dapat "
+"menemukan kata-kata yang terkait dengan berbagai mood, serta bagaimana "
+"bahasa Anda berubah seiring dengan perasaan Anda."
 
 #: templates/learn-more.html:58
 msgid ""
 "This provides a deeper understanding of your thoughts and feelings, "
 "helping you reflect more\n"
 "                    effectively."
-msgstr "Hal ini memberikan pemahaman yang lebih dalam tentang pikiran dan perasaan Anda, membantu Anda untuk merefleksikan diri dengan lebih efektif."
+msgstr ""
+"Hal ini memberikan pemahaman yang lebih dalam tentang pikiran dan "
+"perasaan Anda, membantu Anda untuk merefleksikan diri dengan lebih "
+"efektif."
 
 #: templates/learn-more.html:70 templates/login/visualization.html:43
 #, 
@@ -490,7 +518,17 @@ msgid ""
 "                    A moving average calculates the average of your "
 "sentiment scores over a given time window — for example, a 7-day moving "
 "average will show your sentiment trend across the past week."
-msgstr "Mood Trend menampilkan pola perubahan suasana hati Anda dari waktu ke waktu. Grafik ini dihitung menggunakan konsep Moving Average Sentiment untuk memberikan gambaran emosi yang lebih stabil dan mudah dipahami. Moving Average Sentiment adalah fitur yang membantu Anda memahami tren emosional dalam jurnal Anda selama periode waktu tertentu. Fitur ini merangkum suasana hati Anda yang positif, negatif, atau netral secara visual dalam format yang jelas dan mudah dibaca. Moving average menghitung rata-rata skor sentimen Anda dalam rentang waktu tertentu — misalnya, moving average 7 hari akan menunjukkan tren suasana hati Anda selama seminggu terakhir."
+msgstr ""
+"Mood Trend menampilkan pola perubahan suasana hati Anda dari waktu ke "
+"waktu. Grafik ini dihitung menggunakan konsep Moving Average Sentiment "
+"untuk memberikan gambaran emosi yang lebih stabil dan mudah dipahami. "
+"Moving Average Sentiment adalah fitur yang membantu Anda memahami tren "
+"emosional dalam jurnal Anda selama periode waktu tertentu. Fitur ini "
+"merangkum suasana hati Anda yang positif, negatif, atau netral secara "
+"visual dalam format yang jelas dan mudah dibaca. Moving average "
+"menghitung rata-rata skor sentimen Anda dalam rentang waktu tertentu — "
+"misalnya, moving average 7 hari akan menunjukkan tren suasana hati Anda "
+"selama seminggu terakhir."
 
 #: templates/learn-more.html:79
 #, 
@@ -499,7 +537,9 @@ msgstr "bagaimana Cara Membacanya?"
 
 #: templates/learn-more.html:81
 msgid "<strong>Upward trend</strong>: Indicates your mood is improving over time"
-msgstr "<strong>Upward trend:</strong> Menunjukkan tren sentimen positif yang meningkat"
+msgstr ""
+"<strong>Upward trend:</strong> Menunjukkan tren sentimen positif yang "
+"meningkat"
 
 #: templates/learn-more.html:82
 msgid "<strong>Downward trend</strong>: Suggests a decline in emotional state"
@@ -507,7 +547,9 @@ msgstr "<strong>Garus turun:</strong> Menunjukkan tren sentimen yang menurun"
 
 #: templates/learn-more.html:83
 msgid "<strong>Flat line</strong>: Reflects emotional stability or consistency"
-msgstr "<strong>Garis datar:</strong> Menunjukkan sentimen yang stabil atau konsisten"
+msgstr ""
+"<strong>Garis datar:</strong> Menunjukkan sentimen yang stabil atau "
+"konsisten"
 
 #: templates/learn-more.html:88
 msgid "Why Use Moving Average Sentiment?"
@@ -517,19 +559,25 @@ msgstr "Mengapa Menggunakan Moving Average Sentiment?"
 msgid ""
 "<strong>Spot long-term patterns</strong>: Identify emotional trends that "
 "may not be visible in daily entries"
-msgstr "<strong>Melihat pola jangka panjang:</strong> Membantu Anda mengenali tren emosi yang mungkin tidak terlihat pada entri harian tunggal"
+msgstr ""
+"<strong>Melihat pola jangka panjang:</strong> Membantu Anda mengenali "
+"tren emosi yang mungkin tidak terlihat pada entri harian tunggal"
 
 #: templates/learn-more.html:91
 msgid ""
 "<strong>Deeper self-reflection</strong>: Gain a bigger picture of your "
 "mental health over time"
-msgstr "<strong>Refleksi lebih mendalam:</strong> Memberikan gambaran kesehatan mental Anda dari waktu ke waktu"
+msgstr ""
+"<strong>Refleksi lebih mendalam:</strong> Memberikan gambaran kesehatan "
+"mental Anda dari waktu ke waktu"
 
 #: templates/learn-more.html:92
 msgid ""
 "<strong>Recognize emotional triggers</strong>: Understand specific events"
 " or time periods that affect your mood"
-msgstr "<strong>Memahami pemicu emosional:</strong> Membantu mengidentifikasi kejadian atau periode yang memengaruhi suasana hati Anda"
+msgstr ""
+"<strong>Memahami pemicu emosional:</strong> Membantu mengidentifikasi "
+"kejadian atau periode yang memengaruhi suasana hati Anda"
 
 #: templates/learn-more.html:97
 #, 
@@ -542,7 +590,7 @@ msgstr "Buka bagian <strong>Journal Analytics</strong> pada aplikasi jurnal Anda
 
 #: templates/learn-more.html:100
 msgid "Select the time period you want to review (e.g., 7 days, 30 days)"
-msgstr "2.	Pilih periode waktu yang ingin Anda analisis (7 hari, 30 hari, dll.)"
+msgstr "2.\tPilih periode waktu yang ingin Anda analisis (7 hari, 30 hari, dll.)"
 
 #: templates/learn-more.html:101
 msgid "Observe the sentiment trend line shown in the chart"
@@ -550,19 +598,25 @@ msgstr "Perhatikan garis tren sentimen yang ditampilkan"
 
 #: templates/learn-more.html:102
 msgid "Reflect on the emotional changes and connect them with events in your life"
-msgstr "Refleksikan perubahan yang terjadi dan hubungkan dengan kejadian dalam hidup Anda"
+msgstr ""
+"Refleksikan perubahan yang terjadi dan hubungkan dengan kejadian dalam "
+"hidup Anda"
 
 #: templates/learn-more.html:107
 msgid ""
 "<strong>Use Case:</strong> Insight your rhythms and better understand "
 "your well-being as it evolves over time."
-msgstr "<strong>Contoh Penggunaan:</strong> Pahami ritme emosional Anda dan kenali lebih baik kondisi emosional diri seiring waktu."
+msgstr ""
+"<strong>Contoh Penggunaan:</strong> Pahami ritme emosional Anda dan "
+"kenali lebih baik kondisi emosional diri seiring waktu."
 
 #: templates/learn-more.html:112
 msgid ""
 "These tools are designed to support self-reflection and are not a "
 "substitute for professional advice."
-msgstr "Alat-alat ini dirancang untuk membantumu memahami diri sendiri dengan lebih baik, namun bukan pengganti saran dari tenaga profesional."
+msgstr ""
+"Alat-alat ini dirancang untuk membantumu memahami diri sendiri dengan "
+"lebih baik, namun bukan pengganti saran dari tenaga profesional."
 
 #: templates/auth/forgot-password.html:8
 msgid "Reset Password"
@@ -601,8 +655,9 @@ msgid "Please enter your email address"
 msgstr "Masukkan alamat emailmu"
 
 #: templates/auth/sign-up.html:32
-msgid "Sign Up to RateMyDay"
-msgstr "Daftar ke RateMyDay"
+#, 
+msgid "Sign Up to RateJournee"
+msgstr "Masuk ke RateJournee"
 
 #: templates/auth/sign-up.html:51
 msgid "We'll never share your email with anyone else."
@@ -880,7 +935,9 @@ msgstr "Belum ada entri jurnal untuk periode ini"
 msgid ""
 "Try selecting a different time range or start journaling to\n"
 "                        see word cloud."
-msgstr "Coba pilih rentang waktu lain atau mulai menulis jurnal untuk melihat word cloud."
+msgstr ""
+"Coba pilih rentang waktu lain atau mulai menulis jurnal untuk melihat "
+"word cloud."
 
 #: templates/login/visualization.html:73
 #, 
@@ -899,7 +956,15 @@ msgid ""
 "range, like the past month or year. This gives you\n"
 "                    a better understanding of how your thoughts and "
 "feelings change over time."
-msgstr "Word Cloud menampilkan kata-kata paling bermakna dari entri jurnalmu. Semakin besar ukuran kata, artinya kata tersebut lebih sering muncul atau memiliki arti yang lebih penting. Fitur ini membantumu mengenali tema atau gagasan yang sering muncul dalam tulisanmu. Kamu juga bisa membuat Word Cloud berdasarkan suasana hati tertentu—seperti positif, netral, atau negatif—atau memfilter berdasarkan rentang waktu, seperti sebulan terakhir atau setahun terakhir. Dengan begitu, kamu bisa lebih memahami bagaimana pikiran dan perasaanmu berubah seiring waktu."
+msgstr ""
+"Word Cloud menampilkan kata-kata paling bermakna dari entri jurnalmu. "
+"Semakin besar ukuran kata, artinya kata tersebut lebih sering muncul atau"
+" memiliki arti yang lebih penting. Fitur ini membantumu mengenali tema "
+"atau gagasan yang sering muncul dalam tulisanmu. Kamu juga bisa membuat "
+"Word Cloud berdasarkan suasana hati tertentu—seperti positif, netral, "
+"atau negatif—atau memfilter berdasarkan rentang waktu, seperti sebulan "
+"terakhir atau setahun terakhir. Dengan begitu, kamu bisa lebih memahami "
+"bagaimana pikiran dan perasaanmu berubah seiring waktu."
 
 #: templates/login/visualization.html:88
 #, 
@@ -973,11 +1038,15 @@ msgstr "Semua"
 msgid ""
 "This chart shows the emotional trend of your journal entries. The higher "
 "the point, the more positive your emotion."
-msgstr "Grafik ini menunjukkan tren emosi dari catatan harianmu. Semakin ke atas berarti emosimu semakin positif."
+msgstr ""
+"Grafik ini menunjukkan tren emosi dari catatan harianmu. Semakin ke atas "
+"berarti emosimu semakin positif."
 
 #: templates/login/visualization.html:185
 msgid "Tip: Tap on a point in the chart to view the journal entry for that date."
-msgstr "Tip: Ketuk pada titik di grafik untuk melihat entri jurnal pada tanggal tersebut."
+msgstr ""
+"Tip: Ketuk pada titik di grafik untuk melihat entri jurnal pada tanggal "
+"tersebut."
 
 #: templates/login/visualization.html:192
 msgid "No data to display yet"
@@ -1182,4 +1251,7 @@ msgstr "Dukung Kami"
 
 #~ msgid "Give Your Feedback"
 #~ msgstr "Berikan Masukanmu"
+
+#~ msgid "Sign Up to RateJournee"
+#~ msgstr "Daftar ke RateJournee"
 

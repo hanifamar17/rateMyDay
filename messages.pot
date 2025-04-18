@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2025-04-18 22:48+0700\n"
+"POT-Creation-Date: 2025-04-19 00:49+0700\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -33,7 +33,7 @@ msgid ""
 msgstr ""
 
 #: templates/home.html:60
-msgid "Log In to RateMyDay"
+msgid "Log In to RateJournee"
 msgstr ""
 
 #: templates/auth/sign-up.html:33 templates/home.html:62
@@ -157,8 +157,8 @@ msgstr ""
 msgid ""
 "Hey there! We believe that every day has its own unique story. That’s why"
 " we created\n"
-"                        <strong>RateMyDay</strong>—a simple platform to "
-"reflect on your day quickly and\n"
+"                        <strong>RateJournee</strong>—a simple platform to"
+" reflect on your day quickly and\n"
 "                        effortlessly."
 msgstr ""
 
@@ -168,7 +168,7 @@ msgid ""
 "experiences. Through\n"
 "                        reflection, we can recognize patterns, understand"
 " ourselves better, and find meaning in every\n"
-"                        moment. We hope <strong>RateMyDay</strong> "
+"                        moment. We hope <strong>RateJournee</strong> "
 "becomes a helpful tool in your journey, guiding you\n"
 "                        toward peace and\n"
 "                        happiness every day."
@@ -179,7 +179,7 @@ msgid "Warm regards,"
 msgstr ""
 
 #: templates/home.html:325
-msgid "RateMyDay Team"
+msgid "RateJournee Team"
 msgstr ""
 
 #: templates/home.html:339 templates/template/footer.html:12
@@ -189,7 +189,7 @@ msgstr ""
 
 #: templates/home.html:341
 msgid ""
-"Hey there! At RateMyDay, we believe that tracking your mood daily can "
+"Hey there! At RateJournee, we believe that tracking your mood daily can "
 "help you be more\n"
 "                        aware of\n"
 "                        your feelings, understand emotional patterns, and"
@@ -238,7 +238,7 @@ msgid ""
 msgstr ""
 
 #: templates/home.html:401
-msgid "Keep RateMyDay free"
+msgid "Keep RateJournee free"
 msgstr ""
 
 #: templates/home.html:401
@@ -253,7 +253,7 @@ msgid "Ways You Can Help"
 msgstr ""
 
 #: templates/home.html:418
-msgid "Share RateMyDay"
+msgid "Share RateJournee"
 msgstr ""
 
 #: templates/home.html:419
@@ -559,7 +559,7 @@ msgid "Please enter your email address"
 msgstr ""
 
 #: templates/auth/sign-up.html:32
-msgid "Sign Up to RateMyDay"
+msgid "Sign Up to RateJournee"
 msgstr ""
 
 #: templates/auth/sign-up.html:51
