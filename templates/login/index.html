@@ -283,9 +283,9 @@
             })
             .then(data => {
                 //console.log("DEBUG: Server Response Data:", data);
+                const t = window.appTranslations;
                 if (data.duplicate) {
                     // Get translations from your application
-                    const t = window.appTranslations;
 
                     // Duplicate data confirmation with friendly message
                     QuickAlert.fire({

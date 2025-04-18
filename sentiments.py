@@ -244,3 +244,47 @@ def calculate_moving_average(sentiment_data, window_size=7):
 
     return result
 
+def prepare_actual_sentiment_data(sentiment_data):
+    # Step 1: Mapping tanggal -> list skor valid
+    date_scores = {}
+    for row in sentiment_data:
+        dt, score = row
+        try:
+            # Try to use date object directly first
+            dt = dt if isinstance(dt, date) else datetime.strptime(dt, "%Y-%m-%d").date()
+        except (TypeError, ValueError):
+            # Handle potential formatting issues
+            if isinstance(dt, str):
+                dt = datetime.strptime(dt, "%Y-%m-%d").date()
+            else:
+                continue  # Skip invalid dates
+                
+        if score is not None:
+            date_scores.setdefault(dt, []).append(score)
+    
+    if not date_scores:
+        return []
+    
+    # Get all dates range
+    all_dates = sorted(date_scores.keys())
+    start_date = all_dates[0]
+    end_date = all_dates[-1]
+    
+    # Step 2: Create results for the full date range, but only include sentiment
+    # scores for days that actually have data
+    result = []
+    current_date = start_date
+    while current_date <= end_date:
+        scores = date_scores.get(current_date, [])
+        
+        if scores:  # Only include data points for days with actual sentiment scores
+            avg_score = sum(scores) / len(scores)
+            result.append({
+                "date": current_date.isoformat(),
+                "sentiment": round(avg_score, 3)
+            })
+        
+        current_date += timedelta(days=1)
+    
+    return result
+

@@ -4,7 +4,7 @@
 <section class="w-full mx-auto p-4">
     <!-- Page Header with improved styling -->
     <header class="mb-8">
-        <h1 class="text-xl font-medium text-gray-800 text-center md:text-left">Journal Insights</h1>
+        <h1 class="text-xl font-medium text-gray-800 text-center md:text-left">Journal Analytics</h1>
         <p class="text-center md:text-left text-gray-500 text-sm">Visualize patterns and trends in your journal entries
         </p>
     </header>
@@ -20,8 +20,9 @@
             <a href="javascript:void(0);" onclick="showSection('sentiment')"
                 class="tab inline-block text-sm py-3 px-4 font-medium text-gray-500 hover:text-gray-700 hover:border-gray-300 border-b-2 border-transparent"
                 id="tab-sentiment">
-                Mood Analysis
+                Trends Analysis
             </a>
+            <!--
             <a href="#"
                 class="inline-block text-sm py-3 px-4 font-medium text-gray-500 hover:text-gray-700 hover:border-gray-300 border-b-2 border-transparent">
                 Topics
@@ -29,16 +30,28 @@
             <a href="#"
                 class="inline-block text-sm py-3 px-4 font-medium text-gray-500 hover:text-gray-700 hover:border-gray-300 border-b-2 border-transparent">
                 Writing Patterns
-            </a>
+            </a>-->
         </nav>
     </div>
 
+    <div id="wordcloud-head" class="w-full mx-auto">
+        <h2 class="text-lg font-semibold text-gray-800 mb-1 sm:mb-2">Word Clouds</h2>
+        <p class="text-sm text-gray-500 mb-6 sm:mb-8">Menampilkan kata-kata yang paling penting dalam entri
+            jurnal Anda</p>
+    </div>
+
+    <div id="sentiment-head" class="hidden w-full mx-auto">
+        <h2 class="text-lg font-semibold text-gray-800 mb-1 sm:mb-2">Tren Emosi</h2>
+        <p class="text-sm text-gray-500 mb-6 sm:mb-8">Bagaimana perasaanmu berubah dari waktu ke
+            waktu</p>
+    </div>
+
     <!--Wordcloud section-->
-    <div id="wordcloud-section" class="flex flex-col-reverse md:flex-row w-full gap-4 md:gap-8">
+    <div id="wordcloud-main" class="flex flex-col-reverse md:flex-row w-full gap-4 md:gap-8 ">
         <div class="w-full md:w-3/5 lg:w-2/3 xl:w-3/4 mx-auto">
             <!-- Word Cloud Display with better error handling -->
             <div
-                class="bg-white rounded-lg shadow-sm border border-gray-200 p-6 backdrop-blur-xs transition-all duration-300 hover:shadow-lg">
+                class="bg-white rounded-lg shadow-sm border border-gray-200 p-2 sm:p-2 md:p-4 lg:p-6 backdrop-blur-xs transition-all duration-300 hover:shadow-lg">
                 {% if img_data %}
                 <div class="flex justify-center">
                     <img src="data:image/png;base64,{{ img_data }}" alt="Word Cloud" class="rounded max-w-full h-auto">
@@ -53,7 +66,7 @@
                     <p class="text-gray-500 text-base">No journal entries found for this period.</p>
                     <p class="text-gray-400 text-sm mt-2">Try selecting a different time range or start journaling to
                         see
-                        insights.</p>
+                        word cloud.</p>
                 </div>
                 {% endif %}
             </div>
@@ -69,7 +82,7 @@
                     a better understanding of how your thoughts and feelings change over time.
                 </p>
                 <div class="mt-4 flex flex-wrap gap-4">
-                    <a href="#" class="text-blue-600 hover:text-blue-800 text-sm font-medium flex items-center">
+                    <a href="/learn-more" target="_blank" class="text-blue-600 hover:text-blue-800 text-sm font-medium flex items-center">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" fill="none" viewBox="0 0 24 24"
                             stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -127,142 +140,192 @@
         </div>
     </div>
 
-    <div id="sentiment-section" class="hidden w-full mx-auto bg-white p-3 sm:p-6">
-        <h2 class="text-lg font-semibold text-gray-700 mb-1 sm:mb-2 text-center">Tren Emosi</h2>
-        <p class="text-xs sm:text-sm text-gray-500 text-center mb-3 sm:mb-4">Bagaimana perasaanmu berubah dari waktu ke waktu</p>
-        
+    <div id="sentiment-main" class="hidden w-full mx-auto bg-white">
         <!-- Mood indicators -->
         <div class="flex justify-between mb-1 px-2 sm:px-4 text-xs md:text-sm">
             <div class="text-red-500">Negatif</div>
             <div class="text-gray-400">Netral</div>
             <div class="text-green-500">Positif</div>
         </div>
-        
+
         <!-- Chart container with responsive height -->
         <div class="chart-container" style="position: relative; height: 40vh; min-height: 200px; max-height: 300px;">
             <canvas id="movingAverageChart"></canvas>
         </div>
-        
+
         <!-- Chart controls and insights -->
         <div class="mt-3 sm:mt-4 flex flex-col gap-2 sm:gap-3">
             <!-- Time range selector - Full width on mobile -->
             <div class="flex w-full gap-1 sm:gap-2 text-xs">
-                <button class="time-range-btn flex-1 px-2 py-1 sm:py-1.5 rounded bg-gray-100 hover:bg-gray-200 active-range" data-range="week">7 Hari</button>
-                <button class="time-range-btn flex-1 px-2 py-1 sm:py-1.5 rounded bg-gray-100 hover:bg-gray-200" data-range="month">30 Hari</button>
-                <button class="time-range-btn flex-1 px-2 py-1 sm:py-1.5 rounded bg-gray-100 hover:bg-gray-200" data-range="all">Semua</button>
+                <button
+                    class="time-range-btn flex-1 px-2 py-1 sm:py-1.5 rounded bg-gray-100 hover:bg-gray-200 active-range"
+                    data-range="week">7 Hari</button>
+                <button class="time-range-btn flex-1 px-2 py-1 sm:py-1.5 rounded bg-gray-100 hover:bg-gray-200"
+                    data-range="month">30 Hari</button>
+                <button class="time-range-btn flex-1 px-2 py-1 sm:py-1.5 rounded bg-gray-100 hover:bg-gray-200"
+                    data-range="all">Semua</button>
             </div>
-            
+
             <!-- Key insight -->
-            <div id="sentiment-insight" class="text-xs md:text-sm font-medium text-gray-700 text-center py-1">
+            <div id="sentiment-insight" class="text-sm font-medium text-gray-700 text-center py-1">
                 <!-- Will be populated by JS -->
             </div>
         </div>
-        
+
         <!-- Embed JSON data safely -->
         <script id="movingAvgData" type="application/json">
             {{ moving_avg_data | tojson }}
         </script>
-        
+
+        <script id="actualSentimentData" type="application/json">
+            {{ actual_sentiment_data | tojson }}
+        </script>
+
         <!-- Info Box -->
-        <div class="mt-3 sm:mt-6 text-xs md:text-sm text-gray-500 bg-gray-50 p-2 sm:p-3 rounded-lg shadow text-justify">
-            <p>Grafik ini menunjukkan tren emosi dari catatan harianmu. Semakin ke atas berarti emosimu semakin positif.</p>
+        <div class="mt-3 sm:mt-6 text-sm text-gray-500 bg-gray-50 p-2 sm:p-3 rounded-lg shadow text-justify">
+            <p>Grafik ini menunjukkan tren emosi dari catatan harianmu. Semakin ke atas berarti emosimu semakin positif.
+            </p>
             <p class="mt-1">Tip: Ketuk pada titik di grafik untuk melihat entri jurnal pada tanggal tersebut.</p>
         </div>
-    </div>    
-    
+    </div>
+
     <!-- Script Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const jsonElement = document.getElementById("movingAvgData");
-            const allMovingAvgData = JSON.parse(jsonElement.textContent);
+        document.addEventListener('DOMContentLoaded', function () {
+            const movingAvgJsonElement = document.getElementById("movingAvgData");
+            const actualSentimentJsonElement = document.getElementById("actualSentimentData");
+
+            const allMovingAvgData = JSON.parse(movingAvgJsonElement.textContent);
+            const allActualSentimentData = JSON.parse(actualSentimentJsonElement.textContent);
+
             let chartInstance = null;
             let currentRange = 'week';
             let isMobile = window.innerWidth < 640;
-            
+
             // Make sure the sentiment section is visible
-            const sentimentSection = document.getElementById('sentiment-section');
+            const sentimentSection = document.getElementById('sentiment-main');
             if (sentimentSection.classList.contains('hidden')) {
                 sentimentSection.classList.remove('hidden');
             }
-            
+
             // Handle time range buttons
             const timeRangeButtons = document.querySelectorAll('.time-range-btn');
             timeRangeButtons.forEach(button => {
-                button.addEventListener('click', function() {
+                button.addEventListener('click', function () {
                     // Update active button UI
                     timeRangeButtons.forEach(btn => btn.classList.remove('active-range', 'bg-blue-100', 'text-blue-700'));
                     this.classList.add('active-range', 'bg-blue-100', 'text-blue-700');
-                    
+
                     // Update chart based on selected range
                     currentRange = this.getAttribute('data-range');
                     updateChart(currentRange);
                 });
             });
-            
-            function filterDataByRange(range) {
-                if (range === 'all') return allMovingAvgData;
-                
+
+            function filterDataByRange(range, dataArray) {
+                if (range === 'all') return dataArray;
+
                 const today = new Date();
                 let daysToShow = range === 'week' ? 7 : 30;
-                
+
                 const cutoffDate = new Date();
                 cutoffDate.setDate(today.getDate() - daysToShow);
-                
-                return allMovingAvgData.filter(item => {
+
+                return dataArray.filter(item => {
                     const itemDate = new Date(item.date);
                     return itemDate >= cutoffDate;
                 });
             }
-            
+
             function updateChart(range) {
-                const filteredData = filterDataByRange(range);
-                
-                // Format dates to be more readable
-                const labels = filteredData.map(item => {
+                const filteredMovingAvgData = filterDataByRange(range, allMovingAvgData);
+                const filteredActualData = filterDataByRange(range, allActualSentimentData);
+
+                if (filteredMovingAvgData.length === 0) {
+                    document.getElementById('sentiment-insight').textContent = 'Belum ada data untuk ditampilkan';
+                    return;
+                }
+
+                // Format dates for chart labels (using moving avg dates as they're complete)
+                const labels = filteredMovingAvgData.map(item => {
                     const date = new Date(item.date);
                     return date.toLocaleDateString('id-ID', { day: 'numeric', month: 'short' });
                 });
-                const data = filteredData.map(item => item.average);
-                
+
+                const movingAvgValues = filteredMovingAvgData.map(item => item.average);
+
+                // Create a map of dates to sentiment values for quick lookup
+                const sentimentMap = {};
+                filteredActualData.forEach(item => {
+                    sentimentMap[item.date] = item.sentiment;
+                });
+
+                // Create actual values array that aligns with moving avg dates
+                // For dates with no actual data, use null to create gaps in the line
+                const actualValues = filteredMovingAvgData.map(item => {
+                    return sentimentMap[item.date] !== undefined ? sentimentMap[item.date] : null;
+                });
+
                 // Destroy previous chart if exists
                 if (chartInstance) {
                     chartInstance.destroy();
                 }
-                
+
                 // Generate color gradient based on sentiment values
-                const gradientColors = data.map(value => {
+                const gradientColors = movingAvgValues.map(value => {
                     if (value <= -0.5) return 'rgba(239, 68, 68, 0.8)'; // Red for very negative
                     if (value < 0) return 'rgba(251, 146, 60, 0.8)';    // Orange for negative
                     if (value < 0.5) return 'rgba(74, 222, 128, 0.8)';  // Light green for positive
                     return 'rgba(34, 197, 94, 0.8)';                    // Green for very positive
                 });
-                
+
                 const ctx = document.getElementById('movingAverageChart').getContext('2d');
-                
+
                 // Create gradient background
                 const gradient = ctx.createLinearGradient(0, 0, 0, 300);
                 gradient.addColorStop(0, 'rgba(34, 197, 94, 0.1)');     // Green (positive) at top
                 gradient.addColorStop(0.5, 'rgba(229, 231, 235, 0.1)'); // Gray (neutral) in middle
                 gradient.addColorStop(1, 'rgba(239, 68, 68, 0.1)');     // Red (negative) at bottom
-                
+
                 chartInstance = new Chart(ctx, {
                     type: 'line',
                     data: {
                         labels: labels,
-                        datasets: [{
-                            label: 'Sentiment Score',
-                            data: data,
-                            borderColor: '#3b82f6',
-                            backgroundColor: gradient,
-                            fill: true,
-                            tension: 0.4,
-                            pointRadius: isMobile ? 3 : 4,
-                            pointBackgroundColor: gradientColors,
-                            pointBorderColor: '#ffffff',
-                            pointHoverRadius: isMobile ? 5 : 6,
-                            pointHoverBorderWidth: 2
-                        }]
+                        datasets: [
+                            {
+                                label: 'Moving Average',
+                                data: movingAvgValues,
+                                borderColor: '#3b82f6', // Blue for moving average
+                                backgroundColor: gradient,
+                                fill: true,
+                                tension: 0.4,
+                                pointRadius: isMobile ? 3 : 4,
+                                pointBackgroundColor: gradientColors,
+                                pointBorderColor: '#ffffff',
+                                pointHoverRadius: isMobile ? 5 : 6,
+                                pointHoverBorderWidth: 2,
+                                borderWidth: 2,
+                                order: 2
+                            },
+                            {
+                                label: 'Sentiment Aktual',
+                                data: actualValues,
+                                borderColor: '#f59e0b', // Amber for actual values
+                                backgroundColor: 'transparent',
+                                fill: false,
+                                tension: 0,
+                                pointRadius: isMobile ? 2 : 3,
+                                pointBackgroundColor: '#f59e0b',
+                                pointBorderColor: '#ffffff',
+                                pointHoverRadius: isMobile ? 4 : 5,
+                                pointHoverBorderWidth: 1,
+                                borderWidth: 1.5,
+                                borderDash: [3, 3], // Dashed line for actual values
+                                order: 1,
+                                spanGaps: true // Allow gaps where data is missing
+                            }
+                        ]
                     },
                     options: {
                         responsive: true,
@@ -278,7 +341,7 @@
                                     font: {
                                         size: isMobile ? 8 : 11
                                     },
-                                    callback: function(value) {
+                                    callback: function (value) {
                                         if (isMobile) {
                                             if (value === 1) return 'Positif';
                                             if (value === 0) return 'Netral';
@@ -310,7 +373,14 @@
                         },
                         plugins: {
                             legend: {
-                                display: false
+                                display: true, // Show legend
+                                position: 'top',
+                                labels: {
+                                    font: {
+                                        size: isMobile ? 10 : 12
+                                    },
+                                    boxWidth: isMobile ? 12 : 15
+                                }
                             },
                             tooltip: {
                                 titleFont: {
@@ -320,67 +390,77 @@
                                     size: 13
                                 },
                                 callbacks: {
-                                    title: function(tooltipItems) {
-                                        const date = new Date(filteredData[tooltipItems[0].dataIndex].date);
-                                        return date.toLocaleDateString('id-ID', { 
-                                            weekday: 'long', 
-                                            day: 'numeric', 
+                                    title: function (tooltipItems) {
+                                        const index = tooltipItems[0].dataIndex;
+                                        const date = new Date(filteredMovingAvgData[index].date);
+                                        return date.toLocaleDateString('id-ID', {
+                                            weekday: 'long',
+                                            day: 'numeric',
                                             month: 'long'
                                         });
                                     },
-                                    label: function(context) {
+                                    label: function (context) {
                                         let value = context.parsed.y;
+
+                                        // Handle null values
+                                        if (value === null) {
+                                            return context.dataset.label === 'Sentiment Aktual' ?
+                                                'Tidak ada data untuk tanggal ini' : '';
+                                        }
+
                                         let sentiment = '';
-                                        
                                         if (value <= -0.75) sentiment = 'Sangat Negatif';
                                         else if (value <= -0.25) sentiment = 'Negatif';
                                         else if (value <= 0.25) sentiment = 'Netral';
                                         else if (value <= 0.75) sentiment = 'Positif';
                                         else sentiment = 'Sangat Positif';
-                                        
-                                        return `Mood: ${sentiment}`;
+
+                                        let label = context.dataset.label === 'Moving Average' ?
+                                            'Mood Rata-rata: ' : 'Mood Aktual: ';
+
+                                        return `${label}${sentiment} (${value.toFixed(2)})`;
                                     }
                                 }
                             }
                         },
-                        onClick: function(e, elements) {
+                        onClick: function (e, elements) {
                             if (elements.length > 0) {
                                 const index = elements[0].index;
-                                const clickedDate = filteredData[index].date;
-                                window.location.href = `/journal?date=${clickedDate}`;
+                                const clickedDate = filteredMovingAvgData[index].date;
+                                //window.location.href = `/journal?date=${clickedDate}`;
                             }
                         },
                     }
                 });
-                
-                // Update insight text
-                updateInsightText(data);
+
+                // Update insight text based on moving average
+                updateInsightText(movingAvgValues);
             }
-            
+
             function updateInsightText(data) {
                 const insightElement = document.getElementById('sentiment-insight');
-                
+
                 if (data.length === 0) {
                     insightElement.textContent = 'Belum ada data untuk ditampilkan';
                     return;
                 }
-                
+
                 // Get average sentiment
                 const sum = data.reduce((a, b) => a + b, 0);
                 const avg = sum / data.length;
-                
+
                 // Get trend (comparing first and last quarter of data)
                 const quarter = Math.max(1, Math.floor(data.length / 4));
                 const firstQuarter = data.slice(0, quarter);
                 const lastQuarter = data.slice(-quarter);
-                
+
                 const firstAvg = firstQuarter.reduce((a, b) => a + b, 0) / firstQuarter.length;
                 const lastAvg = lastQuarter.reduce((a, b) => a + b, 0) / lastQuarter.length;
-                
+
                 const trendDiff = lastAvg - firstAvg;
-                
+
                 let message = '';
-                
+
                 if (Math.abs(trendDiff) < 0.1) {
                     message = 'Mood kamu relatif stabil';
                 } else if (trendDiff > 0) {
@@ -388,36 +468,36 @@
                 } else {
                     message = 'Mood kamu cenderung menurun akhir-akhir ini';
                 }
-                
+
                 insightElement.textContent = message;
             }
-            
+
             // Handle window resize
-            window.addEventListener('resize', function() {
+            window.addEventListener('resize', function () {
                 const wasMobile = isMobile;
                 isMobile = window.innerWidth < 640;
-                
+
                 // Only update chart if the device category changed
                 if (wasMobile !== isMobile) {
                     updateChart(currentRange);
                 }
             });
-            
+
             // Initialize chart with default range
             updateChart(currentRange);
         });
     </script>
-    
+
     <style>
         .active-range {
             font-weight: 500;
         }
-        
+
         /* Smooth transitions */
         .time-range-btn {
             transition: all 0.2s ease;
         }
-        
+
         /* Make buttons more tappable on mobile */
         @media (max-width: 640px) {
             .time-range-btn {
@@ -437,21 +517,28 @@
             const sections = ['wordcloud', 'sentiment'];
 
             sections.forEach(s => {
-                const sectionElement = document.getElementById(`${s}-section`);
-                const tabElement = document.getElementById(`tab-${s}`);
+                const headEl = document.getElementById(`${s}-head`);
+                const mainEl = document.getElementById(`${s}-main`);
+                const tabEl = document.getElementById(`tab-${s}`);
 
                 if (s === section) {
-                    sectionElement.classList.remove('hidden');
-                    tabElement.classList.add('text-blue-600', 'border-blue-600');
-                    tabElement.classList.remove('text-gray-500', 'border-transparent');
+                    headEl.classList.remove('hidden');
+                    mainEl.classList.remove('hidden');
+                    if (tabEl) {
+                        tabEl.classList.add('text-blue-600', 'border-blue-600');
+                        tabEl.classList.remove('text-gray-500', 'border-transparent');
+                    }
                 } else {
-                    sectionElement.classList.add('hidden');
-                    tabElement.classList.remove('text-blue-600', 'border-blue-600');
-                    tabElement.classList.add('text-gray-500', 'border-transparent');
+                    headEl.classList.add('hidden');
+                    mainEl.classList.add('hidden');
+                    if (tabEl) {
+                        tabEl.classList.remove('text-blue-600', 'border-blue-600');
+                        tabEl.classList.add('text-gray-500', 'border-transparent');
+                    }
                 }
             });
         }
-    </script>    
+    </script>
 
 
 </section>

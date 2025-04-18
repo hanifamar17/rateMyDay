@@ -13,8 +13,7 @@ from flask_wtf.csrf import CSRFProtect
 from flask_wtf.csrf import generate_csrf
 from forms import RatingForm, RegisterForm, FeedbackForm
 from flask_babel import Babel, gettext as _
-from datetime import datetime, timedelta
-from sentiments import analyze_sentiment, generate_wordcloud, generate_sentiment_heatmap, calculate_moving_average
+from sentiments import analyze_sentiment, generate_wordcloud, calculate_moving_average, prepare_actual_sentiment_data
 
 
 app = Flask(__name__)
@@ -987,19 +986,9 @@ def journal_insights():
     else:
         # Generate WordCloud with improved TF-IDF processing
         img_data = generate_wordcloud(texts)
-    
-    # Heatmap sentiment section ----------------------------
-    # Menyusun data untuk heatmap
-    sentiment_by_day = {}
-    for row in sentiment_data:
-        date_str, score = row
-        date_obj = date_str if isinstance(date_str, date) else datetime.strptime(date_str, "%Y-%m-%d").date()
-        sentiment_by_day[date_obj] = sentiment_by_day.get(date_obj, []) + [score]
-    
-    # Generate heatmap data
-    heatmap_data = generate_sentiment_heatmap(sentiment_by_day, start_date, end_date)
 
     # Moving average sentiment section ----------------------------
+    actual_sentiment_data = prepare_actual_sentiment_data(sentiment_data)
     moving_avg_data = calculate_moving_average(sentiment_data, window_size=7)
 
     # Fallback untuk nama pengguna
@@ -1012,7 +1001,7 @@ def journal_insights():
         current_sentiment=sentiment_filter,
         given_name=given_name,
         user=current_user,
-        heatmap_data=heatmap_data,
+        actual_sentiment_data=actual_sentiment_data,
         moving_avg_data=moving_avg_data
     )
 
