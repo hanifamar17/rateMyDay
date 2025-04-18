@@ -4,8 +4,8 @@
 <section class="w-full mx-auto p-4">
     <!-- Page Header with improved styling -->
     <header class="mb-8">
-        <h1 class="text-xl font-medium text-gray-800 text-center md:text-left">Journal Analytics</h1>
-        <p class="text-center md:text-left text-gray-500 text-sm">Visualize patterns and trends in your journal entries
+        <h1 class="text-xl font-medium text-gray-800 text-center md:text-left">{{_("Journal Analytics")}}</h1>
+        <p class="text-center md:text-left text-gray-500 text-sm">{{_("Visualize patterns and trends in your journal entries")}}
         </p>
     </header>
 
@@ -15,12 +15,12 @@
             <a href="javascript:void(0);" onclick="showSection('wordcloud')"
                 class="tab inline-block text-sm py-3 px-4 font-medium text-blue-600 border-b-2 border-blue-600"
                 aria-current="page" id="tab-wordcloud">
-                Word Clouds
+                {{_("Word Clouds")}}
             </a>
             <a href="javascript:void(0);" onclick="showSection('sentiment')"
                 class="tab inline-block text-sm py-3 px-4 font-medium text-gray-500 hover:text-gray-700 hover:border-gray-300 border-b-2 border-transparent"
                 id="tab-sentiment">
-                Trends Analysis
+                {{_("Mood Trends")}}
             </a>
             <!--
             <a href="#"
@@ -35,15 +35,13 @@
     </div>
 
     <div id="wordcloud-head" class="w-full mx-auto">
-        <h2 class="text-lg font-semibold text-gray-800 mb-1 sm:mb-2">Word Clouds</h2>
-        <p class="text-sm text-gray-500 mb-6 sm:mb-8">Menampilkan kata-kata yang paling penting dalam entri
-            jurnal Anda</p>
+        <h2 class="text-lg font-semibold text-gray-800 mb-1 sm:mb-2">{{_("Word Cloud")}}</h2>
+        <p class="text-sm text-gray-500 mb-6 sm:mb-8">{{_("Displays the most important words in your journal entries")}}</p>
     </div>
 
     <div id="sentiment-head" class="hidden w-full mx-auto">
-        <h2 class="text-lg font-semibold text-gray-800 mb-1 sm:mb-2">Tren Emosi</h2>
-        <p class="text-sm text-gray-500 mb-6 sm:mb-8">Bagaimana perasaanmu berubah dari waktu ke
-            waktu</p>
+        <h2 class="text-lg font-semibold text-gray-800 mb-1 sm:mb-2">{{_("Mood Trend")}}</h2>
+        <p class="text-sm text-gray-500 mb-6 sm:mb-8">{{_("How your feelings change over time")}}</p>
     </div>
 
     <!--Wordcloud section-->
@@ -63,23 +61,22 @@
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4" />
                     </svg>
-                    <p class="text-gray-500 text-base">No journal entries found for this period.</p>
-                    <p class="text-gray-400 text-sm mt-2">Try selecting a different time range or start journaling to
-                        see
-                        word cloud.</p>
+                    <p class="text-gray-500 text-base">{{_("No journal entries found for this period.")}}</p>
+                    <p class="text-gray-400 text-sm mt-2">{{_("Try selecting a different time range or start journaling to
+                        see word cloud.")}}</p>
                 </div>
                 {% endif %}
             </div>
 
             <!-- Insight Context Section -->
             <div class="mt-8">
-                <h2 class="text-lg font-semibold text-gray-800 mb-3">About Word Clouds</h2>
+                <h2 class="text-lg font-semibold text-gray-800 mb-3">{{_("About Word Clouds")}}</h2>
                 <p class="text-sm text-gray-600 text-justify">
-                    Word clouds show the most important words in your journal entries, with larger words meaning they
+                    {{_("Word clouds show the most important words in your journal entries, with larger words meaning they
                     appear more often or are more important. This helps you spot common themes and ideas in your
                     writing. You can create word clouds that focus on specific feelings, such as positive, neutral, or
                     negative moods, or you can filter them by a time range, like the past month or year. This gives you
-                    a better understanding of how your thoughts and feelings change over time.
+                    a better understanding of how your thoughts and feelings change over time.")}}
                 </p>
                 <div class="mt-4 flex flex-wrap gap-4">
                     <a href="/learn-more" target="_blank" class="text-blue-600 hover:text-blue-800 text-sm font-medium flex items-center">
@@ -88,7 +85,7 @@
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                         </svg>
-                        Learn more about journal analytics
+                        {{_("Learn more about journal analytics")}}
                     </a>
                     <a href="/journal" class="text-blue-600 hover:text-blue-800 text-sm font-medium flex items-center">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" fill="none" viewBox="0 0 24 24"
@@ -96,7 +93,7 @@
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
                         </svg>
-                        Write in your journal
+                        {{_("Write in your journal")}}
                     </a>
                 </div>
             </div>
@@ -108,24 +105,24 @@
 
                 <!-- Time Period Filter -->
                 <div>
-                    <label for="range" class="block text-xs font-medium text-gray-600 mb-1">Time Period</label>
+                    <label for="range" class="block text-xs font-medium text-gray-600 mb-1">{{_("Time Period")}}</label>
                     <select id="range" name="range" onchange="this.form.submit()"
                         class="w-full text-sm border border-gray-300 rounded px-3 py-1.5 bg-white focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 transition">
-                        <option value="month" {% if current_range=='month' %}selected{% endif %}>Last Month</option>
-                        <option value="year" {% if current_range=='year' %}selected{% endif %}>Last Year</option>
-                        <option value="all" {% if current_range=='all' %}selected{% endif %}>All Time</option>
+                        <option value="month" {% if current_range=='month' %}selected{% endif %}>{{_("Last Month")}}</option>
+                        <option value="year" {% if current_range=='year' %}selected{% endif %}>{{_("Last Year")}}</option>
+                        <option value="all" {% if current_range=='all' %}selected{% endif %}>{{_("All Time")}}</option>
                     </select>
                 </div>
 
                 <!-- Sentiment Filter -->
                 <div>
-                    <label for="sentiment" class="block text-xs font-medium text-gray-600 mb-1">Sentiment</label>
+                    <label for="sentiment" class="block text-xs font-medium text-gray-600 mb-1">{{_("Sentiment")}}</label>
                     <select id="sentiment" name="sentiment"
                         class="w-full text-sm border border-gray-300 rounded px-3 py-1.5 bg-white focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 transition">
-                        <option value="all" selected>All Sentiments</option>
-                        <option value="positive">Positive</option>
-                        <option value="neutral">Neutral</option>
-                        <option value="negative">Negative</option>
+                        <option value="all" selected>{{_("All Sentiments")}}</option>
+                        <option value="positive">{{_("Positive")}}</option>
+                        <option value="neutral">{{_("Neutral")}}</option>
+                        <option value="negative">{{_("Negative")}}</option>
                     </select>
                 </div>
 
@@ -133,7 +130,7 @@
                 <div>
                     <button type="submit"
                         class="w-full bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium px-4 py-2 rounded transition-colors duration-200">
-                        Apply
+                        {{_("Apply")}}
                     </button>
                 </div>
             </form>
@@ -143,9 +140,9 @@
     <div id="sentiment-main" class="hidden w-full mx-auto bg-white">
         <!-- Mood indicators -->
         <div class="flex justify-between mb-1 px-2 sm:px-4 text-xs md:text-sm">
-            <div class="text-red-500">Negatif</div>
-            <div class="text-gray-400">Netral</div>
-            <div class="text-green-500">Positif</div>
+            <div class="text-red-500">{{_("Negative")}}</div>
+            <div class="text-gray-400">{{_("Neutral")}}</div>
+            <div class="text-green-500">{{_("Positive")}}</div>
         </div>
 
         <!-- Chart container with responsive height -->
@@ -159,11 +156,11 @@
             <div class="flex w-full gap-1 sm:gap-2 text-xs">
                 <button
                     class="time-range-btn flex-1 px-2 py-1 sm:py-1.5 rounded bg-gray-100 hover:bg-gray-200 active-range"
-                    data-range="week">7 Hari</button>
+                    data-range="week">{{_("7 Days")}}</button>
                 <button class="time-range-btn flex-1 px-2 py-1 sm:py-1.5 rounded bg-gray-100 hover:bg-gray-200"
-                    data-range="month">30 Hari</button>
+                    data-range="month">{{_("30 Days")}}</button>
                 <button class="time-range-btn flex-1 px-2 py-1 sm:py-1.5 rounded bg-gray-100 hover:bg-gray-200"
-                    data-range="all">Semua</button>
+                    data-range="all">{{_("All")}}</button>
             </div>
 
             <!-- Key insight -->
@@ -183,15 +180,35 @@
 
         <!-- Info Box -->
         <div class="mt-3 sm:mt-6 text-sm text-gray-500 bg-gray-50 p-2 sm:p-3 rounded-lg shadow text-justify">
-            <p>Grafik ini menunjukkan tren emosi dari catatan harianmu. Semakin ke atas berarti emosimu semakin positif.
+            <p>{{_("This chart shows the emotional trend of your journal entries. The higher the point, the more positive your emotion.")}}
             </p>
-            <p class="mt-1">Tip: Ketuk pada titik di grafik untuk melihat entri jurnal pada tanggal tersebut.</p>
+            <p class="mt-1">{{_("Tip: Tap on a point in the chart to view the journal entry for that date.")}}</p>
         </div>
     </div>
 
+    <script>
+        // Inject translations from Flask for JavaScript use
+        window.appTranslations = {
+            no_data: "{{ _('No data to display yet') }}",
+            label_moving_avg: "{{ _('Moving Average') }}",
+            mood_avg: "{{_('Mood Average: ')}}",
+            label_actual: "{{ _('Actual Sentiment') }}",
+            actual_mood: "{{_('Actual Mood: ')}}",
+            positive: "{{_('Positive')}}",
+            neutral: "{{_('Neutral')}}",
+            negative: "{{_('Negative')}}",
+            v_positive: "{{_('Very Positive')}}",
+            v_negative: "{{_('Very Negative')}}",
+            mood_stable: "{{_('Your mood has been relatively stable')}}",
+            mood_positive: "{{_('Your mood is showing a positive trend!')}}",
+            mood_lately: "{{_('Your mood has been declining lately')}}"
+        };
+    </script>
+    
     <!-- Script Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
+        const t = window.appTranslations;
         document.addEventListener('DOMContentLoaded', function () {
             const movingAvgJsonElement = document.getElementById("movingAvgData");
             const actualSentimentJsonElement = document.getElementById("actualSentimentData");
@@ -243,7 +260,7 @@
                 const filteredActualData = filterDataByRange(range, allActualSentimentData);
 
                 if (filteredMovingAvgData.length === 0) {
-                    document.getElementById('sentiment-insight').textContent = 'Belum ada data untuk ditampilkan';
+                    document.getElementById('sentiment-insight').textContent = t.no_data;
                     return;
                 }
 
@@ -294,7 +311,7 @@
                         labels: labels,
                         datasets: [
                             {
-                                label: 'Moving Average',
+                                label: t.label_moving_avg,
                                 data: movingAvgValues,
                                 borderColor: '#3b82f6', // Blue for moving average
                                 backgroundColor: gradient,
@@ -309,7 +326,7 @@
                                 order: 2
                             },
                             {
-                                label: 'Sentiment Aktual',
+                                label: t.label_actual,
                                 data: actualValues,
                                 borderColor: '#f59e0b', // Amber for actual values
                                 backgroundColor: 'transparent',
@@ -343,16 +360,16 @@
                                     },
                                     callback: function (value) {
                                         if (isMobile) {
-                                            if (value === 1) return 'Positif';
-                                            if (value === 0) return 'Netral';
-                                            if (value === -1) return 'Negatif';
+                                            if (value === 1) return t.positive;
+                                            if (value === 0) return t.neutral;
+                                            if (value === -1) return t.negative;
                                             return '';
                                         } else {
-                                            if (value === 1) return 'Sangat Positif';
-                                            if (value === 0.5) return 'Positif';
-                                            if (value === 0) return 'Netral';
-                                            if (value === -0.5) return 'Negatif';
-                                            if (value === -1) return 'Sangat Negatif';
+                                            if (value === 1) return t.v_positive;
+                                            if (value === 0.5) return t.positive;
+                                            if (value === 0) return t.neutral;
+                                            if (value === -0.5) return t.negative;
+                                            if (value === -1) return t.v_negative;
                                             return '';
                                         }
                                     }
@@ -404,19 +421,19 @@
 
                                         // Handle null values
                                         if (value === null) {
-                                            return context.dataset.label === 'Sentiment Aktual' ?
-                                                'Tidak ada data untuk tanggal ini' : '';
+                                            return context.dataset.label === t.label_actual ?
+                                                t.no_data : '';
                                         }
 
                                         let sentiment = '';
-                                        if (value <= -0.75) sentiment = 'Sangat Negatif';
-                                        else if (value <= -0.25) sentiment = 'Negatif';
-                                        else if (value <= 0.25) sentiment = 'Netral';
-                                        else if (value <= 0.75) sentiment = 'Positif';
-                                        else sentiment = 'Sangat Positif';
+                                        if (value <= -0.75) sentiment = t.v_negative;
+                                        else if (value <= -0.25) sentiment = t.negative;
+                                        else if (value <= 0.25) sentiment = t.neutral;
+                                        else if (value <= 0.75) sentiment = t.positive;
+                                        else sentiment = t.v_positive;
 
-                                        let label = context.dataset.label === 'Moving Average' ?
-                                            'Mood Rata-rata: ' : 'Mood Aktual: ';
+                                        let label = context.dataset.label === t.label_moving_avg ?
+                                            t.mood_avg : t.actual_mood;
 
                                         return `${label}${sentiment} (${value.toFixed(2)})`;
                                     }
@@ -441,7 +458,7 @@
                 const insightElement = document.getElementById('sentiment-insight');
 
                 if (data.length === 0) {
-                    insightElement.textContent = 'Belum ada data untuk ditampilkan';
+                    insightElement.textContent = t.no_data;
                     return;
                 }
 
@@ -462,11 +479,11 @@
                 let message = '';
 
                 if (Math.abs(trendDiff) < 0.1) {
-                    message = 'Mood kamu relatif stabil';
+                    message = t.mood_stable;
                 } else if (trendDiff > 0) {
-                    message = 'Mood kamu menunjukkan tren positif!';
+                    message = t.mood_positive;
                 } else {
-                    message = 'Mood kamu cenderung menurun akhir-akhir ini';
+                    message = t.mood_lately;
                 }
 
                 insightElement.textContent = message;
