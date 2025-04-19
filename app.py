@@ -1009,5 +1009,9 @@ def journal_insights():
 def learn_more():
     return render_template('learn-more.html', current_route=request.path)
 
+@app.route('/privacy-policy')
+def privacy_policy():
+    return render_template('privacy-policy.html', current_route=request.path)
+
 if __name__ == "__main__":
     app.run(debug=True)

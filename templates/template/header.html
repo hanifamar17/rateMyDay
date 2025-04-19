@@ -1,9 +1,9 @@
 <nav id="navbar" class="fixed top-0 left-0 w-full text-gray-50 transition-all duration-300 z-50 
-{{ 'bg-blue-950' if current_route == '/learn-more' else '' }}">
+{{ 'bg-blue-950' if current_route in ['/learn-more', '/privacy-policy'] else '' }}">
     <div class="max-w-screen-xl flex items-center justify-between mx-auto p-2">
         <!--Logo-->
         <a href="/" class="flex items-center">
-            <span class="self-center text-2xl whitespace-nowrap">Rate<span class="font-bold">Journee</span></span>
+            <span class="self-center text-lg md:text-xl whitespace-nowrap">Rate<span class="font-bold">Journee</span></span>
         </a>
         <!--Menu (Middle)-->
         <div class="hidden md:flex items-center flex-1 mx-10">
