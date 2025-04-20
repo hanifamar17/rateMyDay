@@ -13,7 +13,7 @@ from flask_wtf.csrf import CSRFProtect
 from flask_wtf.csrf import generate_csrf
 from forms import RatingForm, RegisterForm, FeedbackForm
 from flask_babel import Babel, gettext as _
-from sentiments import analyze_sentiment, generate_wordcloud, calculate_moving_average, prepare_actual_sentiment_data
+from analysis import analyze_sentiment, generate_wordcloud, calculate_moving_average, prepare_actual_sentiment_data, calculate_average_mood, count_journal_entries, calculate_average_sentiment
 
 
 app = Flask(__name__)
@@ -225,7 +225,7 @@ def register():
                     return render_template("auth/sign-up.html", form=form)
                 
                 flash("Awesome! You're in. Welcome!", "success")
-                return redirect(url_for("index"))
+                return redirect(url_for("dashboard"))
             
             except firebase_admin.auth.EmailAlreadyExistsError:
                 flash("Oops! This email is already registered.", "danger")
@@ -378,7 +378,7 @@ def login():
         login_user(user)
 
         flash("Awesome! You're in. Welcome!", "success")
-        return redirect(url_for("index"))
+        return redirect(url_for("dashboard"))
 
     except Exception as e:
         # Log the full error for debugging
@@ -435,7 +435,7 @@ def google_login():
     login_user(user)
 
     flash(f"You're in! Welcome back, {name}!", "success")
-    return redirect(url_for("index"))
+    return redirect(url_for("dashboard"))
 
 # 🔹 Logout
 @app.route("/logout")
@@ -1004,6 +1004,44 @@ def journal_insights():
         actual_sentiment_data=actual_sentiment_data,
         moving_avg_data=moving_avg_data
     )
+
+@app.route('/dashboard')
+@login_required
+def dashboard():
+    average_mood = calculate_average_mood(current_user.id)
+    total_entries = count_journal_entries(current_user.id)
+    average_sentiment, sentiment_label = calculate_average_sentiment(current_user.id)
+    given_name = getattr(current_user, 'given_name', None) or getattr(current_user, 'name', 'User')
+
+    #recent activity
+    conn = get_db_connection()
+    cursor = conn.cursor(dictionary=True)
+    
+    cursor.execute("""
+        SELECT journal, rating, created_at 
+        FROM ratings 
+        WHERE user_id = %s 
+        ORDER BY created_at DESC 
+        LIMIT 6
+    """, (current_user.id,))
+    
+    recent_activity = cursor.fetchall()
+
+    # memastikan created_at jadi datetime object (kalau perlu)
+    for entry in recent_activity:
+        if isinstance(entry["created_at"], str):
+            entry["created_at"] = datetime.strptime(entry["created_at"], "%Y-%m-%d %H:%M:%S")
+
+    conn.close()
+
+    return render_template('login/dashboard.html', 
+                           given_name=given_name, 
+                           user=current_user,
+                           average_mood=average_mood,
+                           total_entries=total_entries,
+                           average_sentiment=average_sentiment,
+                           sentiment_label=sentiment_label,
+                           recent_activity=recent_activity)
 
 @app.route('/learn-more')
 def learn_more():

@@ -244,6 +244,7 @@ def calculate_moving_average(sentiment_data, window_size=7):
 
     return result
 
+# actual sentiment
 def prepare_actual_sentiment_data(sentiment_data):
     # Step 1: Mapping tanggal -> list skor valid
     date_scores = {}
@@ -287,4 +288,70 @@ def prepare_actual_sentiment_data(sentiment_data):
         current_date += timedelta(days=1)
     
     return result
+
+# average mood
+def calculate_average_mood(user_id):
+    conn = get_db_connection()
+    cursor = conn.cursor()
+
+    query = """
+        SELECT AVG(rating)
+        FROM ratings
+        WHERE user_id = %s
+    """
+    cursor.execute(query, (user_id,))
+    result = cursor.fetchone()
+
+    cursor.close()
+    conn.close()
+
+    if result[0] is None:
+        return None  # Tidak ada data
+
+    return round(result[0], 1)  # Bulatkan ke 1 angka di belakang koma
+
+# count journal entries
+def count_journal_entries(user_id):
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    
+    query = "SELECT COUNT(*) FROM ratings WHERE user_id = %s"
+    cursor.execute(query, (user_id,))
+    result = cursor.fetchone()[0]
+
+    cursor.close()
+    conn.close()
+    return result
+
+# average mood trend
+def calculate_average_sentiment(user_id):
+    conn = get_db_connection()
+    cursor = conn.cursor()
+
+    query = "SELECT sentiment_score FROM ratings WHERE user_id = %s AND sentiment_score IS NOT NULL"
+    cursor.execute(query, (user_id,))
+    rows = cursor.fetchall()
+
+    conn.close()
+
+    if not rows:
+        return None, "neutral"  # Default jika tidak ada data
+
+    scores = [row[0] for row in rows if row[0] is not None]
+
+    if not scores:
+        return None, "neutral"
+
+    average = round(sum(scores) / len(scores), 3)
+
+    # Konversi ke label
+    if average >= 0.25:
+        label = "positive"
+    elif average <= -0.25:
+        label = "negative"
+    else:
+        label = "neutral"
+
+    return average, label
+
 
