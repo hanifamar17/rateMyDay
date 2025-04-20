@@ -1,0 +1,47 @@
+{% extends "template/base.html" %}
+{% block content %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/js/all.min.js"></script>
+<div class="flex flex-col flex-grow gap-16 w-full mx-auto bg-gradient-to-b from-gray-50 to-gray-100">
+    <section class="max-w-screen-xl mx-auto pt-24 sm:pt-24 px-6 md:px-12 pb-20">
+        <div class="max-w-md w-full bg-white rounded-lg shadow-lg overflow-hidden">
+            <!-- Header with construction icon -->
+            <div class="bg-blue-500 p-6 text-center">
+                <div class="bg-white rounded-full w-20 h-20 mx-auto flex items-center justify-center">
+                    <i class="fas fa-hammer text-blue-500 text-3xl animate-pulse"></i>
+                </div>
+            </div>
+
+            <!-- Content -->
+            <div class="p-8 text-center">
+                <h1 class="text-2xl font-bold text-gray-800 mb-3">Page Under Development</h1>
+                <p class="text-gray-600 mb-6">We're working hard to bring you an amazing experience. This page is
+                    currently being built and will be available soon.</p>
+
+                <!-- Progress bar -->
+                <div class="bg-gray-200 rounded-full h-3 mb-6">
+                    <div class="bg-blue-500 h-3 rounded-full w-2/3"></div>
+                </div>
+
+                <!-- Return home button -->
+                <a href="/"
+                    class="inline-block bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 px-6 rounded-lg transition-colors duration-300">
+                    Return to Landing Page
+                </a>
+
+                <!-- Estimated time -->
+                <p class="text-sm text-gray-500 mt-6">
+                    <i class="far fa-clock mr-1"></i>
+                    Estimated completion: Coming Soon
+                </p>
+            </div>
+
+            <!-- Footer -->
+            <div class="bg-gray-50 px-6 py-4 border-t border-gray-100">
+                <p class="text-center text-xs text-gray-500">
+                    Thank you for your patience while we improve your experience.
+                </p>
+            </div>
+        </div>
+    </section>
+</div>
+{% endblock %}

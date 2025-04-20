@@ -37,7 +37,7 @@ def check_for_maintenance():
 
 @app.route('/maintenance')
 def maintenance():
-    return render_template('maintenance.html'), 503
+    return render_template('landing_page/maintenance.html'), 503
 
 # 🔹 Setup Flask-Babel
 # 🔹 Locale selector
@@ -309,14 +309,14 @@ def login():
     feedback_form = FeedbackForm()  # Tetap menyertakan feedback_form jika diperlukan
 
     if request.method == "GET":
-        return render_template("home.html", feedback_form=feedback_form)
+        return render_template("landing_page/home.html", feedback_form=feedback_form)
     
     email = request.form.get("email")
     password = request.form.get("password")
 
     if not email or not password:
         flash("Oops! Email and password can't be empty", "danger")
-        return render_template("home.html", feedback_form=feedback_form)
+        return render_template("landing_page/home.html", feedback_form=feedback_form)
 
     # Firebase Authentication
     firebase_api_key = app.config.get("FIREBASE_API_KEY")
@@ -335,7 +335,7 @@ def login():
 
         if "error" in signin_data:
             flash("Hmm... that email or password doesn’t seem right", "danger")
-            return render_template("home.html", feedback_form=feedback_form)
+            return render_template("landing_page/home.html", feedback_form=feedback_form)
 
         # Extract authentication details
         firebase_uid = signin_data.get("localId")
@@ -352,7 +352,7 @@ def login():
         users = user_info_data.get("users", [])
         if not users:
             flash("We couldn’t find your account", "danger")
-            return render_template("home.html", feedback_form=feedback_form)
+            return render_template("landing_page/home.html", feedback_form=feedback_form)
 
         user_profile = users[0]
         
@@ -383,7 +383,7 @@ def login():
     except Exception as e:
         # Log the full error for debugging
         flash(f"Login failed: Something went wrong on our end.", "danger")
-        return render_template("home.html", feedback_form=feedback_form)
+        return render_template("landing_page/home.html", feedback_form=feedback_form)
 
 @app.route("/google")
 def google_login():
@@ -540,7 +540,7 @@ def update_rating():
 @app.route("/")
 def home():
     feedback_form = FeedbackForm()
-    return render_template("home.html", user=current_user if current_user.is_authenticated else None, feedback_form=feedback_form)
+    return render_template("landing_page/home.html", user=current_user if current_user.is_authenticated else None, feedback_form=feedback_form)
 
 @app.route("/check_session")
 def check_session():
@@ -1045,11 +1045,19 @@ def dashboard():
 
 @app.route('/learn-more')
 def learn_more():
-    return render_template('learn-more.html', current_route=request.path)
+    return render_template('landing_page/learn-more.html', current_route=request.path)
 
 @app.route('/privacy-policy')
 def privacy_policy():
-    return render_template('privacy-policy.html', current_route=request.path)
+    return render_template('landing_page/privacy-policy.html', current_route=request.path)
+
+@app.route('/faqs')
+def faqs():
+    return render_template('landing_page/faqs.html', current_route=request.path)
+
+@app.route('/how-to-use')
+def how_to_use():
+    return render_template('landing_page/how-to-use.html', current_route=request.path)
 
 if __name__ == "__main__":
     app.run(debug=True)
