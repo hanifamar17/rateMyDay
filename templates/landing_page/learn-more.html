@@ -5,51 +5,51 @@
     <aside
         class="md:w-64 md:sticky md:top-0 md:h-screen bg-slate-50 shadow-sm p-6 hidden md:block transition-all duration-300 border-r border-gray-100">
         <nav class="space-y-4 pt-20">
-            <h2 class="text-indigo-950 font-semibold text-lg border-b border-indigo-100 pb-1 mt-0">Contents</h2>
+            <h2 class="text-indigo-950 font-semibold text-lg border-b border-indigo-100 pb-1 mt-0">{{_("Contents")}}</h2>
 
             <div class="space-y-3 pt-0 text-md">
                 <a href="#wordcloud"
                     class="flex items-center group text-gray-700 hover:text-indigo-600 transition-colors duration-200">
                     <span
                         class="w-1 h-0 group-hover:h-5 bg-indigo-500 rounded-r mr-2 transition-all duration-200"></span>
-                    <span>Word Cloud</span>
+                    <span>{{_("Word Cloud")}}</span>
                 </a>
                 <a href="#sentiment"
                     class="flex items-center group text-gray-700 hover:text-indigo-600 transition-colors duration-200">
                     <span
                         class="w-1 h-0 group-hover:h-5 bg-indigo-500 rounded-r mr-2 transition-all duration-200"></span>
-                    <span>Sentiment Analysis</span>
+                    <span>{{_("Sentiment Analysis")}}</span>
                 </a>
                 <a href="#combined"
                     class="flex items-center group text-gray-700 hover:text-indigo-600 transition-colors duration-200">
                     <span
                         class="w-1 h-0 group-hover:h-5 bg-indigo-500 rounded-r mr-2 transition-all duration-200"></span>
-                    <span>Combined Word Cloud & Sentiment</span>
+                    <span>{{_("Combined Word Cloud & Sentiment")}}</span>
                 </a>
                 <a href="#mood-trend"
                     class="flex items-center group text-gray-700 hover:text-indigo-600 transition-colors duration-200">
                     <span
                         class="w-1 h-0 group-hover:h-5 bg-indigo-500 rounded-r mr-2 transition-all duration-200"></span>
-                    <span>Mood Trend</span>
+                    <span>{{_("Mood Trend")}}</span>
                 </a>
                 <a href="#how-to-read"
                     class="flex items-center group text-gray-700 hover:text-indigo-600 transition-colors duration-200">
                     <span
                         class="w-1 h-0 group-hover:h-5 bg-indigo-500 rounded-r mr-2 transition-all duration-200"></span>
-                    <span>How to Read It?</span>
+                    <span>{{_("How to Read It?")}}</span>
                 </a>
 
                 <a href="#why-use"
                     class="flex items-center group text-gray-700 hover:text-indigo-600 transition-colors duration-200">
                     <span
                         class="w-1 h-0 group-hover:h-5 bg-indigo-500 rounded-r mr-2 transition-all duration-200"></span>
-                    <span>Why Use Moving Average Sentiment?</span>
+                    <span>{{_("Why Use Moving Average Sentiment?")}}</span>
                 </a>
                 <a href="#how-to-use"
                     class="flex items-center group text-gray-700 hover:text-indigo-600 transition-colors duration-200">
                     <span
                         class="w-1 h-0 group-hover:h-5 bg-indigo-500 rounded-r mr-2 transition-all duration-200"></span>
-                    <span>How to Use This Feature</span>
+                    <span>{{_("How to Use This Feature")}}</span>
                 </a>
             </div>
         </nav>
@@ -61,28 +61,24 @@
         <div class="relative inline-block w-full text-md">
             <button id="mobile-menu-button"
                 class="flex items-center justify-between w-full px-4 py-2 text-gray-700 bg-white border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-300">
-                <span id="selected-section">Navigate to section</span>
+                <span id="selected-section">{{_("Navigate to section")}}</span>
                 <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"
                     xmlns="http://www.w3.org/2000/svg">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
                 </svg>
             </button>
             <div id="mobile-menu-dropdown" class="absolute hidden z-10 w-full mt-1 bg-white rounded-lg shadow-lg">
-                <a href="#wordcloud" class="block px-4 py-2 text-gray-700 hover:bg-indigo-50 hover:text-indigo-600">Word
-                    Cloud</a>
+                <a href="#wordcloud" class="block px-4 py-2 text-gray-700 hover:bg-indigo-50 hover:text-indigo-600">{{_("Word Cloud")}}</a>
                 <a href="#sentiment"
-                    class="block px-4 py-2 text-gray-700 hover:bg-indigo-50 hover:text-indigo-600">Sentiment
-                    Analysis</a>
+                    class="block px-4 py-2 text-gray-700 hover:bg-indigo-50 hover:text-indigo-600">{{_("Sentiment Analysis")}}</a>
                 <a href="#combined"
-                    class="block px-4 py-2 text-gray-700 hover:bg-indigo-50 hover:text-indigo-600">Combined Insight</a>
+                    class="block px-4 py-2 text-gray-700 hover:bg-indigo-50 hover:text-indigo-600">{{_("Combined Word Cloud & Sentiment")}}</a>
                 <a href="#mood-trend"
-                    class="block px-4 py-2 text-gray-700 hover:bg-indigo-50 hover:text-indigo-600">Mood Trend</a>
+                    class="block px-4 py-2 text-gray-700 hover:bg-indigo-50 hover:text-indigo-600">{{_("Mood Trend")}}</a>
                 <a href="#how-to-read"
-                    class="block px-4 py-2 text-gray-700 hover:bg-indigo-50 hover:text-indigo-600">How to Read It?</a>
-                <a href="#why-use" class="block px-4 py-2 text-gray-700 hover:bg-indigo-50 hover:text-indigo-600">Why
-                    Use Moving Average Sentiment?</a>
-                <a href="#how-to-use" class="block px-4 py-2 text-gray-700 hover:bg-indigo-50 hover:text-indigo-600">How
-                    to Use This Feature</a>
+                    class="block px-4 py-2 text-gray-700 hover:bg-indigo-50 hover:text-indigo-600">{{_("How to Read It?")}}</a>
+                <a href="#why-use" class="block px-4 py-2 text-gray-700 hover:bg-indigo-50 hover:text-indigo-600">{{_("Why Use Moving Average Sentiment?")}}</a>
+                <a href="#how-to-use" class="block px-4 py-2 text-gray-700 hover:bg-indigo-50 hover:text-indigo-600">{{_("How to Use This Feature")}}</a>
             </div>
         </div>
     </div>

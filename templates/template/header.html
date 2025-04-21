@@ -3,7 +3,8 @@
     <div class="max-w-screen-xl flex items-center justify-between mx-auto p-2">
         <!--Logo-->
         <a href="/" class="flex items-center uppercase">
-            <span class="self-center text-lg md:text-xl whitespace-nowrap font-normal">Rate<span class="font-[1000]">Journee</span></span>
+            <span class="self-center text-lg md:text-xl whitespace-nowrap font-normal">Rate<span
+                    class="font-[1000]">Journee</span></span>
         </a>
         <!--Menu (Middle)-->
         <div class="hidden md:flex items-center flex-1 mx-10">
@@ -31,25 +32,47 @@
             <div class="relative inline-block text-left group">
                 <button id="language-menu-button" type="button"
                     class="flex items-center text-sm text-gray-200 hover:text-blue-300 transition-colors duration-200">
-                    {% set current_lang = session.get('lang', request.accept_languages.best_match(['en', 'id'])) %}
-                    <span class="mr-1">{{ "EN" if g.lang_code == "en" else "ID" }}</span>
-                    <svg class="w-3 h-3 transform transition-transform duration-200 group-hover:rotate-180" fill="none"
-                        stroke="currentColor" viewBox="0 0 24 24">
+                    <span class="mr-1">{{ _("EN") if g.get("lang_code", "en") == "en" else _("ID") }}</span>
+                    <svg id="languageDropdownIcon" class="w-3 h-3 transform transition-transform duration-200"
+                        fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
                     </svg>
                 </button>
 
                 <div id="language-menu"
-                    class="hidden opacity-0 absolute right-0 z-10 mt-1 w-24 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black/5 focus:outline-none transition-all duration-200">
+                    class="hidden absolute right-0 z-50 mt-1 w-24 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black/5 focus:outline-none transition-all opacity-0 transition-opacity duration-200">
                     <div class="py-1">
+                        {% if request.endpoint == 'home' %}
                         <a href="{{ url_for('home', lang='en') }}"
-                            class="block px-3 py-1.5 text-sm text-gray-700 hover:bg-gray-200 transition-colors duration-150">
-                            {{ _("English") }}
-                        </a>
+                            class="block px-3 py-1.5 text-sm text-gray-700 hover:bg-gray-200 transition-colors duration-150">English</a>
                         <a href="{{ url_for('home', lang='id') }}"
-                            class="block px-3 py-1.5 text-sm text-gray-700 hover:bg-gray-200 transition-colors duration-150">
-                            {{ _("Indonesia") }}
-                        </a>
+                            class="block px-3 py-1.5 text-sm text-gray-700 hover:bg-gray-200 transition-colors duration-150">Indonesia</a>
+                        {% elif request.endpoint == 'how_to_use' %}
+                        <a href="{{ url_for('how_to_use', lang='en') }}"
+                            class="block px-3 py-1.5 text-sm text-gray-700 hover:bg-gray-200 transition-colors duration-150">English</a>
+                        <a href="{{ url_for('how_to_use', lang='id') }}"
+                            class="block px-3 py-1.5 text-sm text-gray-700 hover:bg-gray-200 transition-colors duration-150">Indonesia</a>
+                        {% elif request.endpoint == 'privacy_policy' %}
+                        <a href="{{ url_for('privacy_policy', lang='en') }}"
+                            class="block px-3 py-1.5 text-sm text-gray-700 hover:bg-gray-200 transition-colors duration-150">English</a>
+                        <a href="{{ url_for('privacy_policy', lang='id') }}"
+                            class="block px-3 py-1.5 text-sm text-gray-700 hover:bg-gray-200 transition-colors duration-150">Indonesia</a>
+                        {% elif request.endpoint == 'faqs' %}
+                        <a href="{{ url_for('faqs', lang='en') }}"
+                            class="block px-3 py-1.5 text-sm text-gray-700 hover:bg-gray-200 transition-colors duration-150">English</a>
+                        <a href="{{ url_for('faqs', lang='id') }}"
+                            class="block px-3 py-1.5 text-sm text-gray-700 hover:bg-gray-200 transition-colors duration-150">Indonesia</a>
+                        {% elif request.endpoint == 'learn_more' %}
+                        <a href="{{ url_for('learn_more', lang='en') }}"
+                            class="block px-3 py-1.5 text-sm text-gray-700 hover:bg-gray-200 transition-colors duration-150">English</a>
+                        <a href="{{ url_for('learn_more', lang='id') }}"
+                            class="block px-3 py-1.5 text-sm text-gray-700 hover:bg-gray-200 transition-colors duration-150">Indonesia</a>
+                        {% else %}
+                        <a href="{{ url_for(request.endpoint, lang='en', **request.view_args) }}"
+                            class="block px-3 py-1.5 text-sm text-gray-700 hover:bg-gray-200 transition-colors duration-150">English</a>
+                        <a href="{{ url_for(request.endpoint, lang='id', **request.view_args) }}"
+                            class="block px-3 py-1.5 text-sm text-gray-700 hover:bg-gray-200 transition-colors duration-150">Indonesia</a>
+                        {% endif %}
                     </div>
                 </div>
             </div>
@@ -91,18 +114,25 @@
     document.addEventListener('DOMContentLoaded', () => {
         const menuButton = document.getElementById('language-menu-button');
         const menu = document.getElementById('language-menu');
+        const dropdownIcon = document.getElementById('languageDropdownIcon');
 
         // Toggle dropdown with animation
         menuButton.addEventListener('click', (e) => {
             e.stopPropagation();
 
-            if (menu.classList.contains('hidden')) {
+            const isHidden = menu.classList.contains('hidden');
+
+            if (isHidden) {
                 menu.classList.remove('hidden');
+                dropdownIcon.classList.add('rotate-180');
+
                 setTimeout(() => {
                     menu.classList.remove('opacity-0');
                 }, 10);
             } else {
                 menu.classList.add('opacity-0');
+                dropdownIcon.classList.remove('rotate-180');
+
                 setTimeout(() => {
                     menu.classList.add('hidden');
                 }, 200);
@@ -110,11 +140,15 @@
         });
 
         // Close dropdown when clicking outside
-        document.addEventListener('click', () => {
-            menu.classList.add('opacity-0');
-            setTimeout(() => {
-                menu.classList.add('hidden');
-            }, 200);
+        document.addEventListener('click', (event) => {
+            if (!menuButton.contains(event.target) && !menu.contains(event.target)) {
+                menu.classList.add('opacity-0');
+                dropdownIcon.classList.remove('rotate-180');
+
+                setTimeout(() => {
+                    menu.classList.add('hidden');
+                }, 200);
+            }
         });
     });
 </script>

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version:  RateJournee\n"
 "Report-Msgid-Bugs-To: ratejournee@gmail.com\n"
-"POT-Creation-Date: 2025-04-19 00:49+0700\n"
+"POT-Creation-Date: 2025-04-21 12:08+0700\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Amar <ratejournee@gmail.com>\n"
 "Language: id\n"
@@ -17,606 +17,6 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.16.0\n"
-
-#: templates/home.html:24
-msgid "Track Your Daily Mood!"
-msgstr "Lacak Mood Harianmu!"
-
-#: templates/home.html:25
-msgid "Discover Your Happiness Patterns!"
-msgstr "Temukan Pola Kebahagiaanmu!"
-
-#: templates/home.html:27
-#, 
-msgid ""
-"Reflect on your day with just one click. Rate your daily mood and add a "
-"short note to capture\n"
-"                    every precious moment."
-msgstr ""
-"Refleksikan harimu dengan satu klik. Beri rating untuk suasana hatimu "
-"hari ini dan tambahkan catatan singkat agar setiap momen berharga tetap "
-"terekam."
-
-#: templates/home.html:60
-#, 
-msgid "Log In to RateJournee"
-msgstr "Masuk ke RateJournee"
-
-#: templates/auth/sign-up.html:33 templates/home.html:62
-msgid "Start your journey with us today!"
-msgstr "Mulai perjalananmu bersama kami hari ini!"
-
-#: templates/home.html:78
-msgid "Password"
-msgstr "Kata Sandi"
-
-#: templates/home.html:88
-#, 
-msgid ""
-"Remember\n"
-"                                    me"
-msgstr "Ingat saya"
-
-#: templates/home.html:94
-msgid "Forgot your password?"
-msgstr "Lupa kata sandi?"
-
-#: templates/auth/sign-up.html:102 templates/home.html:106
-msgid "Login"
-msgstr "Masuk"
-
-#: templates/auth/sign-up.html:73 templates/home.html:116
-msgid "Or continue with"
-msgstr "Atau lanjutkan dengan"
-
-#: templates/home.html:138
-msgid "Sign In with Google"
-msgstr "Masuk dengan Google"
-
-#: templates/home.html:144
-msgid "Don't have an account?"
-msgstr "Belum punya akun?"
-
-#: templates/home.html:146
-msgid "Sign Up"
-msgstr "Daftar"
-
-#: templates/home.html:160 templates/template/footer.html:11
-#: templates/template/header.html:13 templates/template/header.html:79
-msgid "Features"
-msgstr "Fitur-fitur"
-
-#: templates/home.html:163
-#, 
-msgid ""
-"is a simple app to record and reflect on your day. With an\n"
-"                        intuitive interface, you can easily rate your "
-"day, add notes, and track your mood trends."
-msgstr ""
-"adalah aplikasi sederhana untuk mencatat dan merefleksikan hari Anda. "
-"Dengan antarmuka yang intuitif, Anda dapat dengan mudah memberikan "
-"rating, menambahkan catatan, dan melihat tren suasana hati Anda."
-
-#: templates/home.html:179
-msgid "Record Your Day"
-msgstr "Catat Harimu"
-
-#: templates/home.html:181
-msgid "Give your day a rating and add a quick note."
-msgstr "Beri rating dan tambahkan catatan singkat tentang hari Anda."
-
-#: templates/home.html:197
-msgid "Track Your Progress"
-msgstr "Lihat Perkembangan"
-
-#: templates/home.html:198
-msgid "Interactive charts to visualize your mood trends."
-msgstr "Grafik interaktif untuk melihat tren suasana hati Anda."
-
-#: templates/home.html:213
-msgid "Quick & Easy"
-msgstr "Cepat & Mudah"
-
-#: templates/home.html:214
-msgid "Takes just seconds to note down your day."
-msgstr "Cukup beberapa detik untuk mencatat hari Anda."
-
-#: templates/home.html:220
-#, 
-msgid ""
-"Start recording and reflecting on your days\n"
-"                            now!"
-msgstr "Mulai catat dan refleksikan harimu sekarang juga!"
-
-#: templates/home.html:225 templates/template/header.html:60
-msgid "Get Started"
-msgstr "Mulai Sekarang"
-
-#: templates/home.html:257
-msgid "More Emotionally Aware"
-msgstr "Lebih Sadar Emosi"
-
-#: templates/home.html:259
-msgid "Recognize patterns and understand your feelings."
-msgstr "Melihat pola dan memahami perasaan Anda."
-
-#: templates/home.html:274
-msgid "Build Positive Habits"
-msgstr "Membangun Kebiasaan Positif"
-
-#: templates/home.html:276
-#, 
-msgid ""
-"Identify good and bad patterns through daily\n"
-"                            journaling."
-msgstr "Kenali pola baik dan buruk lewat jurnal harianmu."
-
-#: templates/home.html:292
-msgid "Express Yourself Freely"
-msgstr "Bebas Ekspresikan Diri"
-
-#: templates/home.html:294
-#, 
-msgid ""
-"Keep a personal journal as a reflection of your\n"
-"                            journey."
-msgstr "Simpan jurnal pribadi sebagai refleksi perjalanan hidupmu."
-
-#: templates/home.html:308 templates/template/footer.html:10
-#: templates/template/header.html:18 templates/template/header.html:81
-msgid "About Us"
-msgstr "Tentang Kami"
-
-#: templates/home.html:312
-#, 
-msgid ""
-"Hey there! We believe that every day has its own unique story. That’s why"
-" we created\n"
-"                        <strong>RateJournee</strong>—a simple platform to"
-" reflect on your day quickly and\n"
-"                        effortlessly."
-msgstr ""
-"Hai! Kami percaya bahwa setiap hari memiliki cerita uniknya sendiri. "
-"Itulah mengapa kami menciptakan <strong>RateJournee</strong>, platform "
-"sederhana untuk merefleksikan harimu dengan cepat dan mudah."
-
-#: templates/home.html:317
-#, 
-msgid ""
-"Each day is a canvas waiting to be filled with the colors of your "
-"experiences. Through\n"
-"                        reflection, we can recognize patterns, understand"
-" ourselves better, and find meaning in every\n"
-"                        moment. We hope <strong>RateJournee</strong> "
-"becomes a helpful tool in your journey, guiding you\n"
-"                        toward peace and\n"
-"                        happiness every day."
-msgstr ""
-"Setiap hari adalah kanvas yang menunggu untuk diisi dengan warna-warni "
-"pengalaman. Melalui refleksi, kita bisa melihat pola, memahami diri "
-"sendiri, dan menemukan makna dalam setiap momen. Kami berharap RateJournee "
-"bisa menjadi alat yang membantu dalam perjalanan refleksi ini, "
-"membimbing untuk menemukan kedamaian dan kebahagiaan di setiap hari."
-
-#: templates/home.html:324
-msgid "Warm regards,"
-msgstr "Salam hangat"
-
-#: templates/home.html:325
-#, 
-msgid "RateJournee Team"
-msgstr "Tim RateJournee"
-
-#: templates/home.html:339 templates/template/footer.html:12
-#: templates/template/header.html:23
-msgid "Support Us"
-msgstr "Dukung Kami"
-
-#: templates/home.html:341
-#, 
-msgid ""
-"Hey there! At RateJournee, we believe that tracking your mood daily can "
-"help you be more\n"
-"                        aware of\n"
-"                        your feelings, understand emotional patterns, and"
-" ultimately, have better days. We want to keep\n"
-"                        this platform free, simple, and useful for "
-"everyone."
-msgstr ""
-"Hai! Kami di RateJournee percaya bahwa mencatat suasana hati setiap hari "
-"bisa membantu kita lebih sadar dengan perasaan sendiri, memahami pola "
-"emosional, dan pada akhirnya, menjalani hari-hari dengan lebih baik. Kami"
-" ingin menjaga platform ini tetap gratis, simpel, dan bermanfaat untuk "
-"semua orang."
-
-#: templates/home.html:349
-msgid "Why Your Support Matters?"
-msgstr "Kenapa Dukunganmu Penting?"
-
-#: templates/home.html:352
-msgid "Even a little support from you helps us:"
-msgstr "Dukungan kecil darimu bisa membantu kami:"
-
-#: templates/home.html:362
-msgid "Add awesome new features"
-msgstr "Menambahkan fitur keren "
-
-#: templates/home.html:363
-msgid ""
-"like interactive\n"
-"                                charts, smarter mood insights, and an "
-"even smoother experience."
-msgstr ""
-"seperti grafik lebih interaktif, analisis suasana hati yang lebih cerdas,"
-" dan pengalaman pengguna yang lebih nyaman."
-
-#: templates/home.html:375
-msgid "Keep your data safe & private"
-msgstr "Menjaga privasi dan keamanan datamu"
-
-#: templates/home.html:376
-msgid ""
-"because we\n"
-"                                believe self-reflection should stay yours."
-msgstr "karena kami percaya refleksi pribadi harus tetap jadi milikmu."
-
-#: templates/home.html:388
-msgid "Build a better mobile version"
-msgstr "Mengembangkan versi mobile yang lebih nyaman"
-
-#: templates/home.html:389
-msgid ""
-"so you can\n"
-"                                record your mood anytime, anywhere."
-msgstr "supaya kamu bisa mencatat kapan saja, di mana saja."
-
-#: templates/home.html:401
-#, 
-msgid "Keep RateJournee free"
-msgstr "Menjaga RateJournee tetap gratis"
-
-#: templates/home.html:401
-#, 
-msgid ""
-"for\n"
-"                                everyone who\n"
-"                                needs a space to express themselves."
-msgstr "untuk siapa saja yang membutuhkan ruang untuk mengekspresikan diri."
-
-#: templates/home.html:411
-msgid "Ways You Can Help"
-msgstr "Cara Kamu Bisa Membantu"
-
-#: templates/home.html:418
-#, 
-msgid "Share RateJournee"
-msgstr "Bagikan RateJournee"
-
-#: templates/home.html:419
-#, 
-msgid ""
-"Share with a friend or anyone who might find it\n"
-"                                helpful."
-msgstr "Bagikan ke teman atau siapa pun yang mungkin merasa ini bermanfaat."
-
-#: templates/home.html:424
-msgid "Share now"
-msgstr "Bagikan sekarang"
-
-#: templates/home.html:439
-msgid "Buy us a coffee"
-msgstr "Belikan kami secangkir kopi"
-
-#: templates/home.html:440
-msgid "A small donation goes a long way!"
-msgstr "Dengan donasi kecil – setiap dukungan berarti banget!"
-
-#: templates/home.html:443
-msgid "Donate now"
-msgstr "Donasi Sekarang"
-
-#: templates/home.html:458
-msgid "Give feedback"
-msgstr "Beri Masukan"
-
-#: templates/home.html:459
-msgid "What features would you love to see?"
-msgstr "fitur apa yang ingin kamu lihat? "
-
-#: templates/home.html:462
-msgid "Send feedback"
-msgstr "Kirim Masukan"
-
-#: templates/home.html:488
-msgid "We’d Love to Hear From You!"
-msgstr "Kami ingin mendengar pendapatmu!"
-
-#: templates/home.html:490
-#, 
-msgid ""
-"Help us improve by sharing your\n"
-"                            thoughts\n"
-"                            and ideas. Thank you for being part of\n"
-"                            this journey!"
-msgstr ""
-"Bantu kami jadi lebih baik dengan berbagi pendapat dan idemu. Terima "
-"kasih sudah jadi bagian dari perjalanan ini!"
-
-#: templates/home.html:500
-#, 
-msgid ""
-"Give Your\n"
-"                                Feedback"
-msgstr "Beri Masukanmu"
-
-#: templates/home.html:502
-msgid "We appreciate your thoughts on how we can improve."
-msgstr "Kami menghargai setiap masukan untuk jadi lebih baik."
-
-#: templates/home.html:510
-msgid "Name"
-msgstr "Nama"
-
-#: templates/home.html:513
-msgid "Your name"
-msgstr "Namamu"
-
-#: templates/home.html:519
-msgid "Email"
-msgstr "Email"
-
-#: templates/home.html:522
-msgid "your@email.com"
-msgstr "emailmu@email.com"
-
-#: templates/home.html:527
-#, 
-msgid ""
-"Your\n"
-"                                    Feedback"
-msgstr "Masukanmu"
-
-#: templates/home.html:531
-msgid "Tell us what you think..."
-msgstr "Ceritakan pendapatmu kepada kami…"
-
-#: templates/home.html:538
-msgid "Send Feedback"
-msgstr "Kirim Masukan"
-
-#: templates/learn-more.html:7 templates/template/footer.html:23
-msgid "About Journal Analytics"
-msgstr "Tentang Journal Analytics"
-
-#: templates/learn-more.html:8
-msgid ""
-"Understand how Journal Analytics help\n"
-"                    you reflect and grow through your journaling."
-msgstr ""
-"Pahami bagaimana Journal Analytics membantu Anda untuk merenung dan "
-"berkembang melalui jurnal Anda"
-
-#: templates/learn-more.html:14 templates/login/visualization.html:38
-msgid "Word Cloud"
-msgstr "Word Cloud (Awan Kata)"
-
-#: templates/learn-more.html:16
-msgid ""
-"A Word Cloud is a visual display of the most meaningful words from your "
-"journal. Unlike basic\n"
-"                    frequency-based clouds, this version uses <strong>TF-"
-"IDF</strong> (Term Frequency–Inverse Document\n"
-"                    Frequency), which highlights unique and relevant "
-"words, not just the most repeated ones."
-msgstr ""
-"Word Cloud adalah tampilan visual dari kata-kata yang paling bermakna "
-"dalam jurnal Anda. Berbeda dengan cloud dasar yang hanya didasarkan pada "
-"frekuensi, versi ini menggunakan <strong>TF-IDF</strong> (Term "
-"Frequency–Inverse Document Frequency), yang menyoroti kata-kata yang unik"
-" dan relevan, bukan hanya yang paling sering diulang."
-
-#: templates/learn-more.html:21
-msgid "<strong>Bigger words:</strong> More meaningful in context"
-msgstr ""
-"<strong>Kata besar:</strong> Kata penting atau sering muncul secara "
-"bermakna"
-
-#: templates/learn-more.html:22
-msgid "<strong>Position:</strong> Random; doesn't reflect order or importance"
-msgstr "<strong>Posisi:</strong> Acak, tidak menunjukkan urutan tertentu"
-
-#: templates/learn-more.html:23
-msgid "<strong>Colors:</strong> Used for style or emotional grouping"
-msgstr "<strong>Warna:</strong> Estetika atau menunjukkan emosi/tema tertentu"
-
-#: templates/learn-more.html:26
-msgid ""
-"<strong>Tip:</strong> Use the word cloud to identify recurring themes and"
-" reflect on what truly\n"
-"                    matters to you."
-msgstr ""
-"<strong>Tip:</strong> Gunakan word cloud untuk mengidentifikasi tema-tema"
-" yang berulang dan merenungkan apa yang benar-benar penting bagi Anda."
-
-#: templates/learn-more.html:33
-msgid "Sentiment Analysis"
-msgstr "Analisis Sentimen"
-
-#: templates/learn-more.html:35
-msgid ""
-"Sentiment Analysis determines whether your journal entries are overall "
-"<strong>positive</strong>,\n"
-"                    <strong>neutral</strong>, or "
-"<strong>negative</strong>. It analyzes your words and phrases in\n"
-"                    context and assigns a sentiment score."
-msgstr ""
-"Analisis Sentimen menentukan apakah entri jurnal Anda secara keseluruhan "
-"bersifat <strong>positif</strong>, <strong>netral</strong>, atau "
-"<strong>negatif</strong>. Ini menganalisis kata-kata dan frasa Anda dalam"
-" konteks dan memberikan skor sentimen."
-
-#: templates/learn-more.html:40
-msgid "<strong>Score:</strong> Numeric (e.g., -1.0 to +1.0)"
-msgstr "<strong>Skor:</strong> misalnya dari -1.0 hingga +1.0"
-
-#: templates/learn-more.html:41
-msgid "<strong>Label:</strong> Positive, Neutral, or Negative"
-msgstr "<strong>Label:</strong> Positif, Netral, Negatif"
-
-#: templates/learn-more.html:42
-msgid "<strong>Visualization:</strong> Chart or word cloud"
-msgstr "<strong>Visualisasi:</strong> Grafik atau word cloud</strong>"
-
-#: templates/learn-more.html:45
-msgid ""
-"<strong>Use Case:</strong> Identify mood patterns, emotional triggers, "
-"and track your personal\n"
-"                    growth."
-msgstr ""
-"<strong>Kasus Penggunaan:</strong> Identifikasi pola mood, pemicu emosi, "
-"dan pantau pertumbuhan pribadi Anda."
-
-#: templates/learn-more.html:52
-msgid "Combining Word Cloud & Sentiment"
-msgstr "Kombinasi Word Cloud & Sentimen"
-
-#: templates/learn-more.html:54
-msgid ""
-"By combining Word Cloud and Sentiment Analysis, you can discover which "
-"words are associated with\n"
-"                    different moods, and how your language shifts as your"
-" emotions change."
-msgstr ""
-"Dengan menggabungkan Word Cloud dan Analisis Sentimen, Anda dapat "
-"menemukan kata-kata yang terkait dengan berbagai mood, serta bagaimana "
-"bahasa Anda berubah seiring dengan perasaan Anda."
-
-#: templates/learn-more.html:58
-msgid ""
-"This provides a deeper understanding of your thoughts and feelings, "
-"helping you reflect more\n"
-"                    effectively."
-msgstr ""
-"Hal ini memberikan pemahaman yang lebih dalam tentang pikiran dan "
-"perasaan Anda, membantu Anda untuk merefleksikan diri dengan lebih "
-"efektif."
-
-#: templates/learn-more.html:70 templates/login/visualization.html:43
-#, 
-msgid "Mood Trend"
-msgstr "Tren Mood"
-
-#: templates/learn-more.html:72
-msgid ""
-"Mood Trend shows the pattern of how your mood changes over time. This "
-"graph is calculated using the concept of Moving Average Sentiment to "
-"provide a more stable and easy-to-understand emotional overview.\n"
-"                    Moving Average Sentiment is a feature that helps you "
-"understand the emotional trends in your journal over a specific period of"
-" time. It visually summarizes your positive, negative, or neutral moods "
-"in a clear and easy-to-read format.\n"
-"                    A moving average calculates the average of your "
-"sentiment scores over a given time window — for example, a 7-day moving "
-"average will show your sentiment trend across the past week."
-msgstr ""
-"Mood Trend menampilkan pola perubahan suasana hati Anda dari waktu ke "
-"waktu. Grafik ini dihitung menggunakan konsep Moving Average Sentiment "
-"untuk memberikan gambaran emosi yang lebih stabil dan mudah dipahami. "
-"Moving Average Sentiment adalah fitur yang membantu Anda memahami tren "
-"emosional dalam jurnal Anda selama periode waktu tertentu. Fitur ini "
-"merangkum suasana hati Anda yang positif, negatif, atau netral secara "
-"visual dalam format yang jelas dan mudah dibaca. Moving average "
-"menghitung rata-rata skor sentimen Anda dalam rentang waktu tertentu — "
-"misalnya, moving average 7 hari akan menunjukkan tren suasana hati Anda "
-"selama seminggu terakhir."
-
-#: templates/learn-more.html:79
-#, 
-msgid "How to Read It?"
-msgstr "bagaimana Cara Membacanya?"
-
-#: templates/learn-more.html:81
-msgid "<strong>Upward trend</strong>: Indicates your mood is improving over time"
-msgstr ""
-"<strong>Upward trend:</strong> Menunjukkan tren sentimen positif yang "
-"meningkat"
-
-#: templates/learn-more.html:82
-msgid "<strong>Downward trend</strong>: Suggests a decline in emotional state"
-msgstr "<strong>Garus turun:</strong> Menunjukkan tren sentimen yang menurun"
-
-#: templates/learn-more.html:83
-msgid "<strong>Flat line</strong>: Reflects emotional stability or consistency"
-msgstr ""
-"<strong>Garis datar:</strong> Menunjukkan sentimen yang stabil atau "
-"konsisten"
-
-#: templates/learn-more.html:88
-msgid "Why Use Moving Average Sentiment?"
-msgstr "Mengapa Menggunakan Moving Average Sentiment?"
-
-#: templates/learn-more.html:90
-msgid ""
-"<strong>Spot long-term patterns</strong>: Identify emotional trends that "
-"may not be visible in daily entries"
-msgstr ""
-"<strong>Melihat pola jangka panjang:</strong> Membantu Anda mengenali "
-"tren emosi yang mungkin tidak terlihat pada entri harian tunggal"
-
-#: templates/learn-more.html:91
-msgid ""
-"<strong>Deeper self-reflection</strong>: Gain a bigger picture of your "
-"mental health over time"
-msgstr ""
-"<strong>Refleksi lebih mendalam:</strong> Memberikan gambaran kesehatan "
-"mental Anda dari waktu ke waktu"
-
-#: templates/learn-more.html:92
-msgid ""
-"<strong>Recognize emotional triggers</strong>: Understand specific events"
-" or time periods that affect your mood"
-msgstr ""
-"<strong>Memahami pemicu emosional:</strong> Membantu mengidentifikasi "
-"kejadian atau periode yang memengaruhi suasana hati Anda"
-
-#: templates/learn-more.html:97
-#, 
-msgid "How to Use This Feature"
-msgstr "Cara Menggunakan Fitur Ini"
-
-#: templates/learn-more.html:99
-msgid "Go to the <strong>Journal Analytics</strong> section in your journal app"
-msgstr "Buka bagian <strong>Journal Analytics</strong> pada aplikasi jurnal Anda"
-
-#: templates/learn-more.html:100
-msgid "Select the time period you want to review (e.g., 7 days, 30 days)"
-msgstr "2.\tPilih periode waktu yang ingin Anda analisis (7 hari, 30 hari, dll.)"
-
-#: templates/learn-more.html:101
-msgid "Observe the sentiment trend line shown in the chart"
-msgstr "Perhatikan garis tren sentimen yang ditampilkan"
-
-#: templates/learn-more.html:102
-msgid "Reflect on the emotional changes and connect them with events in your life"
-msgstr ""
-"Refleksikan perubahan yang terjadi dan hubungkan dengan kejadian dalam "
-"hidup Anda"
-
-#: templates/learn-more.html:107
-msgid ""
-"<strong>Use Case:</strong> Insight your rhythms and better understand "
-"your well-being as it evolves over time."
-msgstr ""
-"<strong>Contoh Penggunaan:</strong> Pahami ritme emosional Anda dan "
-"kenali lebih baik kondisi emosional diri seiring waktu."
-
-#: templates/learn-more.html:112
-msgid ""
-"These tools are designed to support self-reflection and are not a "
-"substitute for professional advice."
-msgstr ""
-"Alat-alat ini dirancang untuk membantumu memahami diri sendiri dengan "
-"lebih baik, namun bukan pengganti saran dari tenaga profesional."
 
 #: templates/auth/forgot-password.html:8
 msgid "Reset Password"
@@ -659,6 +59,10 @@ msgstr "Masukkan alamat emailmu"
 msgid "Sign Up to RateJournee"
 msgstr "Masuk ke RateJournee"
 
+#: templates/auth/sign-up.html:33 templates/landing_page/home.html:62
+msgid "Start your journey with us today!"
+msgstr "Mulai perjalananmu bersama kami hari ini!"
+
 #: templates/auth/sign-up.html:51
 msgid "We'll never share your email with anyone else."
 msgstr "Kami tidak akan pernah membagikan email Anda kepada siapa pun."
@@ -671,6 +75,10 @@ msgstr "Gunakan minimal 8 karakter yang terdiri dari huruf dan angka."
 msgid "Create Account"
 msgstr "Buat Akun"
 
+#: templates/auth/sign-up.html:73 templates/landing_page/home.html:116
+msgid "Or continue with"
+msgstr "Atau lanjutkan dengan"
+
 #: templates/auth/sign-up.html:94
 msgid "Sign Up with Google"
 msgstr "Daftar dengan Google"
@@ -679,112 +87,880 @@ msgstr "Daftar dengan Google"
 msgid "Already have an account?"
 msgstr "Sudah Punya Akun?"
 
-#: templates/login/index.html:61
+#: templates/auth/sign-up.html:102 templates/landing_page/home.html:106
+msgid "Login"
+msgstr "Masuk"
+
+#: templates/landing_page/home.html:24
+msgid "Track Your Daily Mood!"
+msgstr "Lacak Mood Harianmu!"
+
+#: templates/landing_page/home.html:25
+msgid "Discover Your Happiness Patterns!"
+msgstr "Temukan Pola Kebahagiaanmu!"
+
+#: templates/landing_page/home.html:27
+#, 
+msgid ""
+"Reflect on your day with just one click. Rate your daily mood and add a "
+"short note to capture\n"
+"                    every precious moment."
+msgstr ""
+"Refleksikan harimu dengan satu klik. Beri rating untuk suasana hatimu "
+"hari ini dan tambahkan catatan singkat agar setiap momen berharga tetap "
+"terekam."
+
+#: templates/landing_page/home.html:60
+#, 
+msgid "Log In to RateJournee"
+msgstr "Masuk ke RateJournee"
+
+#: templates/landing_page/home.html:78
+msgid "Password"
+msgstr "Kata Sandi"
+
+#: templates/landing_page/home.html:88
+#, 
+msgid ""
+"Remember\n"
+"                                    me"
+msgstr "Ingat saya"
+
+#: templates/landing_page/home.html:94
+msgid "Forgot your password?"
+msgstr "Lupa kata sandi?"
+
+#: templates/landing_page/home.html:138
+msgid "Sign In with Google"
+msgstr "Masuk dengan Google"
+
+#: templates/landing_page/home.html:144
+msgid "Don't have an account?"
+msgstr "Belum punya akun?"
+
+#: templates/landing_page/home.html:146
+msgid "Sign Up"
+msgstr "Daftar"
+
+#: templates/landing_page/home.html:160 templates/template/footer.html:11
+#: templates/template/header.html:13 templates/template/header.html:79
+msgid "Features"
+msgstr "Fitur-fitur"
+
+#: templates/landing_page/home.html:163
+#, 
+msgid ""
+"is a simple app to record and reflect on your day. With an\n"
+"                        intuitive interface, you can easily rate your "
+"day, add notes, and track your mood trends."
+msgstr ""
+"adalah aplikasi sederhana untuk mencatat dan merefleksikan hari Anda. "
+"Dengan antarmuka yang intuitif, Anda dapat dengan mudah memberikan "
+"rating, menambahkan catatan, dan melihat tren suasana hati Anda."
+
+#: templates/landing_page/home.html:179
+msgid "Record Your Day"
+msgstr "Catat Harimu"
+
+#: templates/landing_page/home.html:181
+msgid "Give your day a rating and add a quick note."
+msgstr "Beri rating dan tambahkan catatan singkat tentang hari Anda."
+
+#: templates/landing_page/home.html:197
+msgid "Track Your Progress"
+msgstr "Lihat Perkembangan"
+
+#: templates/landing_page/home.html:198
+msgid "Interactive charts to visualize your mood trends."
+msgstr "Grafik interaktif untuk melihat tren suasana hati Anda."
+
+#: templates/landing_page/home.html:213
+msgid "Quick & Easy"
+msgstr "Cepat & Mudah"
+
+#: templates/landing_page/home.html:214
+msgid "Takes just seconds to note down your day."
+msgstr "Cukup beberapa detik untuk mencatat hari Anda."
+
+#: templates/landing_page/home.html:220
+#, 
+msgid ""
+"Start recording and reflecting on your days\n"
+"                            now!"
+msgstr "Mulai catat dan refleksikan harimu sekarang juga!"
+
+#: templates/landing_page/home.html:225 templates/template/header.html:60
+msgid "Get Started"
+msgstr "Mulai"
+
+#: templates/landing_page/home.html:257
+msgid "More Emotionally Aware"
+msgstr "Lebih Sadar Emosi"
+
+#: templates/landing_page/home.html:259
+msgid "Recognize patterns and understand your feelings."
+msgstr "Melihat pola dan memahami perasaan Anda."
+
+#: templates/landing_page/home.html:274
+msgid "Build Positive Habits"
+msgstr "Membangun Kebiasaan Positif"
+
+#: templates/landing_page/home.html:276
+#, 
+msgid ""
+"Identify good and bad patterns through daily\n"
+"                            journaling."
+msgstr "Kenali pola baik dan buruk lewat jurnal harianmu."
+
+#: templates/landing_page/home.html:292
+msgid "Express Yourself Freely"
+msgstr "Bebas Ekspresikan Diri"
+
+#: templates/landing_page/home.html:294
+#, 
+msgid ""
+"Keep a personal journal as a reflection of your\n"
+"                            journey."
+msgstr "Simpan jurnal pribadi sebagai refleksi perjalanan hidupmu."
+
+#: templates/landing_page/home.html:308 templates/template/footer.html:13
+#: templates/template/header.html:18 templates/template/header.html:81
+msgid "About Us"
+msgstr "Tentang Kami"
+
+#: templates/landing_page/home.html:312
+#, 
+msgid ""
+"Hey there! We believe that every day has its own unique story. That’s why"
+" we created\n"
+"                        <strong>RateJournee</strong>—a simple platform to"
+" reflect on your day quickly and\n"
+"                        effortlessly."
+msgstr ""
+"Hai! Kami percaya bahwa setiap hari memiliki cerita uniknya sendiri. "
+"Itulah mengapa kami menciptakan <strong>RateJournee</strong>, platform "
+"sederhana untuk merefleksikan harimu dengan cepat dan mudah."
+
+#: templates/landing_page/home.html:317
+#, 
+msgid ""
+"Each day is a canvas waiting to be filled with the colors of your "
+"experiences. Through\n"
+"                        reflection, we can recognize patterns, understand"
+" ourselves better, and find meaning in every\n"
+"                        moment. We hope <strong>RateJournee</strong> "
+"becomes a helpful tool in your journey, guiding you\n"
+"                        toward peace and\n"
+"                        happiness every day."
+msgstr ""
+"Setiap hari adalah kanvas yang menunggu untuk diisi dengan warna-warni "
+"pengalaman. Melalui refleksi, kita bisa melihat pola, memahami diri "
+"sendiri, dan menemukan makna dalam setiap momen. Kami berharap "
+"RateJournee bisa menjadi alat yang membantu dalam perjalanan refleksi "
+"ini, membimbing untuk menemukan kedamaian dan kebahagiaan di setiap hari."
+
+#: templates/landing_page/home.html:324
+msgid "Warm regards,"
+msgstr "Salam hangat"
+
+#: templates/landing_page/home.html:325
+#, 
+msgid "RateJournee Team"
+msgstr "Tim RateJournee"
+
+#: templates/landing_page/home.html:339 templates/template/header.html:23
+msgid "Support Us"
+msgstr "Dukung Kami"
+
+#: templates/landing_page/home.html:341
+#, 
+msgid ""
+"Hey there! At RateJournee, we believe that tracking your mood daily can "
+"help you be more\n"
+"                        aware of\n"
+"                        your feelings, understand emotional patterns, and"
+" ultimately, have better days. We want to keep\n"
+"                        this platform free, simple, and useful for "
+"everyone."
+msgstr ""
+"Hai! Kami di RateJournee percaya bahwa mencatat suasana hati setiap hari "
+"bisa membantu kita lebih sadar dengan perasaan sendiri, memahami pola "
+"emosional, dan pada akhirnya, menjalani hari-hari dengan lebih baik. Kami"
+" ingin menjaga platform ini tetap gratis, simpel, dan bermanfaat untuk "
+"semua orang."
+
+#: templates/landing_page/home.html:349
+msgid "Why Your Support Matters?"
+msgstr "Kenapa Dukunganmu Penting?"
+
+#: templates/landing_page/home.html:352
+msgid "Even a little support from you helps us:"
+msgstr "Dukungan kecil darimu bisa membantu kami:"
+
+#: templates/landing_page/home.html:362
+msgid "Add awesome new features"
+msgstr "Menambahkan fitur keren "
+
+#: templates/landing_page/home.html:363
+msgid ""
+"like interactive\n"
+"                                charts, smarter mood insights, and an "
+"even smoother experience."
+msgstr ""
+"seperti grafik lebih interaktif, analisis suasana hati yang lebih cerdas,"
+" dan pengalaman pengguna yang lebih nyaman."
+
+#: templates/landing_page/home.html:375
+msgid "Keep your data safe & private"
+msgstr "Menjaga privasi dan keamanan datamu"
+
+#: templates/landing_page/home.html:376
+msgid ""
+"because we\n"
+"                                believe self-reflection should stay yours."
+msgstr "karena kami percaya refleksi pribadi harus tetap jadi milikmu."
+
+#: templates/landing_page/home.html:388
+msgid "Build a better mobile version"
+msgstr "Mengembangkan versi mobile yang lebih nyaman"
+
+#: templates/landing_page/home.html:389
+msgid ""
+"so you can\n"
+"                                record your mood anytime, anywhere."
+msgstr "supaya kamu bisa mencatat kapan saja, di mana saja."
+
+#: templates/landing_page/home.html:401
+#, 
+msgid "Keep RateJournee free"
+msgstr "Menjaga RateJournee tetap gratis"
+
+#: templates/landing_page/home.html:401
+#, 
+msgid ""
+"for\n"
+"                                everyone who\n"
+"                                needs a space to express themselves."
+msgstr "untuk siapa saja yang membutuhkan ruang untuk mengekspresikan diri."
+
+#: templates/landing_page/home.html:411
+msgid "Ways You Can Help"
+msgstr "Cara Kamu Bisa Membantu"
+
+#: templates/landing_page/home.html:418
+#, 
+msgid "Share RateJournee"
+msgstr "Bagikan RateJournee"
+
+#: templates/landing_page/home.html:419
+#, 
+msgid ""
+"Share with a friend or anyone who might find it\n"
+"                                helpful."
+msgstr "Bagikan ke teman atau siapa pun yang mungkin merasa ini bermanfaat."
+
+#: templates/landing_page/home.html:424
+msgid "Share now"
+msgstr "Bagikan sekarang"
+
+#: templates/landing_page/home.html:439
+msgid "Buy us a coffee"
+msgstr "Belikan kami secangkir kopi"
+
+#: templates/landing_page/home.html:440
+msgid "A small donation goes a long way!"
+msgstr "Dengan donasi kecil – setiap dukungan berarti banget!"
+
+#: templates/landing_page/home.html:443
+msgid "Donate now"
+msgstr "Donasi Sekarang"
+
+#: templates/landing_page/home.html:458
+msgid "Give feedback"
+msgstr "Beri Masukan"
+
+#: templates/landing_page/home.html:459
+msgid "What features would you love to see?"
+msgstr "fitur apa yang ingin kamu lihat? "
+
+#: templates/landing_page/home.html:462
+msgid "Send feedback"
+msgstr "Kirim Masukan"
+
+#: templates/landing_page/home.html:488
+msgid "We’d Love to Hear From You!"
+msgstr "Kami ingin mendengar pendapatmu!"
+
+#: templates/landing_page/home.html:490
+#, 
+msgid ""
+"Help us improve by sharing your\n"
+"                            thoughts\n"
+"                            and ideas. Thank you for being part of\n"
+"                            this journey!"
+msgstr ""
+"Bantu kami jadi lebih baik dengan berbagi pendapat dan idemu. Terima "
+"kasih sudah jadi bagian dari perjalanan ini!"
+
+#: templates/landing_page/home.html:500
+#, 
+msgid ""
+"Give Your\n"
+"                                Feedback"
+msgstr "Beri Masukan"
+
+#: templates/landing_page/home.html:502
+msgid "We appreciate your thoughts on how we can improve."
+msgstr "Kami menghargai setiap masukan untuk jadi lebih baik."
+
+#: templates/landing_page/home.html:510
+msgid "Name"
+msgstr "Nama"
+
+#: templates/landing_page/home.html:513
+msgid "Your name"
+msgstr "Namamu"
+
+#: templates/landing_page/home.html:519
+msgid "Email"
+msgstr "Email"
+
+#: templates/landing_page/home.html:522
+msgid "your@email.com"
+msgstr "emailmu@email.com"
+
+#: templates/landing_page/home.html:527
+#, 
+msgid ""
+"Your\n"
+"                                    Feedback"
+msgstr "Masukanmu"
+
+#: templates/landing_page/home.html:531
+msgid "Tell us what you think..."
+msgstr "Ceritakan pendapatmu kepada kami…"
+
+#: templates/landing_page/home.html:538
+msgid "Send Feedback"
+msgstr "Kirim Masukan"
+
+#: templates/landing_page/learn-more.html:8
+msgid "Contents"
+msgstr ""
+
+#: templates/landing_page/learn-more.html:15
+#: templates/landing_page/learn-more.html:71
+#: templates/landing_page/learn-more.html:97
+#: templates/login/visualization.html:38
+msgid "Word Cloud"
+msgstr "Word Cloud (Awan Kata)"
+
+#: templates/landing_page/learn-more.html:21
+#: templates/landing_page/learn-more.html:73
+#: templates/landing_page/learn-more.html:119
+msgid "Sentiment Analysis"
+msgstr "Analisis Sentimen"
+
+#: templates/landing_page/learn-more.html:27
+#, 
+msgid "Combined Word Cloud & Sentiment"
+msgstr "Kombinasi Word Cloud & Sentimen"
+
+#: templates/landing_page/learn-more.html:33
+#: templates/landing_page/learn-more.html:77
+#: templates/landing_page/learn-more.html:158
+#: templates/login/visualization.html:43
+#, 
+msgid "Mood Trend"
+msgstr "Tren Mood"
+
+#: templates/landing_page/learn-more.html:39
+#: templates/landing_page/learn-more.html:79
+#: templates/landing_page/learn-more.html:172
+#, 
+msgid "How to Read It?"
+msgstr "bagaimana Cara Membacanya?"
+
+#: templates/landing_page/learn-more.html:46
+#: templates/landing_page/learn-more.html:80
+#: templates/landing_page/learn-more.html:181
+msgid "Why Use Moving Average Sentiment?"
+msgstr "Mengapa Menggunakan Moving Average Sentiment?"
+
+#: templates/landing_page/learn-more.html:52
+#: templates/landing_page/learn-more.html:81
+#: templates/landing_page/learn-more.html:193
+#, 
+msgid "How to Use This Feature"
+msgstr "Cara Menggunakan Fitur Ini"
+
+#: templates/landing_page/learn-more.html:64
+#, 
+msgid "Navigate to section"
+msgstr "Navigasi ke bagian ini"
+
+#: templates/landing_page/learn-more.html:75
+msgid "Combined Insight"
+msgstr "Kombinasi Word Cloud & Sentimen"
+
+#: templates/landing_page/learn-more.html:90
+msgid "About Journal Analytics"
+msgstr "Tentang Jurnal Analitik"
+
+#: templates/landing_page/learn-more.html:91
+#, 
+msgid ""
+"Understand how Journal Analytics help\n"
+"                        you reflect and grow through your journaling."
+msgstr ""
+"Pahami bagaimana Jurnal Analitik membantu Anda untuk refleksi dan "
+"berkembang melalui jurnal Anda"
+
+#: templates/landing_page/learn-more.html:99
+#, 
+msgid ""
+"A Word Cloud is a visual display of the most meaningful words from your "
+"journal. Unlike\n"
+"                        basic\n"
+"                        frequency-based clouds, this version uses <strong"
+">TF-IDF</strong> (Term Frequency–Inverse\n"
+"                        Document\n"
+"                        Frequency), which highlights unique and relevant "
+"words, not just the most repeated ones."
+msgstr ""
+"Word Cloud adalah tampilan visual dari kata-kata yang paling bermakna "
+"dalam jurnal Anda. Berbeda dengan cloud dasar yang hanya didasarkan pada "
+"frekuensi, versi ini menggunakan <strong>TF-IDF</strong> (Term "
+"Frequency–Inverse Document Frequency), yang menyoroti kata-kata yang unik"
+" dan relevan, bukan hanya yang paling sering diulang."
+
+#: templates/landing_page/learn-more.html:106
+msgid "<strong>Bigger words:</strong> More meaningful in context"
+msgstr ""
+"<strong>Kata besar:</strong> Kata penting atau sering muncul secara "
+"bermakna"
+
+#: templates/landing_page/learn-more.html:107
+msgid "<strong>Position:</strong> Random; doesn't reflect order or importance"
+msgstr "<strong>Posisi:</strong> Acak, tidak menunjukkan urutan tertentu"
+
+#: templates/landing_page/learn-more.html:108
+msgid "<strong>Colors:</strong> Used for style or emotional grouping"
+msgstr "<strong>Warna:</strong> Estetika atau menunjukkan emosi/tema tertentu"
+
+#: templates/landing_page/learn-more.html:111
+#, 
+msgid ""
+"<strong>Tip:</strong> Use the word cloud to identify recurring themes and"
+" reflect on what\n"
+"                        truly\n"
+"                        matters to you."
+msgstr ""
+"<strong>Tip:</strong> Gunakan word cloud untuk mengidentifikasi tema-tema"
+" yang berulang dan merenungkan apa yang benar-benar penting bagi Anda."
+
+#: templates/landing_page/learn-more.html:121
+#, 
+msgid ""
+"Sentiment Analysis determines whether your journal entries are overall\n"
+"                        <strong>positive</strong>,\n"
+"                        <strong>neutral</strong>, or "
+"<strong>negative</strong>. It analyzes your words and phrases in\n"
+"                        context and assigns a sentiment score."
+msgstr ""
+"Analisis Sentimen menentukan apakah entri jurnal Anda secara keseluruhan "
+"bersifat <strong>positif</strong>, <strong>netral</strong>, atau "
+"<strong>negatif</strong>. Ini menganalisis kata-kata dan frasa Anda dalam"
+" konteks dan memberikan skor sentimen."
+
+#: templates/landing_page/learn-more.html:127
+msgid "<strong>Score:</strong> Numeric (e.g., -1.0 to +1.0)"
+msgstr "<strong>Skor:</strong> misalnya dari -1.0 hingga +1.0"
+
+#: templates/landing_page/learn-more.html:128
+msgid "<strong>Label:</strong> Positive, Neutral, or Negative"
+msgstr "<strong>Label:</strong> Positif, Netral, Negatif"
+
+#: templates/landing_page/learn-more.html:129
+msgid "<strong>Visualization:</strong> Chart or word cloud"
+msgstr "<strong>Visualisasi:</strong> Grafik atau word cloud</strong>"
+
+#: templates/landing_page/learn-more.html:132
+#, 
+msgid ""
+"<strong>Use Case:</strong> Identify mood patterns, emotional triggers, "
+"and track your\n"
+"                        personal\n"
+"                        growth."
+msgstr ""
+"<strong>Kasus Penggunaan:</strong> Identifikasi pola mood, pemicu emosi, "
+"dan pantau pertumbuhan pribadi Anda."
+
+#: templates/landing_page/learn-more.html:140
+msgid "Combining Word Cloud & Sentiment"
+msgstr "Kombinasi Word Cloud & Sentimen"
+
+#: templates/landing_page/learn-more.html:142
+#, 
+msgid ""
+"By combining Word Cloud and Sentiment Analysis, you can discover which "
+"words are associated\n"
+"                        with\n"
+"                        different moods, and how your language shifts as "
+"your emotions change."
+msgstr ""
+"Dengan menggabungkan Word Cloud dan Analisis Sentimen, Anda dapat "
+"menemukan kata-kata yang terkait dengan berbagai mood, serta bagaimana "
+"bahasa Anda berubah seiring dengan perasaan Anda."
+
+#: templates/landing_page/learn-more.html:147
+#, 
+msgid ""
+"This provides a deeper understanding of your thoughts and feelings, "
+"helping you reflect\n"
+"                        more\n"
+"                        effectively."
+msgstr ""
+"Hal ini memberikan pemahaman yang lebih dalam tentang pikiran dan "
+"perasaan Anda, membantu Anda untuk merefleksikan diri dengan lebih "
+"efektif."
+
+#: templates/landing_page/learn-more.html:160
+#, 
+msgid ""
+"Mood Trend shows the pattern of how your mood changes over time. This "
+"graph is calculated\n"
+"                        using the concept of Moving Average Sentiment to "
+"provide a more stable and easy-to-understand\n"
+"                        emotional overview.\n"
+"                        Moving Average Sentiment is a feature that helps "
+"you understand the emotional trends in your\n"
+"                        journal over a specific period of time. It "
+"visually summarizes your positive, negative, or\n"
+"                        neutral moods in a clear and easy-to-read format."
+"\n"
+"                        A moving average calculates the average of your "
+"sentiment scores over a given time window — for\n"
+"                        example, a 7-day moving average will show your "
+"sentiment trend across the past week."
+msgstr ""
+"Tren Mood menampilkan pola perubahan suasana hati Anda dari waktu ke "
+"waktu. Grafik ini dihitung menggunakan konsep Moving Average Sentiment "
+"untuk memberikan gambaran emosi yang lebih stabil dan mudah dipahami. "
+"Moving Average Sentiment adalah fitur yang membantu Anda memahami tren "
+"emosional dalam jurnal Anda selama periode waktu tertentu. Fitur ini "
+"merangkum suasana hati Anda yang positif, negatif, atau netral secara "
+"visual dalam format yang jelas dan mudah dibaca. Moving average "
+"menghitung rata-rata skor sentimen Anda dalam rentang waktu tertentu — "
+"misalnya, moving average 7 hari akan menunjukkan tren suasana hati Anda "
+"selama seminggu terakhir."
+
+#: templates/landing_page/learn-more.html:174
+msgid "<strong>Upward trend</strong>: Indicates your mood is improving over time"
+msgstr ""
+"<strong>Garis naik:</strong> Menunjukkan tren sentimen positif yang "
+"meningkat"
+
+#: templates/landing_page/learn-more.html:175
+msgid "<strong>Downward trend</strong>: Suggests a decline in emotional state"
+msgstr "<strong>Garus turun:</strong> Menunjukkan tren sentimen yang menurun"
+
+#: templates/landing_page/learn-more.html:176
+msgid "<strong>Flat line</strong>: Reflects emotional stability or consistency"
+msgstr ""
+"<strong>Garis datar:</strong> Menunjukkan sentimen yang stabil atau "
+"konsisten"
+
+#: templates/landing_page/learn-more.html:183
+#, 
+msgid ""
+"<strong>Spot long-term patterns</strong>: Identify emotional trends that "
+"may not be\n"
+"                            visible in daily entries"
+msgstr ""
+"<strong>Melihat pola jangka panjang:</strong> Membantu Anda mengenali "
+"tren emosi yang mungkin tidak terlihat pada entri harian tunggal"
+
+#: templates/landing_page/learn-more.html:185
+#, 
+msgid ""
+"<strong>Deeper self-reflection</strong>: Gain a bigger picture of your "
+"mental health\n"
+"                            over time"
+msgstr ""
+"<strong>Refleksi lebih mendalam:</strong> Memberikan gambaran kesehatan "
+"mental Anda dari waktu ke waktu"
+
+#: templates/landing_page/learn-more.html:187
+#, 
+msgid ""
+"<strong>Recognize emotional triggers</strong>: Understand specific events"
+" or time\n"
+"                            periods that affect your mood"
+msgstr ""
+"<strong>Memahami pemicu emosional:</strong> Membantu mengidentifikasi "
+"kejadian atau periode yang memengaruhi suasana hati Anda"
+
+#: templates/landing_page/learn-more.html:195
+msgid "Go to the <strong>Journal Analytics</strong> section in your journal app"
+msgstr "Buka bagian <strong>Jurnal Analitik</strong> pada aplikasi jurnal Anda"
+
+#: templates/landing_page/learn-more.html:196
+msgid "Select the time period you want to review (e.g., 7 days, 30 days)"
+msgstr "Pilih periode waktu yang ingin Anda analisis (7 hari, 30 hari, dll.)"
+
+#: templates/landing_page/learn-more.html:197
+msgid "Observe the sentiment trend line shown in the chart"
+msgstr "Perhatikan garis tren sentimen yang ditampilkan"
+
+#: templates/landing_page/learn-more.html:198
+msgid "Reflect on the emotional changes and connect them with events in your life"
+msgstr ""
+"Refleksikan perubahan yang terjadi dan hubungkan dengan kejadian dalam "
+"hidup Anda"
+
+#: templates/landing_page/learn-more.html:203
+#, 
+msgid ""
+"<strong>Use Case:</strong> Insight your rhythms and better understand "
+"your well-being as it\n"
+"                    evolves over time."
+msgstr ""
+"<strong>Kasus Penggunaan:</strong> Pahami ritme emosional Anda dan "
+"kenali lebih baik kondisi emosional diri seiring waktu."
+
+#: templates/landing_page/learn-more.html:209
+#, 
+msgid ""
+"These tools are designed to support self-reflection and are not a "
+"substitute for professional\n"
+"                    advice."
+msgstr ""
+"Alat-alat ini dirancang untuk membantumu memahami diri sendiri dengan "
+"lebih baik, namun bukan pengganti saran dari tenaga profesional."
+
+#: templates/login/dashboard.html:29 templates/template/base-login.html:108
+#: templates/template/base-login.html:165
+msgid "Dashboard"
+msgstr "Dasbor"
+
+#: templates/login/dashboard.html:30
+msgid "Welcome to your personal mood tracking space"
+msgstr "Selamat datang di ruang pelacak mood kamu"
+
+#: templates/login/dashboard.html:41
+#, 
+msgid "Daily Mood"
+msgstr "Mood Harian
+
+#: templates/login/dashboard.html:42
+#, 
+msgid "Rate your mood and write daily journal entries"
+msgstr "Beri rating mood kamu dan tulis jurnal harian"
+
+#: templates/login/dashboard.html:44
+#, 
+msgid "Get started"
+msgstr "Mulai"
+
+#: templates/login/dashboard.html:55 templates/template/base-login.html:114
+#: templates/template/base-login.html:199
+msgid "My Journal"
+msgstr "Jurnalku"
+
+#: templates/login/dashboard.html:56
+#, 
+msgid "View history of your mood ratings and journal entries"
+msgstr "Lihat riwayat rating mood dan entri jurnal kamu"
+
+#: templates/login/dashboard.html:58
+#, 
+msgid "View journal"
+msgstr "Lihat jurnal"
+
+#: templates/login/dashboard.html:69 templates/login/visualization.html:7
+#: templates/template/base-login.html:117
+#: templates/template/base-login.html:216
+#, 
+msgid "Journal Analytics"
+msgstr "Jurnal Analitik"
+
+#: templates/login/dashboard.html:70
+#, 
+msgid "Analyze patterns and insights from your journal entries"
+msgstr "Analisis pola dan insight dari jurnal kamu"
+
+#: templates/login/dashboard.html:72
+msgid "See insights"
+msgstr "Lihat insight"
+
+#: templates/login/dashboard.html:82
+msgid "Recent Activity"
+msgstr "Aktivitas Terbaru"
+
+#: templates/login/dashboard.html:83
+msgid "View all"
+msgstr "Lihat semua"
+
+#: templates/login/dashboard.html:125
+#, 
+msgid "No recent journal entries yet"
+msgstr "Belum ada entri jurnal terbaru"
+
+#: templates/login/dashboard.html:127
+msgid "Create your first entry"
+msgstr "Buat entri pertamamu"
+
+#: templates/login/dashboard.html:135
+msgid "Stats Summary"
+msgstr "Ringkasan Statistik"
+
+#: templates/login/dashboard.html:140
+#, 
+msgid "Total Entries"
+msgstr "Total entri"
+
+#: templates/login/dashboard.html:147
+#, 
+msgid "Total journal entries recorded"
+msgstr "Total jurnal entri yang dicatat"
+
+#: templates/login/dashboard.html:150
+msgid "Start journaling to see stats"
+msgstr "Mulai membuat jurnal untuk melihat statistik"
+
+#: templates/login/dashboard.html:156
+msgid "Average Mood"
+msgstr "Rata-rata Mood"
+
+#: templates/login/dashboard.html:167
+msgid "Based on your mood entries"
+msgstr "Berdasarkan entri mood kamu"
+
+#: templates/login/dashboard.html:170
+msgid "Rate your mood to see average"
+msgstr "Beri rating mood kamu untuk melihat rata-rata"
+
+#: templates/login/dashboard.html:176
+#, , 
+msgid "Average Mood Trend"
+msgstr "Rata-rata Tren Mood"
+
+#: templates/login/dashboard.html:187
+#, 
+msgid "Based on all your journal sentiment"
+msgstr "Berdasarkan semua sentimen jurnalmu"
+
+#: templates/login/dashboard.html:190
+msgid "Write journals to see average mood trend"
+msgstr "Tulis jurnal untuk melihat rata-rata tren mood"
+
+#: templates/login/index.html:39
 msgid "Track Your Day with Charts!"
 msgstr "Lacak Harimu dengan Grafik!"
 
-#: templates/login/index.html:62
+#: templates/login/index.html:40
 msgid "View your daily ratings in bar and line charts."
 msgstr "Lihat rating harianmu dalam grafik batang dan garis."
 
-#: templates/login/index.html:67
+#: templates/login/index.html:45
 msgid "Show chart for:"
 msgstr "Tampilkan grafik untuk:"
 
-#: templates/login/index.html:71
+#: templates/login/index.html:49
 msgid "Range Date"
 msgstr "Rentang Tanggal"
 
-#: templates/login/index.html:72
+#: templates/login/index.html:50
 msgid "1 Week"
 msgstr "1 Minggu"
 
-#: templates/login/index.html:73
+#: templates/login/index.html:51
 msgid "2 Weeks"
 msgstr "2 Minggu"
 
-#: templates/login/index.html:74
+#: templates/login/index.html:52
 msgid "1 Month"
 msgstr "1 Bulan"
 
-#: templates/login/index.html:75
+#: templates/login/index.html:53
 msgid "Pick a Month"
 msgstr "Pilih Bulan"
 
-#: templates/login/index.html:96
+#: templates/login/index.html:74
 msgid "How's Your Day?"
 msgstr "Gimana Harimu?"
 
-#: templates/login/index.html:97
+#: templates/login/index.html:75
 msgid "Take a moment to reflect on your day"
 msgstr "Luangkan waktu sebentar untuk refleksi harimu."
 
-#: templates/login/index.html:105 templates/login/journal.html:182
+#: templates/login/index.html:83 templates/login/journal.html:182
 msgid "Date"
 msgstr "Tanggal"
 
-#: templates/login/index.html:106
+#: templates/login/index.html:84
 msgid ""
 "Pick a date, or I'll default to\n"
 "                                today!"
 msgstr "Pilih tanggal, atau aku bakal otomatis pilih hari ini!"
 
-#: templates/login/index.html:116
+#: templates/login/index.html:94
 msgid "Mood Rating"
 msgstr "Rating Mood"
 
-#: templates/login/index.html:117
+#: templates/login/index.html:95
 msgid "How are you feeling today?"
 msgstr "Gimana perasaanmu hari ini?"
 
-#: templates/login/index.html:120 templates/login/journal.html:201
+#: templates/login/index.html:98 templates/login/journal.html:201
 msgid "Awful"
 msgstr "Buruk"
 
-#: templates/login/index.html:121 templates/login/journal.html:202
+#: templates/login/index.html:99 templates/login/journal.html:202
 msgid "Excellent"
 msgstr "Luar Biasa"
 
-#: templates/login/index.html:134 templates/login/journal.html:80
+#: templates/login/index.html:112 templates/login/journal.html:80
 msgid "Journal Entry"
 msgstr "Catatan Jurnal"
 
-#: templates/login/index.html:135
+#: templates/login/index.html:113
 msgid ""
 "Create your card. Express your thoughts\n"
 "                                and\n"
 "                                feelings..."
 msgstr "Buat kartu harianmu. Ungkapkan pikiran dan perasaanmu..."
 
-#: templates/login/index.html:149
+#: templates/login/index.html:127
 msgid "Submit Rating"
 msgstr "Kirim Rating"
 
-#: templates/login/index.html:162
+#: templates/login/index.html:140
 msgid "Hey, this looks familiar!"
 msgstr "Eh, sepertinya ini sudah pernah ada!"
 
-#: templates/login/index.html:163
+#: templates/login/index.html:141
 msgid "We already have this entry in our records. Would you like to update it?"
 msgstr "Kami sudah punya data ini sebelumnya. Mau diperbarui aja?"
 
-#: templates/login/index.html:164
+#: templates/login/index.html:142
 msgid "Yes, update it"
 msgstr "Ya, perbarui"
 
-#: templates/login/index.html:165
+#: templates/login/index.html:143
 msgid "Nevermind"
 msgstr "Gak jadi"
 
-#: templates/login/index.html:166
+#: templates/login/index.html:144
 msgid "All updated! Your changes have been saved."
 msgstr "Sudah diperbarui! Perubahanmu berhasil disimpan."
 
-#: templates/login/index.html:167
+#: templates/login/index.html:145
 msgid "Great job! Your data has been saved successfully."
 msgstr "Keren! Datamu berhasil disimpan."
 
-#: templates/login/index.html:168
+#: templates/login/index.html:146
 msgid "Oops! Something went wrong. Give it another try?"
 msgstr "Ups! Ada yang salah nih. Coba lagi, ya?"
 
@@ -900,12 +1076,6 @@ msgstr "Catatan jurnal berhasil dihapus."
 msgid "Error deleting journal"
 msgstr "Gagal menghapus jurnal"
 
-#: templates/login/visualization.html:7 templates/template/base-login.html:108
-#: templates/template/base-login.html:207
-#, 
-msgid "Journal Analytics"
-msgstr "Journal Analytics"
-
 #: templates/login/visualization.html:8
 msgid "Visualize patterns and trends in your journal entries"
 msgstr "Lihat pola dan tren yang muncul dari catatan jurnal Anda."
@@ -969,7 +1139,7 @@ msgstr ""
 #: templates/login/visualization.html:88
 #, 
 msgid "Learn more about journal analytics"
-msgstr "Pelajari lebih tentang journal analytics"
+msgstr "Pelajari lebih tentang jurnal analitik"
 
 #: templates/login/visualization.html:96
 msgid "Write in your journal"
@@ -977,7 +1147,7 @@ msgstr "Tulis di jurnalmu"
 
 #: templates/login/visualization.html:108
 msgid "Time Period"
-msgstr "Periode Waktu"
+msgstr "Rentang Waktu"
 
 #: templates/login/visualization.html:111
 #, 
@@ -1059,7 +1229,7 @@ msgstr "Moving Average"
 #: templates/login/visualization.html:194
 #, 
 msgid "Mood Average: "
-msgstr "Rata-rata Mood"
+msgstr "Rata-rata Mood: "
 
 #: templates/login/visualization.html:195
 msgid "Actual Sentiment"
@@ -1067,7 +1237,7 @@ msgstr "Sentimen Aktual"
 
 #: templates/login/visualization.html:196
 msgid "Actual Mood: "
-msgstr "Mood Aktual"
+msgstr "Mood Aktual: "
 
 #: templates/login/visualization.html:200
 msgid "Very Positive"
@@ -1089,78 +1259,89 @@ msgstr "Mood kamu menunjukkan tren positif!"
 msgid "Your mood has been declining lately"
 msgstr "Mood kamu cenderung menurun akhir-akhir ini"
 
-#: templates/template/base-login.html:46
+#: templates/template/base-login.html:48
 msgid "EN"
 msgstr "EN"
 
-#: templates/template/base-login.html:46
+#: templates/template/base-login.html:48
 msgid "ID"
 msgstr "ID"
 
-#: templates/template/base-login.html:81
+#: templates/template/base-login.html:87
 msgid "Good Morning"
 msgstr "Selamat Pagi"
 
-#: templates/template/base-login.html:82
+#: templates/template/base-login.html:88
 msgid "Good Afternoon"
 msgstr "Selamat Siang"
 
-#: templates/template/base-login.html:83
+#: templates/template/base-login.html:89
 msgid "Good Evening"
 msgstr "Selamat Malam"
 
-#: templates/template/base-login.html:83
+#: templates/template/base-login.html:89
 msgid "Hi"
-msgstr "Halo"
+msgstr "Hai"
 
-#: templates/template/base-login.html:102
-#: templates/template/base-login.html:173
+#: templates/template/base-login.html:111
+#: templates/template/base-login.html:182
 msgid "Home"
 msgstr "Beranda"
 
-#: templates/template/base-login.html:105
-#: templates/template/base-login.html:190
-msgid "My Journal"
-msgstr "Jurnalku"
-
-#: templates/template/base-login.html:112
-#: templates/template/base-login.html:228
+#: templates/template/base-login.html:121
+#: templates/template/base-login.html:237
 msgid "Logout"
 msgstr "Keluar"
 
-#: templates/template/base-login.html:156
-msgid "Dashboard"
-msgstr "Dasbor"
-
-#: templates/template/base-login.html:249 templates/template/footer.html:80
+#: templates/template/base-login.html:258 templates/template/footer.html:92
 msgid "All rights reserved."
 msgstr "Hak cipta dilindungi."
 
-#: templates/template/footer.html:8
+#: templates/template/footer.html:9
 msgid "Navigation"
 msgstr "Navigasi"
 
-#: templates/template/footer.html:18
+#: templates/template/footer.html:15
+#, 
+msgid ""
+"Support\n"
+"                            Us"
+msgstr "Dukung Kami"
+
+#: templates/template/footer.html:22
 msgid "Help & Support"
 msgstr "Bantuan & Dukungan"
 
-#: templates/template/footer.html:20
-msgid "How to Use"
+#: templates/template/footer.html:24
+#, 
+msgid ""
+"How to\n"
+"                            Use"
 msgstr "Cara Penggunaan"
 
-#: templates/template/footer.html:21
-msgid "Privacy Policy"
+#: templates/template/footer.html:26
+#, 
+msgid ""
+"Privacy\n"
+"                            Policy"
 msgstr "Kebijakan Privasi"
 
-#: templates/template/footer.html:22
+#: templates/template/footer.html:28
 msgid "FAQs"
 msgstr "FAQ"
 
 #: templates/template/footer.html:29
+#, 
+msgid ""
+"Journal\n"
+"                            Analytics"
+msgstr "Jurnal Analitik"
+
+#: templates/template/footer.html:36
 msgid "Contact Info"
 msgstr "Info Kontak"
 
-#: templates/template/footer.html:55
+#: templates/template/footer.html:63
 msgid "Social Media"
 msgstr "Media Sosial"
 
@@ -1254,4 +1435,10 @@ msgstr "Dukung Kami"
 
 #~ msgid "Sign Up to RateJournee"
 #~ msgstr "Daftar ke RateJournee"
+
+#~ msgid "How to Use"
+#~ msgstr "Cara Penggunaan"
+
+#~ msgid "Privacy Policy"
+#~ msgstr "Kebijakan Privasi"
 

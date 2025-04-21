@@ -1059,5 +1059,21 @@ def faqs():
 def how_to_use():
     return render_template('landing_page/how-to-use.html', current_route=request.path)
 
+@app.template_filter('sentence_case')
+def sentence_case(text):
+    import re
+
+    # Tangani jika input kosong atau None
+    if not text:
+        return ""
+
+    # Bagi teks menjadi kalimat dengan regex berbasis tanda titik, tanda seru, atau tanda tanya
+    sentences = re.split(r'(?<=[.!?])\s+', text)
+
+    # Kapitalisasi huruf pertama setiap kalimat (hindari strip agar newline tetap terjaga)
+    sentences = [s[0].upper() + s[1:] if len(s) > 1 else s.upper() for s in sentences]
+
+    return ' '.join(sentences)
+
 if __name__ == "__main__":
     app.run(debug=True)

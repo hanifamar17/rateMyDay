@@ -221,7 +221,7 @@
                             <textarea id="journal" name="journal" rows="8" class="journal-textarea w-full p-3 text-sm border border-gray-200 rounded
         bg-gray-50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-blue-500
         focus:ring-opacity-50 transition-all duration-300"
-                                placeholder="Your thoughts will be shown here...">{{ journal_entries[0].journal if journal_entries }}</textarea>
+                                placeholder="Your thoughts will be shown here...">{{ journal_entries[0].journal|sentence_case if journal_entries }}</textarea>
                         </div>
 
                         <div class="text-right">
