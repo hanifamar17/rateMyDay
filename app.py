@@ -713,7 +713,7 @@ def get_calendar():
     conn.close()
 
     events = []
-    mood_emojis = {1: "😞", 2: "☹️", 3: "😐", 4: "🙂", 5: "😊"}
+    mood_emojis = {1: "😫", 2: "😟", 3: "😐", 4: "😀", 5: "😄"}
 
     for entry in entries:
         events.append({
@@ -824,7 +824,7 @@ def get_entry_by_date(date):
         return jsonify({"success": False, "message": "No journal entry for this date"}), 404
 
     # Mood Emoji Mapping
-    mood_emojis = {1: "😞", 2: "☹️", 3: "😐", 4: "🙂", 5: "😊"}
+    mood_emojis = {1: "😫", 2: "😟", 3: "😐", 4: "😀", 5: "😄"}
     entry["mood_emoji"] = mood_emojis.get(entry["rating"], "😐")
 
     return jsonify({"success": True, "entry": entry})

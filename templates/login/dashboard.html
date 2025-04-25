@@ -90,11 +90,11 @@
                         <div class="flex space-x-3">
                             <div>
                                 <span class="text-2xl">
-                                    {% if entry.rating == 1 %}😞
-                                    {% elif entry.rating == 2 %}☹️
+                                    {% if entry.rating == 1 %}😫
+                                    {% elif entry.rating == 2 %}😟
                                     {% elif entry.rating == 3 %}😐
-                                    {% elif entry.rating == 4 %}🙂
-                                    {% elif entry.rating == 5 %}😊
+                                    {% elif entry.rating == 4 %}😀
+                                    {% elif entry.rating == 5 %}😄
                                     {% else %}❓{% endif %}
                                 </span>
                             </div>
@@ -207,15 +207,15 @@
                 let emoji = '😐';
 
                 if (avg <= 1.4) {
-                    emoji = '😞';
+                    emoji = '😫';
                 } else if (avg <= 2.4) {
-                    emoji = '☹️';
+                    emoji = '😟';
                 } else if (avg <= 3.4) {
                     emoji = '😐';
                 } else if (avg <= 4.4) {
-                    emoji = '🙂';
+                    emoji = '😀';
                 } else {
-                    emoji = '😊';
+                    emoji = '😄';
                 }
 
                 emojiEl.textContent = emoji;

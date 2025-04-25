@@ -95,8 +95,8 @@
                             <label class="block text-sm text-gray-700 mt-2">{{_("How are you feeling today?")}}</label>
                         </div>
                         <div class="flex justify-between mb-2">
-                            <span class="text-gray-500">😞 {{_("Awful")}}</span>
-                            <span class="text-gray-500">😊 {{_("Excellent")}}</span>
+                            <span class="text-gray-500">😫 {{_("Awful")}}</span>
+                            <span class="text-gray-500">😄 {{_("Excellent")}}</span>
                         </div>
                         <input type="range" min="1" max="5" value="3" id="mood-slider"
                             class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer"
@@ -157,19 +157,19 @@
 
         switch (parseInt(value)) {
             case 1:
-                emoji.textContent = '😞';
+                emoji.textContent = '😫';
                 break;
             case 2:
-                emoji.textContent = '☹️';
+                emoji.textContent = '😟';
                 break;
             case 3:
                 emoji.textContent = '😐';
                 break;
             case 4:
-                emoji.textContent = '🙂';
+                emoji.textContent = '😀';
                 break;
             case 5:
-                emoji.textContent = '😊';
+                emoji.textContent = '😄';
                 break;
         }
     }
@@ -368,7 +368,7 @@
 
     // Fungsi untuk mendapatkan emoji berdasarkan rating
     function getEmoji(value) {
-        const emojis = ["😞", "😐", "🙂", "😊", "😃"];
+        const emojis = ["😫", "😟", "😐", "😀", "😄"];
         return emojis[value - 1];
     }
 </script>
@@ -380,11 +380,11 @@
 
     // Konversi rating angka ke label teks
     var ratingLabels = {
-        1: "😞",
-        2: "☹️",
+        1: "😫",
+        2: "😟",
         3: "😐",
-        4: "🙂",
-        5: "😊"
+        4: "😀",
+        5: "😄"
     };
 
     var ctx = document.getElementById("ratingChart").getContext("2d");

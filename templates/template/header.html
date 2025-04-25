@@ -29,12 +29,36 @@
         <!--Right Section: Language Switcher & Get Started-->
         <div class="flex items-center space-x-4">
             <!-- Language switcher - Minimal dropdown style -->
-            <div class="relative inline-block text-left group">
+            <div class="relative inline-block hidden md:block text-left group">
                 <button id="language-menu-button" type="button"
-                    class="flex items-center text-sm text-gray-200 hover:text-blue-300 transition-colors duration-200">
-                    
+                    class="flex items-center text-sm text-gray-200 hover:text-blue-300 transition-colors duration-200 rounded px-2 py-1 border border-gray-200 hover:border-gray-300">
+
+                    <!-- Language icon container -->
+                    <div class="mr-1 relative w-5 h-5 flex items-center justify-center">
+                        {% if g.get("lang_code", "en") == "en" %}
+                        <!-- Language globe icon -->
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-full h-full">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <path
+                                d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z">
+                            </path>
+                            <path d="M2 12h20"></path>
+                        </svg>
+                        {% else %}
+                        <!-- Language globe icon (same for consistency) -->
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-full h-full">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <path
+                                d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z">
+                            </path>
+                            <path d="M2 12h20"></path>
+                        </svg>
+                        {% endif %}
+                    </div>
                     <span class="mr-1">{{ _("EN") if g.get("lang_code", "en") == "en" else _("ID") }}</span>
-                    
+
                     <svg id="languageDropdownIcon" class="w-3 h-3 transform transition-transform duration-200"
                         fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>

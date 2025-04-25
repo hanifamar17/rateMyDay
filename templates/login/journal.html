@@ -71,6 +71,7 @@
             </div>
             <div id="calendar" class="grid grid-cols-7 gap-1 text-center text-gray-600"></div>
         </div>
+        
     </div>
     <!-- Right: Journal Entry -->
     <div class="w-full md:w-3/5 lg:w-2/3 xl:w-3/4 flex flex-col bg-white">
@@ -109,8 +110,6 @@
                         </svg>
                         <span class="hidden lg:inline">{{_("Delete")}}</span>
                     </button>
-                </div>
-                <div class="flex justify-end items-end pb-1 md:col-span-1 relative">
                     <!-- Button Titik Tiga -->
                     <button id="menu-button" type="button"
                         class="p-2 rounded-full bg-gray-100 hover:bg-gray-200 focus:outline-none transition duration-200 flex items-center justify-center">
@@ -122,7 +121,8 @@
                             <circle cx="12" cy="18" r="1.5"></circle>
                         </svg>
                     </button>
-
+                </div>
+                <div class="flex justify-end items-end py-4 md:col-span-1 relative">
                     <!-- Dropdown Menu -->
                     <div id="dropdown-menu"
                         class="absolute right-0 top-full mt-2 w-40 bg-white border border-gray-200 shadow-lg rounded-lg transform origin-top-right transition-all duration-200 ease-out z-10 hidden">
@@ -198,8 +198,8 @@
                         <label for="rating" class="block text-sm font-medium text-gray-500 mb-2">{{_("Mood
                             Rating")}}</label>
                         <div class="flex justify-between mb-2">
-                            <span class="text-gray-500">😞 {{_("Awful")}}</span>
-                            <span class="text-gray-500">😊 {{_("Excellent")}}</span>
+                            <span class="text-gray-500">😫 {{_("Awful")}}</span>
+                            <span class="text-gray-500">😄 {{_("Excellent")}}</span>
                         </div>
 
                         <input type="range" min="1" max="5"
@@ -208,7 +208,7 @@
                             oninput="updateMoodEmoji(this.value)">
 
                         <div class="text-center mt-2">
-                            <span id="mood-emoji" class="text-5xl">😐</span>
+                            <span id="mood-emoji" class="text-5xl"></span>
                             <input type="hidden" name="rating" id="rating"
                                 value="{{ journal_entries[0].rating if journal_entries else 3 }}">
                         </div>
@@ -221,7 +221,8 @@
                             <textarea id="journal" name="journal" rows="8" class="journal-textarea w-full p-3 text-sm border border-gray-200 rounded
         bg-gray-50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-blue-500
         focus:ring-opacity-50 transition-all duration-300 text-justify
-                                placeholder="Your thoughts will be shown here...">{{ journal_entries[0].journal|sentence_case if journal_entries }}</textarea>
+                                placeholder=" Your thoughts will be shown
+                                here...">{{ journal_entries[0].journal|sentence_case if journal_entries }}</textarea>
                         </div>
 
                         <div class="text-right">
@@ -260,11 +261,11 @@
 <script>
     // Mapping rating ke emoji yang lebih friendly
     const moodEmojis = {
-        1: '😞',  // Awful
-        2: '☹️',  // Meh
+        1: '😫',  // Awful
+        2: '😟',  // Meh
         3: '😐',  // Okay
-        4: '🙂',  // Nice
-        5: '😊'   // Excellent
+        4: '😀',  // Nice
+        5: '😄'   // Excellent
     };
 
     function updateMoodEmoji(value) {
@@ -289,11 +290,11 @@
             this.events = [];
 
             this.ratingColors = {
-                1: 'bg-red-50 text-yellow-700 border-red-200',       // Sangat sedih/buruk - merah muda pucat, teks merah tua
-                2: 'bg-orange-50 text-yellow-700 border-orange-200', // Sedih - jingga muda pucat, teks jingga tua
-                3: 'bg-yellow-50 text-yellow-700 border-yellow-200', // Netral - kuning muda pucat, teks kuning tua
-                4: 'bg-green-50 text-yellow-700 border-green-200',   // Senang - hijau muda pucat, teks hijau tua
-                5: 'bg-emerald-50 text-yellow-700 border-emerald-200' // Sangat senang - emerald muda pucat, teks emerald tua
+                1: 'bg-red-100 text-red-800 border-red-300',         // 😢 Sangat sedih
+                2: 'bg-orange-100 text-orange-800 border-orange-300',// 😟 Sedih
+                3: 'bg-yellow-100 text-yellow-800 border-yellow-300',// 😐 Netral
+                4: 'bg-green-100 text-green-800 border-green-300',   // 😀 Senang
+                5: 'bg-emerald-100 text-emerald-800 border-emerald-300' // 😄 Sangat senang
             };
             this.init();
         }
@@ -537,7 +538,7 @@
                 // Apply rating classes
                 let ratingClasses = '';
                 if (event) {
-                    const moodEmojis = { "😞": 1, "☹️": 2, "😐": 3, "🙂": 4, "😊": 5 };
+                    const moodEmojis = { "😫": 1, "😟": 2, "😐": 3, "😀": 4, "😄": 5 };
                     const rating = moodEmojis[event.title] || 0;
                     if (rating) {
                         ratingClasses = this.ratingColors[rating];
@@ -590,7 +591,7 @@
             const formattedDate = date.toISOString().split('T')[0];
 
             // Mapping emoji ke rating
-            const moodEmojis = { 1: "😞", 2: "☹️", 3: "😐", 4: "🙂", 5: "😊" };
+            const moodEmojis = { 1: "😫", 2: "😟", 3: "😐", 4: "😀", 5: "😄" };
             const rating = Object.keys(moodEmojis).find(key => moodEmojis[key] === emoji);
 
             // Cari event yang sudah ada untuk tanggal ini
@@ -683,11 +684,11 @@
 
         // Mapping rating ke emoji
         const moodEmojis = {
-            1: '😞',  // Awful
-            2: '☹️',  // Meh
+            1: '😫',  // Awful
+            2: '😟',  // Meh
             3: '😐',  // Okay
-            4: '🙂',  // Nice
-            5: '😊'   // Excellent
+            4: '😀',  // Nice
+            5: '😄'   // Excellent
         };
 
         // Timer untuk mengatur kembali status tombol
@@ -730,7 +731,7 @@
 
             const ratingValue = document.getElementById('rating').value;
             const journalText = document.getElementById('journal').value;
-            const moodEmojis = { 1: "😞", 2: "☹️", 3: "😐", 4: "🙂", 5: "😊" };
+            const moodEmojis = { 1: "😫", 2: "😟", 3: "😐", 4: "😀", 5: "😄" };
             const selectedEmoji = moodEmojis[ratingValue];
 
             // Ensure selectedDate exists before calling toISOString
@@ -872,7 +873,7 @@
         //
         //    const ratingValue = document.getElementById('rating').value;
         //    const journalText = document.getElementById('journal').value;
-        //    const moodEmojis = { 1: "😞", 2: "☹️", 3: "😐", 4: "🙂", 5: "😊" };
+        //    const moodEmojis = { 1: "😫", 2: "☹️", 3: "😐", 4: "😀", 5: "😊" };
         //    const selectedEmoji = moodEmojis[ratingValue];
         //
         //    // Ensure selectedDate exists before calling toISOString

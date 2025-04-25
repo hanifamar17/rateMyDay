@@ -30,7 +30,7 @@
 
 <body class="bg-white flex flex-col p-0 md:p-0 min-h-screen">
     <nav class="border-gray-200 bg-white shadow z-10">
-        <div class="max-w-screen-xl flex flex-wrap items-center mx-auto px-4 py-2 sm:p-4">
+        <div class="max-w-screen-xl flex flex-wrap items-center mx-auto px-4 py-3 md:py-2 sm:p-4">
             <a href="/" class="flex items-center space-x-3 rtl:space-x-reverse 
           block md:hidden"> <!-- block di mobile, hidden di desktop -->
                 <span
@@ -47,35 +47,35 @@
                             <div class="flex flex-row self-center space-x-2">
                                 <button id="language-menu-button" type="button"
                                     class="flex items-center text-sm text-indigo-950 hover:text-blue-600 transition-colors duration-200 bg-gray-50 rounded px-2 py-1 border border-gray-200 hover:border-gray-300">
-                                    <!-- Flag icon container -->
-                                    <div class="mr-1 relative w-5 h-4 overflow-hidden rounded-sm">
+                                    <!-- Language icon container -->
+                                    <div class="mr-1 relative w-5 h-5 flex items-center justify-center">
                                         {% if g.get("lang_code", "en") == "en" %}
-                                        <!-- UK/US Flag SVG icon -->
-                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 30"
-                                            class="w-full h-full">
-                                            <clipPath id="t">
-                                                <path d="M30,15 h30 v15 z v15 h-30 z h-30 v-15 z v-15 h30 z" />
-                                            </clipPath>
-                                            <path d="M0,0 v30 h60 v-30 z" fill="#012169" />
-                                            <path d="M0,0 L60,30 M60,0 L0,30" stroke="#fff" stroke-width="6" />
-                                            <path d="M0,0 L60,30 M60,0 L0,30" clip-path="url(#t)" stroke="#C8102E"
-                                                stroke-width="4" />
-                                            <path d="M30,0 v30 M0,15 h60" stroke="#fff" stroke-width="10" />
-                                            <path d="M30,0 v30 M0,15 h60" stroke="#C8102E" stroke-width="6" />
+                                        <!-- Language globe icon -->
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                                            stroke="currentColor" stroke-width="1" stroke-linecap="round"
+                                            stroke-linejoin="round" class="w-full h-full">
+                                            <circle cx="12" cy="12" r="10"></circle>
+                                            <path
+                                                d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z">
+                                            </path>
+                                            <path d="M2 12h20"></path>
                                         </svg>
                                         {% else %}
-                                        <!-- Indonesia Flag SVG icon -->
-                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3 2" class="w-full h-full">
-                                            <rect width="3" height="2" fill="#fff" />
-                                            <rect width="3" height="1" fill="#ce1126" />
+                                        <!-- Language globe icon (same for consistency) -->
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                                            stroke="currentColor" stroke-width="1" stroke-linecap="round"
+                                            stroke-linejoin="round" class="w-full h-full">
+                                            <circle cx="12" cy="12" r="10"></circle>
+                                            <path
+                                                d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z">
+                                            </path>
+                                            <path d="M2 12h20"></path>
                                         </svg>
                                         {% endif %}
                                     </div>
-
                                     <!-- Language text -->
-                                    <span class="mr-1 font-medium">{{ _("EN") if g.get("lang_code", "en") == "en" else
+                                    <span class="mr-1">{{ _("EN") if g.get("lang_code", "en") == "en" else
                                         _("ID") }}</span>
-
                                     <!-- Dropdown arrow icon -->
                                     <svg id="languageDropdownIcon"
                                         class="w-3 h-3 transform transition-transform duration-200" fill="none"
@@ -124,7 +124,7 @@
                                 Rate<span class="font-[1000]">Journee</span>
                             </span>
                         </a>
-                        <span class="hidden sm:inline text-sm text-indigo-950">|</span>
+                        <span class="hidden sm:inline text-sm text-indigo-950 self-center">|</span>
                         <button id="userDropdownButton"
                             class="flex items-center text-sm text-indigo-950 hover:text-blue-600 focus:outline-none group"
                             type="button">
@@ -145,13 +145,13 @@
                     <div id="userDropdownMenu"
                         class="hidden md:hidden absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 opacity-0 transition-opacity duration-200 z-50">
                         <div class="px-4 py-3">
-                            <span class="block text-sm font-bold text-gray-900 capitalize">
+                            <span class="block text-sm font-bold text-gray-700 capitalize">
                                 {{ given_name if given_name else name }}</span>
                         </div>
 
 
                         <a href="/dashboard"
-                            class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                            class="flex items-center px-4 py-2 text-sm text-gray-700 font-medium hover:bg-gray-100">
                             <!-- Dashboard Icon -->
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-3 text-gray-500" fill="none"
                                 viewBox="0 0 24 24" stroke="currentColor">
@@ -160,7 +160,7 @@
                             </svg>
                             {{_("Dashboard")}}
                         </a>
-                        <a href="/homepage" class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                        <a href="/homepage" class="flex items-center px-4 py-2 text-sm text-gray-700 font-medium hover:bg-gray-100">
                             <!-- Home Icon -->
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-3 text-gray-500" fill="none"
                                 viewBox="0 0 24 24" stroke="currentColor">
@@ -169,7 +169,7 @@
                             </svg>
                             {{_("Home")}}
                         </a>
-                        <a href="/journal" class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                        <a href="/journal" class="flex items-center px-4 py-2 text-sm text-gray-700 font-medium hover:bg-gray-100">
                             <!-- Journal Icon -->
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-3 text-gray-500" fill="none"
                                 viewBox="0 0 24 24" stroke="currentColor">
@@ -179,7 +179,7 @@
                             {{_("My Journal")}}
                         </a>
                         <a href="/journal-insights"
-                            class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                            class="flex items-center px-4 py-2 text-sm text-gray-700 font-medium hover:bg-gray-100">
                             <!-- Journal Insights Icon (Chart with Emotion) -->
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-3 text-gray-500" fill="none"
                                 viewBox="0 0 24 24" stroke="currentColor">
@@ -196,27 +196,29 @@
                                 aria-expanded="false" aria-controls="mobile-language-container">
                                 <!-- Left side wrapper for flag and text with proper spacing -->
                                 <div class="flex items-center">
-                                    <!-- Flag icon container -->
-                                    <div class="relative w-5 h-4 overflow-hidden rounded-sm">
+                                    <!-- Language icon container -->
+                                    <div class="mr-1 relative w-5 h-5 flex items-center justify-center">
                                         {% if g.get("lang_code", "en") == "en" %}
-                                        <!-- UK/US Flag SVG icon -->
-                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 30"
-                                            class="w-full h-full">
-                                            <clipPath id="t">
-                                                <path d="M30,15 h30 v15 z v15 h-30 z h-30 v-15 z v-15 h30 z" />
-                                            </clipPath>
-                                            <path d="M0,0 v30 h60 v-30 z" fill="#012169" />
-                                            <path d="M0,0 L60,30 M60,0 L0,30" stroke="#fff" stroke-width="6" />
-                                            <path d="M0,0 L60,30 M60,0 L0,30" clip-path="url(#t)" stroke="#C8102E"
-                                                stroke-width="4" />
-                                            <path d="M30,0 v30 M0,15 h60" stroke="#fff" stroke-width="10" />
-                                            <path d="M30,0 v30 M0,15 h60" stroke="#C8102E" stroke-width="6" />
+                                        <!-- Language globe icon -->
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                                            stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                            stroke-linejoin="round" class="w-full h-full text-gray-500">
+                                            <circle cx="12" cy="12" r="10"></circle>
+                                            <path
+                                                d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z">
+                                            </path>
+                                            <path d="M2 12h20"></path>
                                         </svg>
                                         {% else %}
-                                        <!-- Indonesia Flag SVG icon -->
-                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3 2" class="w-full h-full">
-                                            <rect width="3" height="2" fill="#fff" />
-                                            <rect width="3" height="1" fill="#ce1126" />
+                                        <!-- Language globe icon (same for consistency) -->
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                                            stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                            stroke-linejoin="round" class="w-full h-full">
+                                            <circle cx="12" cy="12" r="10"></circle>
+                                            <path
+                                                d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z">
+                                            </path>
+                                            <path d="M2 12h20"></path>
                                         </svg>
                                         {% endif %}
                                     </div>
@@ -405,7 +407,7 @@
                    transition-all duration-300 ease-in-out 
                    md:pl-16" :class="open ? 'md:pl-48' : 'md:pl-16'">
             <div
-                class="container mx-auto p-4 w-full max-w-7xl {{ 'bg-gradient-to-b from-slate-50 to-gray-100' if request.path == '/dashboard' }}">
+                class="container mx-auto p-4 w-full max-w-7xl {{ 'bg-gradient-to-b from-slate-50 to-gray-100 w-full' if request.path == '/dashboard' }}">
                 <div class="flex flex-col md:flex-row w-full gap-4">
                     {% block content %} <!-- Konten di sini --> {% endblock %}
                 </div>
